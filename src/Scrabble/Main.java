@@ -3,12 +3,13 @@ package Scrabble;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ui_Components.BoardLayout;
 import ui_Components.Board_tilesFactory;
+import ui_Components.RackLayout;
+import ui_Components.ScoreBoard;
 
 
 public class Main extends Application {
@@ -18,21 +19,28 @@ public class Main extends Application {
 			//Layout to arrange all the UI component
 			Pane scene_layout = new Pane();
 			
-			//Layout for the Scrabble board and setting the Scrabble board properties
-			GridPane board = new GridPane();
-			board.relocate(80, 90);
-			board.setPrefSize(593.50, 549);
-			board.setGridLinesVisible(true);
 
+			//Layout for the Scrabble board and setting the Scrabble board properties
+			BoardLayout board = new BoardLayout();
+			board.relocate(80, 90);
+			
+			
 			
 			//Layout for the player racks
-			HBox rack1 = new HBox(3);
+			RackLayout rack1 = new RackLayout();
 			rack1.relocate(225, 30);
-			rack1.setPrefSize(276.85, 36.6);
 			
-			HBox rack2 = new HBox(3);
+			RackLayout rack2 = new RackLayout();
 			rack2.relocate(225, 669);
-			rack2.setPrefSize(276.85, 36.6);
+
+			
+			
+			//Creating UI for score and player
+			ScoreBoard scoreboard = new ScoreBoard();
+			scoreboard.set_player_name("Maxwell", false);
+			scoreboard.set_score("180", true);
+			scoreboard.relocate(700.5, 100);
+			
 			
 			//Creating the buttons for gameplay control
 			VBox button_list = new VBox(10);
@@ -41,28 +49,32 @@ public class Main extends Application {
 			Button play_button = new Button("Play");
 			play_button.setVisible(true);
 			play_button.setPrefSize(90, 20);
-			Button challenge_button = new Button("Challenge");
-			challenge_button.setVisible(true);
-			challenge_button.setPrefSize(90, 20);
-			button_list.getChildren().add(play_button);
-			button_list.getChildren().add(challenge_button);
 			
-			//Creating the board and each player racks
+			Button pass_button = new Button("Pass");
+			pass_button.setVisible(true);
+			pass_button.setPrefSize(90, 20);
+			
+			Button submit_button = new Button("Submit");
+			submit_button.setVisible(true);
+			submit_button.setPrefSize(90, 20);
+			
+			button_list.getChildren().add(play_button);
+			button_list.getChildren().add(pass_button);
+			button_list.getChildren().add(submit_button);
+			
 			Board_tilesFactory boardtiles = new Board_tilesFactory();
-			for(int rowindex = 0; rowindex < 15; rowindex++){
-				for(int columnindex = 0; columnindex < 15; columnindex++){
-					board.add(boardtiles.create_board_grid(), columnindex, rowindex);
-				}
-			}
 			for (int columnindex = 0; columnindex < 7; columnindex++){
-				rack1.getChildren().add(boardtiles.create_board_grid());
-				rack2.getChildren().add(boardtiles.create_board_grid());
+				rack1.add_tile_to_rack(boardtiles.create_board_grid());
+				rack2.add_tile_to_rack(boardtiles.create_board_grid());
 			}
+			
+			
 			
 			//Putting the pieces together
 			scene_layout.getChildren().add(board);
 			scene_layout.getChildren().addAll(rack1, rack2);
 			scene_layout.getChildren().add(button_list);
+			scene_layout.getChildren().add(scoreboard);
 			Scene scene = new Scene(scene_layout, 1366, 768);
 			primaryStage.setTitle("Let's Play");
 			primaryStage.setScene(scene);
