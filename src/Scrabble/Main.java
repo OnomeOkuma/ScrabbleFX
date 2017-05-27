@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ui_Components.BoardLayout;
-import ui_Components.Board_tilesFactory;
+import ui_Components.BoardGridTilesFactory;
 import ui_Components.RackLayout;
 import ui_Components.ScoreBoard;
 
@@ -62,10 +62,10 @@ public class Main extends Application {
 			button_list.getChildren().add(pass_button);
 			button_list.getChildren().add(submit_button);
 			
-			Board_tilesFactory boardtiles = new Board_tilesFactory();
+			BoardGridTilesFactory boardtiles = new BoardGridTilesFactory();
 			for (int columnindex = 0; columnindex < 7; columnindex++){
-				rack1.add_tile_to_rack(boardtiles.create_board_grid());
-				rack2.add_tile_to_rack(boardtiles.create_board_grid());
+				rack1.addTileToRack(boardtiles.createDoubleLetterScore());
+				rack2.addTileToRack(boardtiles.createDoubleLetterScore());
 			}
 			
 			

@@ -1,5 +1,5 @@
 /* 		The ScoreBoard class handles the presentation of players score and player names.
- * It was created because EventHandlers would be created that would change scores based on gameplay
+ * It was created because EventHandlers would change scores based on gameplay
  * and change names based on information supplied before the game starts.
  * 		Because of this, it has 4 JavaFx nodes properties that are private to this class. 
  * Thus it can only be modified by the methods made available.
@@ -18,6 +18,7 @@ public class ScoreBoard extends VBox{
 			private TextField player_1_score = new TextField("300");
 			private TextField Player_2_score = new TextField("200");
 
+			//Constructor Statement.
 			public ScoreBoard(){
 					this.setSpacing(5);
 					this.player_1_score.setEditable(false);

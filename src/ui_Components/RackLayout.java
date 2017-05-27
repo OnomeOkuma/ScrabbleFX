@@ -14,7 +14,7 @@ public class RackLayout extends HBox {
 			}
 			
 			// Adds Canvas nodes to the rack. The Canvas class was used to build the tiles.
-			public void add_tile_to_rack(Canvas canvas){
+			public void addTileToRack(Canvas canvas){
 				this.getChildren().add(canvas);
 			}
 			
