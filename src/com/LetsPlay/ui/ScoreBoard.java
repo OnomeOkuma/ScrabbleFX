@@ -5,7 +5,7 @@
  * Thus it can only be modified by the methods made available.
  * 		Note: Changes would be made to this class too.    
  */
-package ui_Components;
+package com.LetsPlay.ui;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

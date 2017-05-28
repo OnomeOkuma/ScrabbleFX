@@ -1,15 +1,16 @@
-package Scrabble;
+package com.LetsPlay;
 	
+import com.LetsPlay.ui.BoardLayout;
+import com.LetsPlay.ui.RackLayout;
+import com.LetsPlay.ui.ScoreBoard;
+import com.LetsPlay.ui.ScrabbleTiles;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ui_Components.BoardLayout;
-import ui_Components.BoardGridTilesFactory;
-import ui_Components.RackLayout;
-import ui_Components.ScoreBoard;
 
 
 public class Main extends Application {
@@ -62,10 +63,10 @@ public class Main extends Application {
 			button_list.getChildren().add(pass_button);
 			button_list.getChildren().add(submit_button);
 			
-			BoardGridTilesFactory boardtiles = new BoardGridTilesFactory();
+			ScrabbleTiles tiles = new ScrabbleTiles();
 			for (int columnindex = 0; columnindex < 7; columnindex++){
-				rack1.addTileToRack(boardtiles.createDoubleLetterScore());
-				rack2.addTileToRack(boardtiles.createDoubleLetterScore());
+				rack1.getChildren().add(tiles.TileA());
+				rack2.getChildren().add(tiles.TileA());
 			}
 			
 			
