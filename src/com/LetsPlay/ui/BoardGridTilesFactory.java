@@ -1,6 +1,8 @@
 /*  This class is responsible for creating the Tiles needed to generate the scrabble board.
  * it contains 5 methods provides the required functionality. it does this by creating a Canvas object,
  * drawing on it and returning the said object.
+ * 
+ * Note: this class would be refactored extensively tomorrow.
  */
 package com.LetsPlay.ui;
 import javafx.scene.canvas.*;

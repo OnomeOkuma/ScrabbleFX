@@ -1,13 +1,14 @@
 package com.LetsPlay;
 	
+
 import com.LetsPlay.ui.BoardLayout;
-import com.LetsPlay.ui.RackLayout;
 import com.LetsPlay.ui.ScoreBoard;
 import com.LetsPlay.ui.ScrabbleTiles;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -28,11 +29,13 @@ public class Main extends Application {
 			
 			
 			//Layout for the player racks
-			RackLayout rack1 = new RackLayout();
+			HBox rack1 = new HBox(3);
 			rack1.relocate(225, 30);
+			rack1.setPrefSize(276.85, 36.6);
 			
-			RackLayout rack2 = new RackLayout();
+			HBox rack2 = new HBox(3);
 			rack2.relocate(225, 669);
+			rack2.setPrefSize(276.85, 36.6);
 
 			
 			
@@ -65,8 +68,8 @@ public class Main extends Application {
 			
 			ScrabbleTiles tiles = new ScrabbleTiles();
 			for (int columnindex = 0; columnindex < 7; columnindex++){
-				rack1.getChildren().add(tiles.TileA());
-				rack2.getChildren().add(tiles.TileA());
+				rack1.getChildren().add(tiles.TileB());
+				rack2.getChildren().add(tiles.TileB());
 			}
 			
 			
