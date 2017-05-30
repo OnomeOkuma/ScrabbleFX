@@ -1,4 +1,5 @@
-/* This class handles everything related to generating the gameplay tiles randomly.
+/* This class handles the generation of random tiles to emulate the real life process of picking
+ * scrabble tiles randomly from a tile bag.
  * it is placed in a new package that handles the gameplay mechanics.
  * it is unfinished and would be expanded on tomorrow.
  */
@@ -9,14 +10,16 @@ package com.LetsPlay.gameplay;
 import java.util.*;
 
 public class TileBag {
+	
 			private HashMap<Integer, int[]> tile_attributes = new HashMap<Integer, int[]>(35);
-			@SuppressWarnings("unused")
+	
+
 			private int number_of_tiles = 28;
 			
-			@SuppressWarnings("unused")
-			private final int number_of_letter = 0;
-			@SuppressWarnings("unused")
-			private final int tile_weight = 1;
+	
+			private final int tile_amount_index = 0;
+	
+			private final int tile_weight_index = 1;
 			
 			private Random random_generator = new Random();
 			private String letters[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"
@@ -80,20 +83,58 @@ public class TileBag {
 					
 			}
 			
+			/*This tile generates tiles randomly.   
+			 */
 			public String getTile(){
+			
+					//Necessary to ensure that a new integer can be gotten from the Random sequence, if the previous
+					//one failed any of the below tests.
 					 while (true){
-						 int temp = this.random_generator.nextInt(45);
+						 
+						 //Get the next integer in the Random object sequence. 
+						 //A bound of 30 was used to ensure that the values generated are picked, more often from 0 - 25 
+						 //range.
+						 int temp = this.random_generator.nextInt(30);
+						 
+						 //checks if it meets the requirement.
 						 if (temp <= 25){
-							 System.out.println(temp);
-							return this.letters[temp];
+							
+							//Get the tile attributes from the tile_attributes object.
+							int temp1[] = this.tile_attributes.get(temp);
+									
+									//Checks if the tile is still available in the bag. 
+									if (temp1[this.tile_amount_index] > 0){
+										
+											//Gets the number of the said tile available.
+											int temp2 = temp1[this.tile_amount_index];
+											
+											//Reduce that number by 1.
+											temp1[this.tile_amount_index] = temp2--;
+											
+											//Return it to the tile_attributes object. Just like picking a tile from a tile bag.
+											this.tile_attributes.put(temp, temp1 );
+											
+											//Reduce the number of total tiles available by 1.
+											this.number_of_tiles--;
+											return this.letters[temp];
+											
+									}
+									
 						 }
 					 }
 					 
 			}
 			
-		//	public int getTileWeight(String letter) {
-					
-			//}
+			//This returns the weight associated with the specified letter
+			public int getTileWeight(String letter) {
+						
+						int temp = Arrays.binarySearch(this.letters, letter);
+						
+						//this is because the letter's position is always on the same index.
+						int temp1[] = this.tile_attributes.get(temp);
+						
+						return temp1[this.tile_weight_index];
+			}
 			
 			
 }

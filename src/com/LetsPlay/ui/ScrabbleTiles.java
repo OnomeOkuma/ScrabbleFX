@@ -3,7 +3,7 @@
  * 
  * Note: Today, May 29th 2017, it was decided that this class would be merged with the BoardGridTilesFactory class.
  * this is because they both serve the same function and it would be less verbose to do that using the BoardGridTilesFactory class.
- *  
+ * 
  */
 
 
@@ -60,7 +60,7 @@ public class ScrabbleTiles {
 				draw.fillText(this.tilebag.getTile(), 9.0, 26.0);
 				draw.setFont(this.NUMBER_SIZE);
 				draw.setFontSmoothingType(FontSmoothingType.LCD);
-				draw.fillText("1", 27.0, 28.5);
+				draw.fillText(Integer.toString(this.tilebag.getTileWeight("K")), 27.0, 28.5);
 				
 
 				draw.setFill(Color.VIOLET);
