@@ -1,9 +1,10 @@
 package com.LetsPlay;
 	
 
+import com.LetsPlay.gameplay.TileBag;
 import com.LetsPlay.ui.BoardLayout;
 import com.LetsPlay.ui.ScoreBoard;
-import com.LetsPlay.ui.ScrabbleTiles;
+import com.LetsPlay.ui.TilesFactory;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -41,6 +42,7 @@ public class Main extends Application {
 			
 			//Creating UI for score and player
 			ScoreBoard scoreboard = new ScoreBoard();
+			scoreboard.set_player_name("Okuma", true);
 			scoreboard.set_player_name("Maxwell", false);
 			scoreboard.set_score("180", true);
 			scoreboard.relocate(700.5, 100);
@@ -66,12 +68,18 @@ public class Main extends Application {
 			button_list.getChildren().add(pass_button);
 			button_list.getChildren().add(submit_button);
 			
-			ScrabbleTiles tiles = new ScrabbleTiles();
+			TilesFactory tiles = new TilesFactory();
+				 TileBag bag = new TileBag();
 			for (int columnindex = 0; columnindex < 7; columnindex++){
-				rack1.getChildren().add(tiles.TileB());
-				rack2.getChildren().add(tiles.TileB());
+				String temp = bag.getTile();
+				int tempweight = bag.getTileWeight(temp);
+				rack1.getChildren().add(tiles.createGameTile(temp, tempweight));
+				
+				
+				temp = bag.getTile();
+				tempweight = bag.getTileWeight(temp);
+				rack2.getChildren().add(tiles.createGameTile(temp, tempweight));
 			}
-			
 			
 			
 			//Putting the pieces together

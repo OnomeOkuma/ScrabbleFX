@@ -1,11 +1,12 @@
-/* 		The ScoreBoard class handles the presentation of players score and player names.
+/* 	The ScoreBoard class handles the presentation of players score and player names.
  * It was created because EventHandlers would change scores based on gameplay
  * and change names based on information supplied before the game starts.
- * 		Because of this, it has 4 JavaFx nodes properties that are private to this class. 
+ * 	Because of this, it has 4 JavaFx nodes properties that are private to this class. 
  * Thus it can only be modified by the methods made available.
  * 		Note: Changes would be made to this class too.    
  */
 package com.LetsPlay.ui;
+
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

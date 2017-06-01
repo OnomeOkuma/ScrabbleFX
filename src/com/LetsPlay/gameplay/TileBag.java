@@ -7,14 +7,18 @@
 package com.LetsPlay.gameplay;
 
 
-import java.util.*;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Random;
 
 public class TileBag {
-	
+			
+			//Data structure holding the information regarding each tile.
 			private HashMap<Integer, int[]> tile_attributes = new HashMap<Integer, int[]>(35);
 	
-
-			private int number_of_tiles = 28;
+			//Number of tiles available at the start of a game.
+			private int number_of_tiles = 100;
 			
 	
 			private final int tile_amount_index = 0;
@@ -23,37 +27,46 @@ public class TileBag {
 			
 			private Random random_generator = new Random();
 			private String letters[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"
-										, "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-
-			private final int A[] = {2, 2};
+										, "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "ZL"};
+			
+			/*
+			 * Information related to each tile. The first array element indicates the tile 
+			 * distribution. The second array element indicates the tile weight.
+			 */
+			private final int A[] = {9, 1};
 			private final int B[] = {2, 3};
-			private final int C[] = {3, 6};
+			private final int C[] = {2, 3};
 			private final int D[] = {4, 2};
-			private final int E[] = {3, 6};
-			private final int F[] = {7, 8};
-			private final int G[] = {6, 4};
-			private final int H[] = {9, 3};
-			private final int I[] = {4, 5};
-			private final int J[] = {1, 0};
-			private final int K[] = {12, 9};
-			private final int L[] = {1, 6};
-			private final int M[] = {2, 2};
-			private final int N[] = {3, 6};
-			private final int O[] = {8, 9};
-			private final int P[] = {4, 7};
-			private final int Q[] = {1, 1};
-			private final int R[] = {3, 5};
-			private final int S[] = {6, 8};
-			private final int T[] = {3, 8};
-			private final int U[] = {4, 0};
-			private final int V[] = {3, 6};
-			private final int W[] = {5, 9};
-			private final int X[] = {4, 9};
-			private final int Y[] = {1, 3};
-			private final int Z[] = {4, 0}; 
+			private final int E[] = {12, 1};
+			private final int F[] = {2, 4};
+			private final int G[] = {3, 2};
+			private final int H[] = {2, 4};
+			private final int I[] = {9, 1};
+			private final int J[] = {1, 8};
+			private final int K[] = {1, 5};
+			private final int L[] = {4, 1};
+			private final int M[] = {2, 3};
+			private final int N[] = {6, 1};
+			private final int O[] = {8, 1};
+			private final int P[] = {2, 3};
+			private final int Q[] = {1, 10};
+			private final int R[] = {6, 1};
+			private final int S[] = {4, 1};
+			private final int T[] = {6, 1};
+			private final int U[] = {4, 1};
+			private final int V[] = {2, 4};
+			private final int W[] = {2, 4};
+			private final int X[] = {1, 8};
+			private final int Y[] = {2, 4};
+			private final int Z[] = {1, 10};
+
+			//this represents the attributes of the blank tile
+			private final int ZL[] = {2, 0};
 			
 			public TileBag(){
 				
+				// During initialization, attributes of all tiles are placed in the 
+				// tile_attribute object for easy access.
 					this.tile_attributes.put(0, this.A);
 					this.tile_attributes.put(1, this.B);
 					this.tile_attributes.put(2, this.C);
@@ -80,28 +93,28 @@ public class TileBag {
 					this.tile_attributes.put(23, this.X);
 					this.tile_attributes.put(24, this.Y);
 					this.tile_attributes.put(25, this.Z);
-					
+					this.tile_attributes.put(26, this.ZL);
 			}
 			
-			/*This tile generates tiles randomly.   
+			/* Returns random tiles.   
 			 */
 			public String getTile(){
 			
-					//Necessary to ensure that a new integer can be gotten from the Random sequence, if the previous
-					//one failed any of the below tests.
+					//Necessary to ensure that a new integer can be gotten from the Random sequence if the previous
+					//integer returned fails any test below.
 					 while (true){
 						 
 						 //Get the next integer in the Random object sequence. 
-						 //A bound of 30 was used to ensure that the values generated are picked, more often from 0 - 25 
-						 //range.
-						 int temp = this.random_generator.nextInt(30);
+						 //A bound of 30 was used to ensure that the values picked are more likely to be between 0 - 27 (exclusive).
 						 
+						 int temp = this.random_generator.nextInt(30);
+						
 						 //checks if it meets the requirement.
-						 if (temp <= 25){
+						 if (temp < 27){
 							
 							//Get the tile attributes from the tile_attributes object.
 							int temp1[] = this.tile_attributes.get(temp);
-									
+							
 									//Checks if the tile is still available in the bag. 
 									if (temp1[this.tile_amount_index] > 0){
 										
@@ -111,11 +124,13 @@ public class TileBag {
 											//Reduce that number by 1.
 											temp1[this.tile_amount_index] = temp2--;
 											
-											//Return it to the tile_attributes object. Just like picking a tile from a tile bag.
+											//Returns it to the tile_attributes object. Just like picking a tile from a tile bag.
 											this.tile_attributes.put(temp, temp1 );
 											
 											//Reduce the number of total tiles available by 1.
 											this.number_of_tiles--;
+											
+						
 											return this.letters[temp];
 											
 									}
@@ -125,16 +140,22 @@ public class TileBag {
 					 
 			}
 			
-			//This returns the weight associated with the specified letter
+			//Returns the weight associated with the specified tile.
 			public int getTileWeight(String letter) {
-						
+
 						int temp = Arrays.binarySearch(this.letters, letter);
-						
+							
 						//this is because the letter's position is always on the same index.
 						int temp1[] = this.tile_attributes.get(temp);
 						
-						return temp1[this.tile_weight_index];
+						return Array.getInt(temp1, this.tile_weight_index);
 			}
+			
+			//Returns the number of tiles available.
+			public int getNumber_of_tiles() {
+				return this.number_of_tiles;
+			}
+
 			
 			
 }
