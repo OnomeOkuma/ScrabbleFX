@@ -1,3 +1,19 @@
+/* Custom implementation of the Trie Data Structure.
+ * 	
+ * 	The word_search property holds the mapping of a partial word with the
+ * ArrayList of all possible characters that can be appended to the partial word.
+ * 
+ * 	The complete_word property holds a list of all complete words available in
+ * the given wordlist. 
+ * 
+ *   On initialization, an object of this class is created but its private properties 
+ *  do not contain any relevant value. For this to happen, the trieInit() function has to
+ *  be explicitly called. 
+ *  
+ *  Note: Major refactoring would take place as more functions are added to this class. 
+ */
+
+
 package com.LetsPlay.Utils;
 
 import java.util.ArrayList;
@@ -7,144 +23,116 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Trie {
-		private HashMap<StringBuffer, ArrayList<Character>> word_search = new HashMap<StringBuffer, ArrayList<Character>>(200000);
-		private ArrayList<StringBuffer> complete_words = new ArrayList<StringBuffer>();
+		private HashMap<String, ArrayList<Character>> word_search = new HashMap<String, ArrayList<Character>>(200000);
+		private ArrayList<String> complete_words = new ArrayList<String>();
 		
-		public HashMap<StringBuffer, ArrayList<Character>> getWord_search() {
-			return this.word_search;
-		}
-
-		public ArrayList<StringBuffer> getComplete_words() {
-			return this.complete_words;
-		}
-
 		private File word_list_location = new File("/home/onome/Wordlist/A Words.txt");
 		
 		public Trie(){
 		}
-	
-		private StringBuffer createTrie(StringBuffer partialword, char nextalphabet){
+		
+		//A private function that is used internally to add words to the trie.
+		private void createTrie(String word_to_add){
 			
-			//Checks if it is null and if the null key has values associated with it.
-			//This matches with the trie data structure where the bottom of the trie 
-			//is null. 
-			if (partialword == null){
-				if(this.word_search.containsKey(partialword)){
-					ArrayList<Character> temp = this.word_search.get(partialword);
-				
-					//Checks if the list returned has the character parameter.
-					//if its not, it adds the character to the StringBuffer,
-					//puts it back in this.wordsearch, Create a new StringBuffer with the
-					//character and returns it.  
-					if (temp.contains(nextalphabet)){
-						
-						StringBuffer temp2 = new StringBuffer(Character.toString(nextalphabet));
-						return temp2;
-						
-					} else {
-						
-							temp.add(nextalphabet);
-							this.word_search.put(null, temp);
-							StringBuffer temp2 = new StringBuffer(Character.toString(nextalphabet));
-							return temp2;
-							
-					}
-				
-				//this runs when the null key has no associated value. it creates 
-				//a new list, stores the character and returns a StringBuffer created with 
-				//the character.
-			} else{
-				
-					ArrayList<Character> temp = new ArrayList<Character>(26);
-					temp.add(nextalphabet);
-					this.word_search.put(null, temp);
-					StringBuffer temp2 = new StringBuffer(Character.toString(nextalphabet));
-					return temp2;
+					/*This variable holds the partial word being built,
+					 *that would be used as keys for the word_search property.
+					 */
+					String partialword = new String();
 					
-				}
-			
-			//this runs when partialword != null. it starts by checking if partialword is a key.
-			//if yes, it checks if the character is on the list. if it is, append the character to 
-			//partialword and return it. Otherwise, add it to the list, put it back in word_search, append
-			//it to partialword and return it.
-			} else{
-				if(this.word_search.containsKey(partialword)){
-					ArrayList<Character> temp = this.word_search.get(partialword);
-				 
-						if (temp.contains(nextalphabet)){
+					//Starts a loop that cycles through the parameter provided
+					for (int counter = 0; counter < word_to_add.length(); counter++){
 						
-							partialword.append(nextalphabet);
-							//debug
-							if(this.word_search.size() < 100){
-								System.out.println(partialword);
-								System.out.println(this.word_search.size() + "\n");
-								StringBuffer debug = new StringBuffer("abductor");
-								System.out.println(this.word_search.get(debug));
-							}
-							return partialword;
+						//Picks a character to add to the word_search property.
+						char temp = word_to_add.charAt(counter);
 						
-						} else {
-						
-								temp.add(nextalphabet);
-								this.word_search.put(partialword, temp);
-								partialword.append(nextalphabet);
-								//debug
-								if(this.word_search.size() < 100){
-									System.out.println(partialword);
-									System.out.println(this.word_search.size() + "\n");
-									StringBuffer debug = new StringBuffer("abductor");
-									System.out.println(this.word_search.get(debug));
+						/*Checks if that is the first character.
+						 *If true, the search starts from null, which is the root of
+						 *the trie and is represented as the first entry in the word_search
+						 *property.
+						 */
+							
+						if(counter == 0){
+							 /*checks if null key has been mapped.
+							  *if false, a new value is created, the character is added
+							  *and the null key is mapped.
+							  */
+							if (this.word_search.containsKey(null) == false ){
+								ArrayList<Character> temp2 = new ArrayList<Character>(5);
+								temp2.add(temp);
+								this.word_search.put(null, temp2);
+								partialword = partialword.concat(Character.toString(temp));
+								
+								/*Otherwise, get the value of the key mapping.
+								 */
+							}else{
+								ArrayList<Character>temp2 = this.word_search.get(null);
+								
+								//checks if the character is part of the value.
+								if (temp2.contains(temp)){
+									
+										//build the partial word
+										partialword = partialword.concat(Character.toString(temp));
+										
+										//add the character to the returned value and place it
+										//back. Also build the partial word
+									}else {
+										temp2.add(temp);
+										this.word_search.put(null, temp2);
+										partialword = partialword.concat(Character.toString(temp));
+										}
+									}
+							
+							//Repeat the previous steps replacing the null key with 
+							//the partialword key.
+						}else{
+								if (this.word_search.containsKey(partialword) == false){
+									
+									ArrayList<Character> temp2 = new ArrayList<Character>(5);
+									temp2.add(temp);
+									this.word_search.put(partialword, temp2);
+									partialword = partialword.concat(Character.toString(temp));
+									
+								}else{
+									ArrayList<Character>temp2 = this.word_search.get(partialword);
+									
+									if(temp2.contains(temp)){
+										
+										partialword = partialword.concat(Character.toString(temp));
+										
+										}else {
+											
+											temp2.add(temp);
+											this.word_search.put(partialword, temp2);
+											partialword = partialword.concat(Character.toString(temp));
+											
+											}
 								}
-								return partialword;
-						
+									
 							}
-				
-				
-					} else {
-						 
-							ArrayList<Character> temp = new ArrayList<Character>(26);
-							temp.add(nextalphabet);
-							this.word_search.put(partialword, temp);
-							//debug
-							if(this.word_search.size() < 100){
-								System.out.println(partialword);
-								System.out.println(this.word_search.size() + "\n");
-								StringBuffer debug = new StringBuffer("abductor");
-								System.out.println(this.word_search.get(debug));
-								}
-							}
-							partialword.append(nextalphabet);
-							return partialword;
-						
-						}
-
+					}
 				}
 		
 		
 		public void trie_Init(){
-			try {
-				Scanner reader = new Scanner(this.word_list_location);
-				reader.useDelimiter("\n");
-				
-				while (reader.hasNext()){
-					StringBuffer partialword = null;
-					StringBuffer word = new StringBuffer(reader.next());
-					
-					for (int counter = 0; counter < word.length(); counter++){
-						StringBuffer temp = this.createTrie(partialword, word.charAt(counter));
-						partialword = temp;
+				try {
+					Scanner reader = new Scanner(this.word_list_location);
+					reader.useDelimiter("\n");
+					while (reader.hasNext()){
+						String temp = reader.next();
+						this.createTrie(temp);
+						this.complete_words.add(temp);
 					}
-					this.complete_words.add(partialword);
+					reader.close();
+					
+					///debug. not permanent.
+					System.out.print(this.word_search.get("biga") + "\n");
+					System.out.print(this.complete_words.size());
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				
-				reader.close();
 				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				System.err.print("WordList not found. Please find it");
-				System.exit(2);
 			}
 		}
-		
-		
-}
+	
