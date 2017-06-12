@@ -1,7 +1,7 @@
 package com.LetsPlay;
 	
 
-import com.LetsPlay.Utils.Trie;
+import com.LetsPlay.Utils.Dawg;
 import com.LetsPlay.gameplay.TileBag;
 import com.LetsPlay.ui.BoardLayout;
 import com.LetsPlay.ui.ScoreBoard;
@@ -28,8 +28,8 @@ public class Main extends Application {
 			BoardLayout board = new BoardLayout();
 			board.relocate(80, 90);
 			
-			Trie dawg = new Trie();
-			dawg.trie_Init();
+			Dawg dawg = new Dawg();
+			dawg.dawgInit();
 			
 			
 			//Layout for the player racks

@@ -1,4 +1,4 @@
-/* Custom implementation of the Trie Data Structure.
+/* Custom implementation of the Dawg Data Structure.
  * 	
  * 	The word_search property holds the mapping of a partial word with the
  * ArrayList of all possible characters that can be appended to the partial word.
@@ -7,10 +7,10 @@
  * the given wordlist. 
  * 
  *   On initialization, an object of this class is created but its private properties 
- *  do not contain any relevant value. For this to happen, the trieInit() function has to
+ *  do not contain any value. For this to happen, the dawgInit() function has to
  *  be explicitly called. 
  *  
- *  Note: Major refactoring would take place as more functions are added to this class. 
+ *  Note: Refactoring would take place as more functions are added to this class. 
  */
 
 
@@ -22,24 +22,24 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class Trie {
+public class Dawg {
 		private HashMap<String, ArrayList<Character>> word_search = new HashMap<String, ArrayList<Character>>(200000);
 		private ArrayList<String> complete_words = new ArrayList<String>();
 		
 		private File word_list_location = new File("/home/onome/Wordlist/A Words.txt");
 		
-		public Trie(){
+		public Dawg(){
 		}
 		
 		//A private function that is used internally to add words to the trie.
-		private void createTrie(String word_to_add){
+		private void createDawg(String word_to_add){
 			
 					/*This variable holds the partial word being built,
-					 *that would be used as keys for the word_search property.
+					 *which would be used as keys for the word_search property.
 					 */
 					String partialword = new String();
 					
-					//Starts a loop that cycles through the parameter provided
+					//Starts a loop that goes through the string parameter provided
 					for (int counter = 0; counter < word_to_add.length(); counter++){
 						
 						//Picks a character to add to the word_search property.
@@ -47,7 +47,7 @@ public class Trie {
 						
 						/*Checks if that is the first character.
 						 *If true, the search starts from null, which is the root of
-						 *the trie and is represented as the first entry in the word_search
+						 *the Dawg and the first key in the word_search
 						 *property.
 						 */
 							
@@ -67,7 +67,7 @@ public class Trie {
 							}else{
 								ArrayList<Character>temp2 = this.word_search.get(null);
 								
-								//checks if the character is part of the value.
+								//checks if the character is part of the list.
 								if (temp2.contains(temp)){
 									
 										//build the partial word
@@ -113,13 +113,13 @@ public class Trie {
 				}
 		
 		
-		public void trie_Init(){
+		public void dawgInit(){
 				try {
 					Scanner reader = new Scanner(this.word_list_location);
 					reader.useDelimiter("\n");
 					while (reader.hasNext()){
 						String temp = reader.next();
-						this.createTrie(temp);
+						this.createDawg(temp);
 						this.complete_words.add(temp);
 					}
 					reader.close();
