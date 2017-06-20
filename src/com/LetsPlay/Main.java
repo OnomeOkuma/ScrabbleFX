@@ -28,9 +28,9 @@ public class Main extends Application {
 			BoardLayout board = new BoardLayout();
 			board.relocate(80, 90);
 			
+			//Create the dictionary used at runtime.
 			Dawg dawg = new Dawg();
-			dawg.dawgInit();
-			
+			dawg.getClass();
 			
 			//Layout for the player racks
 			HBox rack1 = new HBox(3);

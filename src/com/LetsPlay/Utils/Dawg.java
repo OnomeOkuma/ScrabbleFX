@@ -6,9 +6,7 @@
  * 	The complete_word property holds a list of all complete words available in
  * the given wordlist. 
  * 
- *   On initialization, an object of this class is created but its private properties 
- *  do not contain any value. For this to happen, the dawgInit() function has to
- *  be explicitly called. 
+ *   On initialization, the words in the specified file is used to create the Dawg.  
  *  
  *  Note: Refactoring would take place as more functions are added to this class. 
  */
@@ -26,10 +24,8 @@ public class Dawg {
 		private HashMap<String, ArrayList<Character>> word_search = new HashMap<String, ArrayList<Character>>(200000);
 		private ArrayList<String> complete_words = new ArrayList<String>();
 		
-		private File word_list_location = new File("/home/onome/Wordlist/A Words.txt");
-		
-		public Dawg(){
-		}
+		//this variable is temporary. It would be used until a permanent solution is implemented.
+		private File word_list_location = new File("/home/onome/Wordlist/WordList.txt");
 		
 		//A private function that is used internally to add words to the trie.
 		private void createDawg(String word_to_add){
@@ -73,12 +69,14 @@ public class Dawg {
 										//build the partial word
 										partialword = partialword.concat(Character.toString(temp));
 										
-										//add the character to the returned value and place it
-										//back. Also build the partial word
 									}else {
+										
+										//add the character to the returned value and place it
+										//back. Also build the partial word.
 										temp2.add(temp);
 										this.word_search.put(null, temp2);
 										partialword = partialword.concat(Character.toString(temp));
+										
 										}
 									}
 							
@@ -112,27 +110,43 @@ public class Dawg {
 					}
 				}
 		
-		
-		public void dawgInit(){
-				try {
-					Scanner reader = new Scanner(this.word_list_location);
-					reader.useDelimiter("\n");
-					while (reader.hasNext()){
-						String temp = reader.next();
-						this.createDawg(temp);
-						this.complete_words.add(temp);
-					}
-					reader.close();
-					
-					///debug. not permanent.
-					System.out.print(this.word_search.get("biga") + "\n");
-					System.out.print(this.complete_words.size());
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		//
+		public Dawg(){
+			try {
+				Scanner reader = new Scanner(this.word_list_location);
+				reader.useDelimiter("\n");
+				while (reader.hasNext()){
+					String temp = reader.next();
+					this.createDawg(temp);
+					this.complete_words.add(temp);
 				}
-				
-				
+				reader.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+		}
+		
+		//Checks if the String parameter is a complete word in the Dawg.
+		public boolean isCompleteWord(String word){
+					return this.complete_words.contains(word);
+			}
+		
+		//Checks if the String parameter is a node in the Dawg.
+		public boolean containPartialWord(String partialword){
+					return this.word_search.containsKey(partialword);
+			}
+		
+		//Returns the list of edges from the node provided.
+		public ArrayList<Character> getCharacterList(String partialword){
+					return this.word_search.get(partialword);
+		}
+		
+		//Returns the String values contained in this Dawg.
+		@Override
+		public String toString(){
+			return this.complete_words.toString();
+		}
+		
 		}
 	

@@ -5,11 +5,17 @@
 package com.LetsPlay.ui;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontSmoothingType;
 
 public class TilesFactory {
+			
+			private Tooltip double_letter_label = new Tooltip("Double Letter Score");
+			private Tooltip triple_letter_label = new Tooltip("Triple Letter Score");
+			private Tooltip double_word_label = new Tooltip("Double Word Score");
+			private Tooltip triple_word_label = new Tooltip("Triple Word Score");
 			
 			public TilesFactory(){
 			}
@@ -26,6 +32,7 @@ public class TilesFactory {
 				draw.setFill(Color.CYAN);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
 				board_tile.setId(id);
+				Tooltip.install(board_tile, this.double_letter_label);
 				return board_tile;
 			}
 			
@@ -37,6 +44,7 @@ public class TilesFactory {
 				draw.setFill(Color.BLUE);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
 				board_tile.setId(id);
+				Tooltip.install(board_tile, this.triple_letter_label);
 				return board_tile;
 			}
 			
@@ -48,6 +56,7 @@ public class TilesFactory {
 				draw.setFill(Color.PINK);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
 				board_tile.setId(id);
+				Tooltip.install(board_tile, this.double_word_label);
 				return board_tile;
 			}
 			
@@ -59,6 +68,7 @@ public class TilesFactory {
 				draw.setFill(Color.RED);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
 				board_tile.setId(id);
+				Tooltip.install(board_tile, this.triple_word_label);
 				return board_tile;
 			}
 			

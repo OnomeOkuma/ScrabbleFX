@@ -21,9 +21,9 @@ public class TileBag {
 			private int number_of_tiles = 100;
 			
 	
-			private final int tile_amount_index = 0;
+			private final int number_of_tile_index = 0;
 	
-			private final int tile_weight_index = 1;
+			private final int tile_value_index = 1;
 			
 			private Random random_generator = new Random();
 			private String letters[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"
@@ -33,32 +33,32 @@ public class TileBag {
 			 * Information related to each tile. The first array element indicates the tile 
 			 * distribution. The second array element indicates the tile weight.
 			 */
-			private final int A[] = {9, 1};
-			private final int B[] = {2, 3};
-			private final int C[] = {2, 3};
-			private final int D[] = {4, 2};
-			private final int E[] = {12, 1};
-			private final int F[] = {2, 4};
-			private final int G[] = {3, 2};
-			private final int H[] = {2, 4};
-			private final int I[] = {9, 1};
-			private final int J[] = {1, 8};
-			private final int K[] = {1, 5};
-			private final int L[] = {4, 1};
-			private final int M[] = {2, 3};
-			private final int N[] = {6, 1};
-			private final int O[] = {8, 1};
-			private final int P[] = {2, 3};
-			private final int Q[] = {1, 10};
-			private final int R[] = {6, 1};
-			private final int S[] = {4, 1};
-			private final int T[] = {6, 1};
-			private final int U[] = {4, 1};
-			private final int V[] = {2, 4};
-			private final int W[] = {2, 4};
-			private final int X[] = {1, 8};
-			private final int Y[] = {2, 4};
-			private final int Z[] = {1, 10};
+			private  int A[] = {9, 1};
+			private  int B[] = {2, 3};
+			private  int C[] = {2, 3};
+			private  int D[] = {4, 2};
+			private  int E[] = {12, 1};
+			private  int F[] = {2, 4};
+			private  int G[] = {3, 2};
+			private  int H[] = {2, 4};
+			private  int I[] = {9, 1};
+			private  int J[] = {1, 8};
+			private  int K[] = {1, 5};
+			private  int L[] = {4, 1};
+			private  int M[] = {2, 3};
+			private  int N[] = {6, 1};
+			private  int O[] = {8, 1};
+			private  int P[] = {2, 3};
+			private  int Q[] = {1, 10};
+			private  int R[] = {6, 1};
+			private  int S[] = {4, 1};
+			private  int T[] = {6, 1};
+			private  int U[] = {4, 1};
+			private  int V[] = {2, 4};
+			private  int W[] = {2, 4};
+			private  int X[] = {1, 8};
+			private  int Y[] = {2, 4};
+			private  int Z[] = {1, 10};
 
 			//this represents the attributes of the blank tile
 			private final int ZL[] = {2, 0};
@@ -107,31 +107,32 @@ public class TileBag {
 						 //Get the next integer in the Random object sequence. 
 						 //A bound of 30 was used to ensure that the values picked are more likely to be between 0 - 27 (exclusive).
 						 
-						 int temp = this.random_generator.nextInt(30);
+						 int tile_picked = this.random_generator.nextInt(30);
 						
 						 //checks if it meets the requirement.
-						 if (temp < 27){
+						 if (tile_picked < 27){
 							
 							//Get the tile attributes from the tile_attributes object.
-							int temp1[] = this.tile_attributes.get(temp);
+							int tile_attribute[] = this.tile_attributes.get(tile_picked);
 							
 									//Checks if the tile is still available in the bag. 
-									if (temp1[this.tile_amount_index] > 0){
+									if (tile_attribute[this.number_of_tile_index] > 0){
 										
 											//Gets the number of the said tile available.
-											int temp2 = temp1[this.tile_amount_index];
+											int temp2 = tile_attribute[this.number_of_tile_index];
 											
 											//Reduce that number by 1.
-											temp1[this.tile_amount_index] = temp2--;
+											tile_attribute[this.number_of_tile_index] = --temp2;
 											
 											//Returns it to the tile_attributes object. Just like picking a tile from a tile bag.
-											this.tile_attributes.put(temp, temp1 );
+											this.tile_attributes.put(tile_picked, tile_attribute );
+											
 											
 											//Reduce the number of total tiles available by 1.
 											this.number_of_tiles--;
 											
 						
-											return this.letters[temp];
+											return this.letters[tile_picked];
 											
 									}
 									
@@ -148,7 +149,7 @@ public class TileBag {
 						//this is because the letter's position is always on the same index.
 						int temp1[] = this.tile_attributes.get(temp);
 						
-						return Array.getInt(temp1, this.tile_weight_index);
+						return Array.getInt(temp1, this.tile_value_index);
 			}
 			
 			//Returns the number of tiles available.
