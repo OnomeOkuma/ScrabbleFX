@@ -12,7 +12,7 @@
  */
 
 
-package com.LetsPlay.Utils;
+package com.LetsPlay.gameplay;
 
 import java.util.ArrayList;
 import java.util.HashMap;

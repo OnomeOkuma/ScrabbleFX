@@ -7,10 +7,14 @@
  */
 package com.LetsPlay.ui;
 
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
 public class BoardLayout extends GridPane {
-	
+				private ObservableList<Node> previous_state;
+				private ObservableList<Node> current_state;
+				private ObservableList<Node> state_on_initilization;
 				//Constructor statement.
 				public BoardLayout(){
 					//Sets the dimensions of the board
@@ -167,6 +171,9 @@ public class BoardLayout extends GridPane {
 											
 						}
 					}
+					this.state_on_initilization.addAll(this.getChildren());
+					
 				}
+
 				
 }

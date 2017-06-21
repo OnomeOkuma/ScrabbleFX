@@ -121,6 +121,7 @@ public class TileBag {
 											//Gets the number of the said tile available.
 											int temp2 = tile_attribute[this.number_of_tile_index];
 											
+											
 											//Reduce that number by 1.
 											tile_attribute[this.number_of_tile_index] = --temp2;
 											

@@ -1,7 +1,7 @@
 package com.LetsPlay;
 	
 
-import com.LetsPlay.Utils.Dawg;
+import com.LetsPlay.gameplay.Dawg;
 import com.LetsPlay.gameplay.TileBag;
 import com.LetsPlay.ui.BoardLayout;
 import com.LetsPlay.ui.ScoreBoard;
