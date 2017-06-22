@@ -3,7 +3,7 @@ package com.LetsPlay;
 
 import com.LetsPlay.gameplay.Dawg;
 import com.LetsPlay.gameplay.TileBag;
-import com.LetsPlay.ui.BoardLayout;
+import com.LetsPlay.ui.Board;
 import com.LetsPlay.ui.ScoreBoard;
 import com.LetsPlay.ui.TilesFactory;
 
@@ -25,7 +25,7 @@ public class Main extends Application {
 			
 
 			//Layout for the Scrabble board and setting the Scrabble board properties
-			BoardLayout board = new BoardLayout();
+			Board board = new Board();
 			board.relocate(80, 90);
 			
 			//Create the dictionary used at runtime.
@@ -94,7 +94,7 @@ public class Main extends Application {
 			primaryStage.setTitle("Let's Play");
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			
+			board.placeTile(tiles.createGameTile(bag.getTile(), 6), board.getChildren().get(100));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -102,5 +102,6 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+		
 	}
 }

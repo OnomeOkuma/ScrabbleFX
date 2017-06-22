@@ -5,18 +5,26 @@
  * 	it is evolving, therefore methods and properties would be added to it as the project 
  * grows.
  */
+
 package com.LetsPlay.ui;
 
-import javafx.collections.ObservableList;
+import java.util.Hashtable;
+import java.util.Iterator;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
-public class BoardLayout extends GridPane {
-				private ObservableList<Node> previous_state;
-				private ObservableList<Node> current_state;
-				private ObservableList<Node> state_on_initilization;
+public class Board extends GridPane {
+				private Hashtable<Node, Integer[]> tile_locations = new Hashtable<Node, Integer[]>();
+				
+				private Hashtable<Integer, String[]> played_tile = new Hashtable<Integer, String[]>();
+				@SuppressWarnings("unused")
+				private Hashtable<Integer, String[]> previous_played_tile = new Hashtable<Integer, String[]>();
+				
+				private int row = 0;
+				private int column = 1;
+				
 				//Constructor statement.
-				public BoardLayout(){
+				public Board(){
 					//Sets the dimensions of the board
 					this.setPrefSize(593.50, 549);
 					this.setGridLinesVisible(false);
@@ -171,9 +179,63 @@ public class BoardLayout extends GridPane {
 											
 						}
 					}
-					this.state_on_initilization.addAll(this.getChildren());
-					
+					//This Iterator enables us get the location of the children in
+					//the GridPane so as to ensure easy removal and placement of the 
+					//tiles in the game board.
+					Iterator<Node> temp = this.getChildren().iterator();
+					while(temp.hasNext() == true){
+						Node temp2 = temp.next();
+						Integer[] location = new Integer[2];
+						location[0] = GridPane.getRowIndex(temp2);
+						location[1] = GridPane.getColumnIndex(temp2);
+						this.tile_locations.put(temp2, location);
+					}
 				}
 
+				
+				
+				//Replaces a given node with another node.
+				public void placeTile(Node tile_to_place, Node tile_on_board){
+						
+						//Gets the location of the Node to be replaced.
+						Integer[] temp = this.tile_locations.get(tile_on_board);
+						
+						//Added the tile at the location of the deleted tile.
+						this.add(tile_to_place, temp[this.column], temp[this.row]);
+						
+						/****************************************************************
+						 * This part of the code updates the played_tile structure with *
+						 * the string value of the tile placed on the board. 			*
+						 ****************************************************************/
+						
+						
+						/*Checks if a tile has been placed on this row before.
+						 *if not, it places the tile on the row and adds it to the 
+						 *played_tile structure.
+						 */
+						if (this.played_tile.containsKey(temp[this.row]) == false){
+							String letters_in_row[] = new String[15];
+							letters_in_row[temp[this.column]] = tile_to_place.getId().substring(0, 1); 
+							this.played_tile.put(temp[this.row], letters_in_row);
+							
+							//else it modifies the row and updates it.
+						} else{
+							String letters_in_row[] = this.played_tile.get(temp[this.row]);
+							letters_in_row[temp[this.column]] = tile_to_place.getId().substring(0, 1);
+							this.played_tile.put(temp[this.row], letters_in_row);
+
+						}
+						
+				}
+				
+				
+				public void saveState(){
+					
+				}
+				
+				
+				public void undoCurrentState(){
+				
+				}
 				
 }

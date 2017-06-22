@@ -148,5 +148,5 @@ public class Dawg {
 			return this.complete_words.toString();
 		}
 		
-		}
+	}
 	

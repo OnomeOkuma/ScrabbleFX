@@ -92,7 +92,7 @@ public class TilesFactory {
 				
 				if (id != "ZL"){
 							draw.fillText(id, 10.0, 26.0);
-						}
+				}else draw.fillText(" ", 10.0, 26.0);
 				
 				draw.setFont(Font.font("Ubuntu Light", 11));
 				draw.setFontSmoothingType(FontSmoothingType.LCD);

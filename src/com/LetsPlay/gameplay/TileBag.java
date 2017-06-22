@@ -154,7 +154,7 @@ public class TileBag {
 			}
 			
 			//Returns the number of tiles available.
-			public int getNumber_of_tiles() {
+			public int getNumberOfTiles() {
 				return this.number_of_tiles;
 			}
 
