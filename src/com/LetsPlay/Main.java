@@ -94,7 +94,7 @@ public class Main extends Application {
 			primaryStage.setTitle("Let's Play");
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			board.placeTile(tiles.createGameTile(bag.getTile(), 6), board.getChildren().get(100));
+			board.placeTile(tiles.createGameTile(bag.getTile(), 7), board.getChildren().get(100));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

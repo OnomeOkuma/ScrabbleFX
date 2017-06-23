@@ -8,17 +8,20 @@
 
 package com.LetsPlay.ui;
 
+import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
 public class Board extends GridPane {
-				private Hashtable<Node, Integer[]> tile_locations = new Hashtable<Node, Integer[]>();
+				private Hashtable <Node, Integer[]> tile_locations = new Hashtable<Node, Integer[]>();
+				private Hashtable <Node, Integer[]> previous_tile_locations = new Hashtable<Node, Integer[]>();
 				
-				private Hashtable<Integer, String[]> played_tile = new Hashtable<Integer, String[]>();
-				@SuppressWarnings("unused")
-				private Hashtable<Integer, String[]> previous_played_tile = new Hashtable<Integer, String[]>();
+				
+				private Hashtable <Integer, String[]> played_tile = new Hashtable<Integer, String[]>();
+				private Hashtable <Integer, String[]> previous_played_tile = new Hashtable<Integer, String[]>();
 				
 				private int row = 0;
 				private int column = 1;
@@ -189,6 +192,7 @@ public class Board extends GridPane {
 						location[0] = GridPane.getRowIndex(temp2);
 						location[1] = GridPane.getColumnIndex(temp2);
 						this.tile_locations.put(temp2, location);
+						this.previous_tile_locations.putAll(this.tile_locations);
 					}
 				}
 
@@ -200,9 +204,14 @@ public class Board extends GridPane {
 						//Gets the location of the Node to be replaced.
 						Integer[] temp = this.tile_locations.get(tile_on_board);
 						
-						//Added the tile at the location of the deleted tile.
+						//Add the tile at the location of the deleted tile.
 						this.add(tile_to_place, temp[this.column], temp[this.row]);
 						
+						
+						Integer[] location = new Integer[2];
+						location[0] = GridPane.getRowIndex(tile_to_place);
+						location[1] = GridPane.getColumnIndex(tile_to_place);
+						this.tile_locations.put(tile_to_place, location);
 						/****************************************************************
 						 * This part of the code updates the played_tile structure with *
 						 * the string value of the tile placed on the board. 			*
@@ -223,19 +232,29 @@ public class Board extends GridPane {
 							String letters_in_row[] = this.played_tile.get(temp[this.row]);
 							letters_in_row[temp[this.column]] = tile_to_place.getId().substring(0, 1);
 							this.played_tile.put(temp[this.row], letters_in_row);
-
 						}
 						
 				}
 				
-				
+				//Saves the current state of the board.
 				public void saveState(){
-					
+						this.previous_tile_locations.putAll(this.tile_locations);
+						this.previous_played_tile.putAll(this.played_tile);
 				}
 				
-				
+				//Overrides the current state of the board with its previous state.
 				public void undoCurrentState(){
-				
+						this.played_tile.putAll(this.previous_played_tile);
+						this.getChildren().clear();
+						
+						Collection<Integer[]> node_locations = this.previous_tile_locations.values();
+						Iterator<Integer[]> node_iterator = node_locations.iterator();
+						Enumeration<Node> nodes = this.previous_tile_locations.keys();
+						while (nodes.hasMoreElements()){
+							 Integer location[] = node_iterator.next();
+							 Node node = nodes.nextElement();
+							 this.add(node, location[this.column], location[this.row]);
+						}
 				}
 				
 }
