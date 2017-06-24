@@ -4,13 +4,12 @@ package com.LetsPlay;
 import com.LetsPlay.gameplay.Dawg;
 import com.LetsPlay.gameplay.TileBag;
 import com.LetsPlay.ui.Board;
+import com.LetsPlay.ui.Rack;
 import com.LetsPlay.ui.ScoreBoard;
-import com.LetsPlay.ui.TilesFactory;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -33,11 +32,11 @@ public class Main extends Application {
 			dawg.getClass();
 			
 			//Layout for the player racks
-			HBox rack1 = new HBox(3);
+			Rack rack1 = new Rack();
 			rack1.relocate(225, 30);
 			rack1.setPrefSize(276.85, 36.6);
 			
-			HBox rack2 = new HBox(3);
+			Rack rack2 = new Rack();
 			rack2.relocate(225, 669);
 			rack2.setPrefSize(276.85, 36.6);
 
@@ -71,19 +70,14 @@ public class Main extends Application {
 			button_list.getChildren().add(pass_button);
 			button_list.getChildren().add(submit_button);
 			
-			TilesFactory tiles = new TilesFactory();
 				 TileBag bag = new TileBag();
 			for (int columnindex = 0; columnindex < 7; columnindex++){
-				String temp = bag.getTile();
-				int tempweight = bag.getTileWeight(temp);
-				rack1.getChildren().add(tiles.createGameTile(temp, tempweight));
-				
-				
-				temp = bag.getTile();
-				tempweight = bag.getTileWeight(temp);
-				rack2.getChildren().add(tiles.createGameTile(temp, tempweight));
-			}
 			
+				rack1.putTile(bag.getTile());
+				
+				rack2.putTile(bag.getTile());
+			}
+			System.out.println(bag.getTileTotal());
 			
 			//Putting the pieces together
 			scene_layout.getChildren().add(board);
@@ -94,7 +88,6 @@ public class Main extends Application {
 			primaryStage.setTitle("Let's Play");
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			board.placeTile(tiles.createGameTile(bag.getTile(), 7), board.getChildren().get(100));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
