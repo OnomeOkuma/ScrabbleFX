@@ -8,37 +8,41 @@
 package com.LetsPlay.ui;
 
 
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 
 public class ScoreBoard extends VBox{
-			private Label player_name1 = new Label();
-			private Label player_name2 = new Label();
-			private TextField player_1_score = new TextField("300");
-			private TextField Player_2_score = new TextField("200");
+			private Text player_name1 = new Text();
+			private Text player_name2 = new Text();
+			private Canvas player_1_score = new Canvas(80, 40); 
+			private Canvas player_2_score = new Canvas(80, 40);
 
 			//Constructor Statement.
 			public ScoreBoard(){
 					this.setSpacing(5);
-					this.player_1_score.setEditable(false);
-					this.player_1_score.setPrefWidth(90);
-					this.Player_2_score.setEditable(false);
-					this.Player_2_score.setPrefWidth(90);
+					this.player_name1.setFont(new Font ("Ubuntu light", 15.5));
+					this.player_name2.setFont(new Font ("Ubuntu light", 15.5));
 					this.getChildren().add(this.player_name1);
 					this.getChildren().add(this.player_1_score);
 					this.getChildren().add(this.player_name2);
-					this.getChildren().add(this.Player_2_score);
+					this.getChildren().add(this.player_2_score);
 			}
 			
 			// Sets the score of the game. It uses the Boolean argument to determine
 			// whose score to change. 
 			public void set_score(String score, Boolean player ){
 				if (player == true){
-					this.player_1_score.setText(score);
+					GraphicsContext temp = this.player_1_score.getGraphicsContext2D();
+					temp.setFont(new Font("Ubuntu light", 20));
+					temp.fillText(score, 12.56, 15);
 				} else {
-					this.Player_2_score.setText(score);
+					GraphicsContext temp = this.player_2_score.getGraphicsContext2D();
+					temp.setFont(new Font("Ubuntu light", 20));
+					temp.fillText(score, 12.56, 15);
 				}
 			}
 			

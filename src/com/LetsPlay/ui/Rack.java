@@ -6,25 +6,32 @@ import java.util.Stack;
 import javafx.scene.layout.HBox;
 
 public class Rack extends HBox{
-		private int tiles_added = 0;
-		private Stack <Tile> recent_tiles_added = new Stack <Tile>();
+		private int number_of_tiles_added = 0;
+		private Stack <Tile> tiles_on_rack = new Stack <Tile>();
 
 		public Rack(){
 			this.setSpacing(5.55);
 		}
 		
+		public Tile removeTile(Tile tile){
+			this.tiles_on_rack.remove(tile);
+			this.number_of_tiles_added = 0;
+			this.getChildren().remove(tile);
+			return tile;
+		}
+		
 		public void putTile(Tile tile){
 			this.getChildren().add(tile);
-			this.tiles_added++;
-			this.recent_tiles_added.push(tile);
+			this.number_of_tiles_added++;
+			this.tiles_on_rack.push(tile);
 		}
 		
 		public ArrayList<Tile> returnTiles(){
 			ArrayList<Tile> temp = new ArrayList<Tile>();
-			for (int counter = 0; counter < this.tiles_added; counter++){
-				temp.add(this.recent_tiles_added.pop());
+			for (int counter = 0; counter < this.number_of_tiles_added; counter++){
+				temp.add(this.tiles_on_rack.pop());
 			}
-			this.tiles_added = 0;
+			this.number_of_tiles_added = 0;
 			return temp;
 		}
 }

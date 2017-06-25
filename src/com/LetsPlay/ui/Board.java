@@ -8,14 +8,11 @@
 
 package com.LetsPlay.ui;
 
-import java.util.Hashtable;
-import java.util.Iterator;
-import javafx.scene.Node;
+
 import javafx.scene.layout.GridPane;
 
 public class Board extends GridPane {
-				private Hashtable <Node, Integer[]> tile_locations = new Hashtable<Node, Integer[]>();
-				private Hashtable <Node, Integer[]> previous_tile_locations = new Hashtable<Node, Integer[]>();
+				private Tile board_state[][] = new Tile[15][15];
 				
 				//Constructor statement.
 				public Board(){
@@ -173,26 +170,25 @@ public class Board extends GridPane {
 											
 						}
 					}
-					//This Iterator enables us get the location of the children in
-					//the GridPane so as to ensure easy removal and placement of the 
-					//tiles in the game board.
-					Iterator<Node> temp = this.getChildren().iterator();
-					while(temp.hasNext() == true){
-						Node temp2 = temp.next();
-						Integer[] location = new Integer[2];
-						location[0] = GridPane.getRowIndex(temp2);
-						location[1] = GridPane.getColumnIndex(temp2);
-						this.tile_locations.put(temp2, location);
-						this.previous_tile_locations.putAll(this.tile_locations);
-					}
 				}
 
 				
 				
-				//Replaces a given node with another node.
-				public void placeTile(Node tile_to_place, Node tile_on_board){
-						
+				// Places a Tile on the Board.
+				public void placeTile(Tile tile, int row, int column){
+						this.add(tile, column, row);
+						this.board_state[row][column] = tile;
 				}
-			
 				
+				// Returns the current state of the board
+				public Tile[][] getBoardState(){
+					return this.board_state;
+				}
+				
+				// Removes the specified Tile from the Board.
+				public Tile removeTile(int row, int column){
+					Tile temp = this.board_state[row][column];
+					this.getChildren().remove(temp);
+					return temp;
+				}
 }

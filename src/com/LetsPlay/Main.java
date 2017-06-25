@@ -6,6 +6,7 @@ import com.LetsPlay.gameplay.TileBag;
 import com.LetsPlay.ui.Board;
 import com.LetsPlay.ui.Rack;
 import com.LetsPlay.ui.ScoreBoard;
+import com.LetsPlay.ui.Tile;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -44,9 +45,10 @@ public class Main extends Application {
 			
 			//Creating UI for score and player
 			ScoreBoard scoreboard = new ScoreBoard();
-			scoreboard.set_player_name("Okuma", true);
+			scoreboard.set_player_name("Celebrimbor", true);
 			scoreboard.set_player_name("Maxwell", false);
 			scoreboard.set_score("180", true);
+			scoreboard.set_score("200", false);
 			scoreboard.relocate(700.5, 100);
 			
 			
@@ -77,7 +79,6 @@ public class Main extends Application {
 				
 				rack2.putTile(bag.getTile());
 			}
-			System.out.println(bag.getTileTotal());
 			
 			//Putting the pieces together
 			scene_layout.getChildren().add(board);
@@ -88,6 +89,7 @@ public class Main extends Application {
 			primaryStage.setTitle("Let's Play");
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			board.placeTile(new Tile("Z"), 7, 14);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

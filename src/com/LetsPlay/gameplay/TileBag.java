@@ -27,7 +27,7 @@ public class TileBag {
 			 * Note: A size of 101 was selected to ensure all 100 Tile objects
 			 * are available while preventing an IndexOutOfBoundsException.
 			 */   
-			private ArrayList<Tile> tile_bag = new ArrayList<Tile>(101);
+			private ArrayList<Tile> tile_bag = new ArrayList<Tile>(100);
 			
 			// Total number of Tile object available at anytime.
 			private int size;
@@ -95,7 +95,7 @@ public class TileBag {
 			// Returns a Tile object chosen at random.
 			public Tile getTile(){
 					// Gets a random number bounded by the number of Tiles available plus 1.
-					int temp = this.random.nextInt(this.size + 1);
+					int temp = this.random.nextInt(this.size);
 					
 					// Pick the Tile from the ArrayList using the number as index.
 						Tile temp2 = this.tile_bag.get(temp);
