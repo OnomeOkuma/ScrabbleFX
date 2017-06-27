@@ -22,7 +22,6 @@ public class Main extends Application {
 		try {
 			//Layout to arrange all the UI component
 			Pane scene_layout = new Pane();
-			
 
 			//Layout for the Scrabble board and setting the Scrabble board properties
 			Board board = new Board();

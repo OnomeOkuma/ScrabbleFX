@@ -7,13 +7,19 @@ package com.LetsPlay.gameplay;
 
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 import com.LetsPlay.ui.Tile;
 
-public class TileBag {
+public class TileBag implements Serializable {
+			/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2217567987444344888L;
+
 			// Property used to simulate the random behaviour of tile selection.
 			private Random random = new Random();
 			
@@ -63,6 +69,7 @@ public class TileBag {
 					this.tile_distribution.put("Y", 2);
 					this.tile_distribution.put("Z", 1);
 					this.tile_distribution.put(" ", 2);
+					
 					
 					// Executes while the size of tile_distribution is greater than zero.
 					while(this.tile_distribution.size() > 0){

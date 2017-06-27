@@ -3,6 +3,8 @@
  * 
  */
 package com.LetsPlay.ui;
+
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Tooltip;
@@ -17,10 +19,6 @@ public class BoardElements {
 			
 			public BoardElements(){
 			}
-			/*	All methods except createGameTile() accepts a single argument to set the id of the returned canvas 
-			 * object. This is to enable the data structure representing the board adequately carry out its
-			 * function. 
-			 */
 			
 			//Creates the Double Letter Score Tile. 
 			// It returns a Canvas object.

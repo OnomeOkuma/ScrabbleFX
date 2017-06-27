@@ -3,16 +3,23 @@
  */
 package com.LetsPlay.ui;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.InnerShadow;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontSmoothingType;
 
-public class Tile extends Canvas{
+public class Tile extends Canvas implements Serializable{
+			/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4290494497449372710L;
+
 			// Property holding the Tile letter/Tile weight mapping for 
 			// easy initialization of the Tile object.
 			private final Hashtable<String, Integer> tileweight = new Hashtable<String, Integer>(26);
@@ -24,6 +31,9 @@ public class Tile extends Canvas{
 			final int score;
 			
 			public Tile(String letter){
+				
+				super(39.55,36.6);
+				
 				// Populate the tileweight property with its key/value pairs.
 				this.tileweight.put("A", 1);
 				this.tileweight.put("B", 3);
@@ -53,10 +63,6 @@ public class Tile extends Canvas{
 				this.tileweight.put("Z", 10);
 				this.tileweight.put(" ", 0);
 				
-				// Sets the width and Height of the canvas.
-				this.setWidth(39.55);
-				this.setHeight(36.6);
-				
 				//Set the letter and score.
 				this.letter = letter;
 				this.score = this.tileweight.get(letter);
@@ -80,8 +86,37 @@ public class Tile extends Canvas{
 				
 				temp.setFill(Color.AQUA);
 				temp.fillRect(3.0, 3.0, 36.55, 3.0);
-				temp.setEffect(new InnerShadow());
 				this.tileweight.clear();
-			}
+				this.setOnMousePressed(new EventHandler<MouseEvent>(){
 
-}		
+					@Override
+					public void handle(MouseEvent event) {
+						// TODO Auto-generated method stub
+						setMouseTransparent(true);
+						event.consume();
+					}
+					
+				});
+				this.setOnDragDetected(new EventHandler<MouseEvent>(){
+
+					@Override
+					public void handle(MouseEvent event) {
+						// TODO Auto-generated method stub
+						startFullDrag();
+						System.out.println("Lord Celebrimbor");
+					}
+					
+				});
+				this.setOnMouseReleased(new EventHandler<MouseEvent>(){
+
+					@Override
+					public void handle(MouseEvent event) {
+						// TODO Auto-generated method stub
+						setMouseTransparent(false);
+						event.consume();
+					}
+						
+				});
+			}
+			
+}

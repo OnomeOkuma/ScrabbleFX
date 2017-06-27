@@ -3,6 +3,8 @@ package com.LetsPlay.ui;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.HBox;
 
 public class Rack extends HBox{
@@ -10,7 +12,17 @@ public class Rack extends HBox{
 		private Stack <Tile> tiles_on_rack = new Stack <Tile>();
 
 		public Rack(){
-			this.setSpacing(5.55);
+			super(5.55);
+			this.setOnMouseDragEntered(new EventHandler<MouseDragEvent>(){
+
+				@Override
+				public void handle(MouseDragEvent event) {
+					// TODO Auto-generated method stub
+					System.out.println("My baby \n");
+					System.out.println(event.getSource() + "\n" + event.getTarget());
+				}
+				
+			});
 		}
 		
 		public Tile removeTile(Tile tile){
