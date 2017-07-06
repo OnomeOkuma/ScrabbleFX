@@ -23,7 +23,7 @@ public class ScoreBoard extends VBox{
 
 			//Constructor Statement.
 			public ScoreBoard(){
-					super(4.55);
+					super(5);
 					this.player_name1.setFont(new Font ("Ubuntu light", 15.5));
 					this.player_name2.setFont(new Font ("Ubuntu light", 15.5));
 					this.getChildren().add(this.player_name1);

@@ -6,7 +6,6 @@ import com.LetsPlay.gameplay.TileBag;
 import com.LetsPlay.ui.Board;
 import com.LetsPlay.ui.Rack;
 import com.LetsPlay.ui.ScoreBoard;
-import com.LetsPlay.ui.Tile;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -39,7 +38,6 @@ public class Main extends Application {
 			Rack rack2 = new Rack();
 			rack2.relocate(225, 669);
 			rack2.setPrefSize(276.85, 36.6);
-
 			
 			
 			//Creating UI for score and player
@@ -62,6 +60,7 @@ public class Main extends Application {
 			Button pass_button = new Button("Pass");
 			pass_button.setVisible(true);
 			pass_button.setPrefSize(90, 20);
+
 			
 			Button submit_button = new Button("Submit");
 			submit_button.setVisible(true);
@@ -88,7 +87,6 @@ public class Main extends Application {
 			primaryStage.setTitle("Let's Play");
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			board.placeTile(new Tile("Z"), 7, 14);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

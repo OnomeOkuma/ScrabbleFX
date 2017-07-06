@@ -6,15 +6,20 @@ package com.LetsPlay.ui;
 import java.io.Serializable;
 import java.util.Hashtable;
 
+import com.LetsPlay.gameplay.Hand;
+
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontSmoothingType;
 
-public class Tile extends Canvas implements Serializable{
+public class Tile extends Pane implements Serializable{
 			/**
 	 * 
 	 */
@@ -30,9 +35,22 @@ public class Tile extends Canvas implements Serializable{
 			// Score on Tile.
 			final int score;
 			
+			
+			// Properties for enabling Drag-and-Drop graphical gesture.
+			private double mouseanchorX;
+			private double mouseanchorY;
+			private double initialtransX;
+			private double initialtransY;
+			
 			public Tile(String letter){
+				// Constructor statement.
+				super();
 				
-				super(39.55,36.6);
+				// Set the width, height, effect and style of the Tile.
+				this.setWidth(39.55);
+				this.setHeight(36.6);
+				this.setEffect(new DropShadow(2.50, 0.0, 0.0, Color.GREY));
+				this.setStyle("-fx-background-color: #fffacd");
 				
 				// Populate the tileweight property with its key/value pairs.
 				this.tileweight.put("A", 1);
@@ -63,60 +81,72 @@ public class Tile extends Canvas implements Serializable{
 				this.tileweight.put("Z", 10);
 				this.tileweight.put(" ", 0);
 				
-				//Set the letter and score.
+				// Set the letter and score.
 				this.letter = letter;
 				this.score = this.tileweight.get(letter);
 				
-				//GraphicsContext to draw the necessary information.
-				GraphicsContext temp = this.getGraphicsContext2D();
-				temp.setFont(Font.font("Ubuntu Light", 22));
-				temp.setFontSmoothingType(FontSmoothingType.LCD);
-				temp.fillText(this.letter, 10.0, 26.0);
+				// Create the canvas.
+				Canvas temp = new Canvas(39.55,36.6);
 				
-				temp.setFont(Font.font("Ubuntu Light", 11));
-				temp.setFontSmoothingType(FontSmoothingType.LCD);
-				temp.fillText(Integer.toString(this.score), 28.0, 28.5);
+				// GraphicsContext to draw the necessary information.
+				GraphicsContext temp2 = temp.getGraphicsContext2D();
+				temp2.setFont(Font.font("Ubuntu Light", 22));
+				temp2.setFontSmoothingType(FontSmoothingType.LCD);
+				temp2.setFill(Color.BLACK);
+				temp2.fillText(this.letter, 10.0, 26.0);
+				temp2.setFont(Font.font("Ubuntu Light", 11));
+				temp2.setFontSmoothingType(FontSmoothingType.LCD);
+				temp2.fillText(Integer.toString(this.score), 26.6, 28.5);
 				
-
-				temp.setFill(Color.BLUE);
-				temp.fillRect(0, 0, 39.55, 3.0);
-				temp.fillRect(0, 0, 3.0, 36.6);
-				temp.fillRect(0, 33.6, 39.55, 3.0);
-				temp.fillRect(36.55, 0.0, 3.0, 36.6);
-				
-				temp.setFill(Color.AQUA);
-				temp.fillRect(3.0, 3.0, 36.55, 3.0);
+				// Add the canvas to the Pane object to create the Tile.
+				this.getChildren().add(temp);
 				this.tileweight.clear();
+				
+				// Action when mouse is pressed.
 				this.setOnMousePressed(new EventHandler<MouseEvent>(){
 
 					@Override
 					public void handle(MouseEvent event) {
-						// TODO Auto-generated method stub
 						setMouseTransparent(true);
-						event.consume();
+						Tile.this.mouseanchorX = event.getSceneX();
+						Tile.this.mouseanchorY = event.getSceneY();
+						Tile.this.initialtransX = Tile.this.getTranslateX();
+						Tile.this.initialtransY = Tile.this.getTranslateY();
 					}
 					
 				});
-				this.setOnDragDetected(new EventHandler<MouseEvent>(){
-
-					@Override
-					public void handle(MouseEvent event) {
-						// TODO Auto-generated method stub
-						startFullDrag();
-						System.out.println("Lord Celebrimbor");
-					}
-					
+				
+				// Action when mouse is dragged.
+				this.setOnMouseDragged(event -> {
+					Hand.setTile(this);
+					this.setCursor(Cursor.CLOSED_HAND);
+					this.setTranslateX(this.initialtransX + event.getSceneX() - this.mouseanchorX);
+					this.setTranslateY(this.initialtransY + event.getSceneY() - this.mouseanchorY);
 				});
-				this.setOnMouseReleased(new EventHandler<MouseEvent>(){
-
-					@Override
-					public void handle(MouseEvent event) {
-						// TODO Auto-generated method stub
-						setMouseTransparent(false);
-						event.consume();
-					}
-						
+				
+				// Action when mouse is released.
+				this.setOnMouseReleased(event -> {
+					setMouseTransparent(false);
+					this.setTranslateX(this.initialtransX);
+					this.setTranslateY(this.initialtransY);
 				});
+				
+				// Action when mouse enters this object.
+				this.setOnMouseEntered(event -> {
+					this.setStyle("-fx-background-color: #f0fff0;");
+					this.setCursor(Cursor.CLOSED_HAND);
+				});
+				
+				//Action when mouse leaves this object.
+				this.setOnMouseExited(event -> {
+					this.setStyle("-fx-background-color: #fffacd");
+					this.setCursor(Cursor.DEFAULT);
+				});
+				
+				this.setOnDragDetected(event -> {
+					startFullDrag();
+				});
+		
 			}
 			
 }

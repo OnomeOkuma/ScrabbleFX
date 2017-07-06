@@ -12,61 +12,58 @@ import javafx.scene.paint.Color;
 
 public class BoardElements {
 			
-			private Tooltip double_letter_label = new Tooltip("Double Letter Score");
-			private Tooltip triple_letter_label = new Tooltip("Triple Letter Score");
-			private Tooltip double_word_label = new Tooltip("Double Word Score");
-			private Tooltip triple_word_label = new Tooltip("Triple Word Score");
+			private static Tooltip double_letter_label = new Tooltip("Double Letter Score");
+			private static Tooltip triple_letter_label = new Tooltip("Triple Letter Score");
+			private static Tooltip double_word_label = new Tooltip("Double Word Score");
+			private static Tooltip triple_word_label = new Tooltip("Triple Word Score");
 			
-			public BoardElements(){
-			}
-			
-			//Creates the Double Letter Score Tile. 
+			// Creates the Double Letter Score Tile. 
 			// It returns a Canvas object.
-			public Canvas createDoubleLetterScore(){
+			public static Canvas createDoubleLetterScore(){
 				Canvas board_tile = new Canvas(39.55, 36.6);
 				GraphicsContext draw = board_tile.getGraphicsContext2D();
 				draw.setFill(Color.CYAN);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
-				Tooltip.install(board_tile, this.double_letter_label);
+				Tooltip.install(board_tile, BoardElements.double_letter_label);
 				return board_tile;
 			}
 			
 			//Creates the Triple Letter Score Tile.
 			// It returns a Canvas object.
-			public Canvas createTripleLetterScore(){
+			public static Canvas createTripleLetterScore(){
 				Canvas board_tile = new Canvas(39.55, 36.6);
 				GraphicsContext draw = board_tile.getGraphicsContext2D();
 				draw.setFill(Color.BLUE);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
-				Tooltip.install(board_tile, this.triple_letter_label);
+				Tooltip.install(board_tile, BoardElements.triple_letter_label);
 				return board_tile;
 			}
 			
 			//Creates the Double Word Tile.
 			// It returns a Canvas object.
-			public Canvas createDoubleWordScore(){
+			public static Canvas createDoubleWordScore(){
 				Canvas board_tile = new Canvas(39.55, 36.6);
 				GraphicsContext draw = board_tile.getGraphicsContext2D();
 				draw.setFill(Color.PINK);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
-				Tooltip.install(board_tile, this.double_word_label);
+				Tooltip.install(board_tile, BoardElements.double_word_label);
 				return board_tile;
 			}
 			
 			//Creates the Triple Word Score Tile.
 			// It returns a Canvas object.
-			public Canvas createTripleWordScore(){
+			public static Canvas createTripleWordScore(){
 				Canvas board_tile = new Canvas(39.55, 36.6);
 				GraphicsContext draw = board_tile.getGraphicsContext2D();
 				draw.setFill(Color.RED);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
-				Tooltip.install(board_tile, this.triple_word_label);
+				Tooltip.install(board_tile, BoardElements.triple_word_label);
 				return board_tile;
 			}
 			
 			//Creates an Empty Tile.
 			// It returns a Canvas object.
-			public Canvas createEmptyBoardTile(){
+			public static Canvas createEmptyBoardTile(){
 				Canvas board_tile = new Canvas(39.55, 36.6);
 				GraphicsContext draw = board_tile.getGraphicsContext2D();
 				draw.setFill(Color.SNOW);
