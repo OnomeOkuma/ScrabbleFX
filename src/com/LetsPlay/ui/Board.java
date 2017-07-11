@@ -20,9 +20,6 @@ public class Board extends GridPane {
 					this.setPrefSize(593.50, 549);
 					this.setGridLinesVisible(true);
 					this.setOpacity(10.00);
-					this.setOnMouseClicked(event -> {
-						System.out.println("nbskjbsb,s  ");
-					});
 					
 					//Creating the board
 					for(int rowindex = 0; rowindex < 15; rowindex++){

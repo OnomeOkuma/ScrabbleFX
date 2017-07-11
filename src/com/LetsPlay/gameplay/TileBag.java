@@ -41,7 +41,7 @@ public class TileBag implements Serializable {
 			/*Constructor statement.
 			 */
 			public TileBag(){
-					//populate the tile_distribution object with key/value pairs.
+					//populate the tile_distribution object with letter/letter distribution pairs.
 					this.tile_distribution.put("A", 9);
 					this.tile_distribution.put("B", 2);
 					this.tile_distribution.put("C", 2);

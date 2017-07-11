@@ -8,12 +8,10 @@ import java.util.Hashtable;
 
 import com.LetsPlay.gameplay.Hand;
 
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -30,17 +28,10 @@ public class Tile extends Pane implements Serializable{
 			private final Hashtable<String, Integer> tileweight = new Hashtable<String, Integer>(26);
 			
 			// Letter on Tile.
-			final String letter;
+			public final String letter;
 			
 			// Score on Tile.
 			final int score;
-			
-			
-			// Properties for enabling Drag-and-Drop graphical gesture.
-			private double mouseanchorX;
-			private double mouseanchorY;
-			private double initialtransX;
-			private double initialtransY;
 			
 			public Tile(String letter){
 				// Constructor statement.
@@ -49,7 +40,7 @@ public class Tile extends Pane implements Serializable{
 				// Set the width, height, effect and style of the Tile.
 				this.setWidth(39.55);
 				this.setHeight(36.6);
-				this.setEffect(new DropShadow(2.50, 0.0, 0.0, Color.GREY));
+				this.setEffect(new DropShadow(1.80, 0.0, 0.0, Color.GREY));
 				this.setStyle("-fx-background-color: #fffacd");
 				
 				// Populate the tileweight property with its key/value pairs.
@@ -87,7 +78,6 @@ public class Tile extends Pane implements Serializable{
 				
 				// Create the canvas.
 				Canvas temp = new Canvas(39.55,36.6);
-				
 				// GraphicsContext to draw the necessary information.
 				GraphicsContext temp2 = temp.getGraphicsContext2D();
 				temp2.setFont(Font.font("Ubuntu Light", 22));
@@ -103,38 +93,25 @@ public class Tile extends Pane implements Serializable{
 				this.tileweight.clear();
 				
 				// Action when mouse is pressed.
-				this.setOnMousePressed(new EventHandler<MouseEvent>(){
-
-					@Override
-					public void handle(MouseEvent event) {
+				this.setOnMousePressed(event -> {
 						setMouseTransparent(true);
-						Tile.this.mouseanchorX = event.getSceneX();
-						Tile.this.mouseanchorY = event.getSceneY();
-						Tile.this.initialtransX = Tile.this.getTranslateX();
-						Tile.this.initialtransY = Tile.this.getTranslateY();
-					}
-					
-				});
+						Hand.setTile(this);
+					});
 				
 				// Action when mouse is dragged.
 				this.setOnMouseDragged(event -> {
-					Hand.setTile(this);
 					this.setCursor(Cursor.CLOSED_HAND);
-					this.setTranslateX(this.initialtransX + event.getSceneX() - this.mouseanchorX);
-					this.setTranslateY(this.initialtransY + event.getSceneY() - this.mouseanchorY);
 				});
 				
 				// Action when mouse is released.
 				this.setOnMouseReleased(event -> {
 					setMouseTransparent(false);
-					this.setTranslateX(this.initialtransX);
-					this.setTranslateY(this.initialtransY);
 				});
 				
 				// Action when mouse enters this object.
 				this.setOnMouseEntered(event -> {
 					this.setStyle("-fx-background-color: #f0fff0;");
-					this.setCursor(Cursor.CLOSED_HAND);
+					this.setCursor(Cursor.CROSSHAIR);
 				});
 				
 				//Action when mouse leaves this object.
@@ -144,7 +121,7 @@ public class Tile extends Pane implements Serializable{
 				});
 				
 				this.setOnDragDetected(event -> {
-					startFullDrag();
+					this.startFullDrag();
 				});
 		
 			}

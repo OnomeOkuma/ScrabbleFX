@@ -2,6 +2,7 @@ package com.LetsPlay;
 	
 
 import com.LetsPlay.gameplay.Dawg;
+import com.LetsPlay.gameplay.Hand;
 import com.LetsPlay.gameplay.TileBag;
 import com.LetsPlay.ui.Board;
 import com.LetsPlay.ui.Rack;
@@ -16,6 +17,9 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
+	//debug only
+	public static Board board = new Board();
+	public static Rack rack1 = new Rack();
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -23,7 +27,7 @@ public class Main extends Application {
 			Pane scene_layout = new Pane();
 
 			//Layout for the Scrabble board and setting the Scrabble board properties
-			Board board = new Board();
+			
 			board.relocate(80, 90);
 			
 			//Create the dictionary used at runtime.
@@ -31,13 +35,11 @@ public class Main extends Application {
 			dawg.getClass();
 			
 			//Layout for the player racks
-			Rack rack1 = new Rack();
+		
 			rack1.relocate(225, 30);
-			rack1.setPrefSize(276.85, 36.6);
 			
 			Rack rack2 = new Rack();
 			rack2.relocate(225, 669);
-			rack2.setPrefSize(276.85, 36.6);
 			
 			
 			//Creating UI for score and player
@@ -60,7 +62,13 @@ public class Main extends Application {
 			Button pass_button = new Button("Pass");
 			pass_button.setVisible(true);
 			pass_button.setPrefSize(90, 20);
-
+			
+			Button undo_button = new Button("Undo Play");
+			undo_button.setVisible(true);
+			undo_button.setPrefSize(90, 20);
+			undo_button.setOnAction(event -> {
+				Hand.undo_play();
+			});
 			
 			Button submit_button = new Button("Submit");
 			submit_button.setVisible(true);
@@ -69,6 +77,7 @@ public class Main extends Application {
 			button_list.getChildren().add(play_button);
 			button_list.getChildren().add(pass_button);
 			button_list.getChildren().add(submit_button);
+			button_list.getChildren().add(undo_button);
 			
 				 TileBag bag = new TileBag();
 			for (int columnindex = 0; columnindex < 7; columnindex++){
