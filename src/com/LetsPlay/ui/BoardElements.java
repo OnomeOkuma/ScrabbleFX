@@ -4,7 +4,7 @@
 package com.LetsPlay.ui;
 
 
-import com.LetsPlay.Main;
+import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
 
 import javafx.scene.canvas.Canvas;
@@ -45,8 +45,8 @@ public class BoardElements {
 					int column = GridPane.getColumnIndex(board_tile);
 					int row = GridPane.getRowIndex(board_tile);
 					Hand.record_play(board_tile);
-					Main.board.getChildren().remove(board_tile);
-					Main.board.add(Hand.getTile(), column, row);
+					GameSession.board.getChildren().remove(board_tile);
+					GameSession.board.add(Hand.getTile(), column, row);
 				});
 				return board_tile;
 			}
@@ -75,8 +75,8 @@ public class BoardElements {
 					int column = GridPane.getColumnIndex(board_tile);
 					int row = GridPane.getRowIndex(board_tile);
 					Hand.record_play(board_tile);
-					Main.board.getChildren().remove(board_tile);
-					Main.board.add(Hand.getTile(), column, row);
+					GameSession.board.getChildren().remove(board_tile);
+					GameSession.board.add(Hand.getTile(), column, row);
 				});
 				return board_tile;
 			}
@@ -105,8 +105,8 @@ public class BoardElements {
 					int column = GridPane.getColumnIndex(board_tile);
 					int row = GridPane.getRowIndex(board_tile);
 					Hand.record_play(board_tile);
-					Main.board.getChildren().remove(board_tile);
-					Main.board.add(Hand.getTile(), column, row);
+					GameSession.board.getChildren().remove(board_tile);
+					GameSession.board.add(Hand.getTile(), column, row);
 				});
 				return board_tile;
 			}
@@ -135,8 +135,8 @@ public class BoardElements {
 					int column = GridPane.getColumnIndex(board_tile);
 					int row = GridPane.getRowIndex(board_tile);
 					Hand.record_play(board_tile);
-					Main.board.getChildren().remove(board_tile);
-					Main.board.add(Hand.getTile(), column, row);
+					GameSession.board.getChildren().remove(board_tile);
+					GameSession.board.add(Hand.getTile(), column, row);
 				});
 				
 				return board_tile;
@@ -165,8 +165,8 @@ public class BoardElements {
 					int column = GridPane.getColumnIndex(board_tile);
 					int row = GridPane.getRowIndex(board_tile);
 					Hand.record_play(board_tile);
-					Main.board.getChildren().remove(board_tile);
-					Main.board.add(Hand.getTile(), column, row);
+					GameSession.board.getChildren().remove(board_tile);
+					GameSession.board.add(Hand.getTile(), column, row);
 				});
 				return board_tile;
 			}

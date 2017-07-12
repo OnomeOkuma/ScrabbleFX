@@ -2,10 +2,9 @@ package com.LetsPlay;
 	
 
 import com.LetsPlay.gameplay.Dawg;
+import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
 import com.LetsPlay.gameplay.TileBag;
-import com.LetsPlay.ui.Board;
-import com.LetsPlay.ui.Rack;
 import com.LetsPlay.ui.ScoreBoard;
 
 import javafx.application.Application;
@@ -17,18 +16,17 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
-	//debug only
-	public static Board board = new Board();
-	public static Rack rack1 = new Rack();
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			//Layout to arrange all the UI component
 			Pane scene_layout = new Pane();
+			
+			// Initialize the GameSession object
+			GameSession.gameInit();
 
 			//Layout for the Scrabble board and setting the Scrabble board properties
-			
-			board.relocate(80, 90);
+			GameSession.board.relocate(80, 90);
 			
 			//Create the dictionary used at runtime.
 			Dawg dawg = new Dawg();
@@ -36,10 +34,9 @@ public class Main extends Application {
 			
 			//Layout for the player racks
 		
-			rack1.relocate(225, 30);
+			GameSession.rack1.relocate(225, 30);
 			
-			Rack rack2 = new Rack();
-			rack2.relocate(225, 669);
+			GameSession.rack2.relocate(225, 669);
 			
 			
 			//Creating UI for score and player
@@ -82,14 +79,14 @@ public class Main extends Application {
 				 TileBag bag = new TileBag();
 			for (int columnindex = 0; columnindex < 7; columnindex++){
 			
-				rack1.putTile(bag.getTile());
+				GameSession.rack1.getChildren().add(bag.getTile());
 				
-				rack2.putTile(bag.getTile());
+				GameSession.rack2.getChildren().add(bag.getTile());
 			}
 			
 			//Putting the pieces together
-			scene_layout.getChildren().add(board);
-			scene_layout.getChildren().addAll(rack1, rack2);
+			scene_layout.getChildren().add(GameSession.board);
+			scene_layout.getChildren().addAll(GameSession.rack1, GameSession.rack2);
 			scene_layout.getChildren().add(button_list);
 			scene_layout.getChildren().add(scoreboard);
 			Scene scene = new Scene(scene_layout, 1366, 768);
