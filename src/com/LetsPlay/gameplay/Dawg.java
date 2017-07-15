@@ -127,12 +127,19 @@ public class Dawg {
 			}
 		}
 		
+		//Checks if the String parameter is a complete word in the Dawg.
+		public boolean isCompleteWord(String word){
+					return this.complete_words.contains(word);
+			}
 		
-		// Used by the Game to check if a word can be played.
-		public boolean isWordInDictionary(String word){
-			
-			// Uses the complete_words object for this purpose.
-			return this.complete_words.contains(word);
+		//Checks if the String parameter is a node in the Dawg.
+		public boolean containPartialWord(String partialword){
+					return this.word_search.containsKey(partialword);
+			}
+		
+		//Returns the list of edges from the node provided.
+		public ArrayList<Character> getCharacterList(String partialword){
+					return this.word_search.get(partialword);
 		}
 		
 		//Returns the String values contained in this Dawg.

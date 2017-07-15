@@ -13,7 +13,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-class BoardElements {
+public class BoardElements {
 			
 			// Tooltip components attached to each grid for clarity.
 			private static Tooltip double_letter_label = new Tooltip("Double Letter Score");

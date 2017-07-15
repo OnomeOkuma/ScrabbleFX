@@ -9,13 +9,11 @@
 package com.LetsPlay.ui;
 
 
-import java.util.Iterator;
-
-import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
 public class Board extends GridPane {
-			
+				private Tile board_state[][] = new Tile[15][15];
+				
 				//Constructor statement.
 				public Board(){
 					//Sets the dimensions of the board
@@ -174,52 +172,24 @@ public class Board extends GridPane {
 					}
 
 				}
+
 				
 				
-			// Used by the AI to check if a tile is at any given location on the board. Useful for checking the validity of play. 
-			public boolean isTileInLocation(int row, int column){
-				
-				// To enable Iteration without possiblity of modifying the ObservableList object.
-				Iterator<Node> iterator = this.getChildrenUnmodifiable().iterator();
-				
-				// Iterate through the list.
-				while(iterator.hasNext()){
-					Node node = iterator.next();
-					
-					// checks if the returned Node is an Object of the Tile class.
-					if (node.getClass() == Tile.class){
-						
-						// Checks if it has the same location as the give parameters
-						if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column)
-							return true;
-					}
+				// Places a Tile on the Board.
+				public void placeTile(Tile tile, int row, int column){
+						this.add(tile, column, row);
+						this.board_state[row][column] = tile;
 				}
 				
-				// Return false if all tests fails and the loop terminates.
-				return false;
-			}
-			
-			// Used by the AI to retrieve the tile placed at any given location on the board. Useful for checking the validity of play.
-			public Tile getTileInLocation(int row, int column){
-				
-				// To enable Iteration without possiblity of modifying the ObservableList object.
-				Iterator<Node> iterator = this.getChildrenUnmodifiable().iterator();
-				
-				// Iterate through the list.
-				while (iterator.hasNext()){
-					Node node = iterator.next();
-					
-					// checks if the returned Node is an Object of the Tile class.
-					if (node.getClass() == Tile.class){
-						
-						// Checks if it has the same location as the give parameters
-						if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column)
-							return (Tile) node;
-					}
+				// Returns the current state of the board
+				public Tile[][] getBoardState(){
+					return this.board_state;
 				}
 				
-				// null is returned if the loop terminates normally.
-				return null;
-			}
-				
+				// Removes the specified Tile from the Board.
+				public Tile removeTile(int row, int column){
+					Tile temp = this.board_state[row][column];
+					this.getChildren().remove(temp);
+					return temp;
+				}
 }

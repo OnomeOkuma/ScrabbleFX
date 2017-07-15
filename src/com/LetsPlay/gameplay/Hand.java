@@ -8,38 +8,40 @@
 
 package com.LetsPlay.gameplay;
 
-import java.util.ArrayDeque;
+import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Stack;
-
 import com.LetsPlay.ui.Tile;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.GridPane;
 
 public class Hand {
-		
-		
-		public static Stack<Tile> tiles_played = new Stack<Tile>();
-		
+	
 		// Holds the Tile currently being dragged.
 		private static Tile tile;
 		
-		// Stores the order in which the board grif elements  are replaced using a First-In-First-Out arrangement.  
-		private static ArrayDeque<Canvas> board_grid_element = new ArrayDeque<Canvas>();
-
+		// Stores the location of any board grid element holding a tile. 
+		private static Hashtable<Canvas, int[]> board_grid_element = new Hashtable<Canvas, int[]>();
+		
+		// Stores the keys from board_grid_element to enable it to be sequencially accessed.
+		private static Enumeration<Canvas> keys;
+		
 		// Records the Tiles placed on each board grid element.
 		private static Hashtable<Canvas,Tile> current_play = new Hashtable<Canvas,Tile>();
 		
-		// Record the board grid element when a MouseDragReleased event is fired on it.
+		// Record the board grid element and its location when a MouseDragReleased event is fired on it.
 		public static void record_play(Canvas grid_released) {
+			int coordinates[] = new int[2];
 			
-			// Adds the grid to the FIFO.
-			board_grid_element.add(grid_released);
+			coordinates[0] = GridPane.getColumnIndex(grid_released);
+			coordinates[1] = GridPane.getRowIndex(grid_released);
+			
+			// The Coordinates of the board grid element is saved
+			board_grid_element.put(grid_released, coordinates);
 			
 			// Records the Tile placed on the board grid element.
 			current_play.put(grid_released, tile);
 			
-			tiles_played.push(tile);
+			keys = board_grid_element.keys();
 		}
 		
 		// Getter method.
@@ -65,40 +67,29 @@ public class Hand {
 		
 		public static void undo_play(){
 			
-			// Execute as long as the queue isn't empty. 
-			while (!Hand.board_grid_element.isEmpty()){	
+			while (Hand.keys.hasMoreElements()){
 				
-				// Remove the oldest play in the queue.
-				Canvas canvas = Hand.board_grid_element.removeFirst();
+				// Get the next board grid element in the keys property 
+				Canvas tempCanvas = Hand.keys.nextElement();
 				
-				// Get the Tile placed there.
-				Tile tile = Hand.current_play.get(canvas);
+				// Get its location on the board from the board grid element property.
+				int temp[] = Hand.board_grid_element.get(tempCanvas);
 				
-				// Get its location on the board.
-				int coordinates[] = new int[2];
-				coordinates[0] = GridPane.getColumnIndex(tile);
-				coordinates[1] = GridPane.getRowIndex(tile);
+				// Get the Tile placed on the board grid element.
+				Tile temp2 = Hand.current_play.get(tempCanvas);
 				
-				// Return the Tile back to its rack
-				GameSession.rack1.getChildren().add(new Tile (tile.letter));
+				// Place the Tile on its rack. Refer to the Note above.
+				GameSession.rack1.getChildren().add(new Tile(temp2.letter));
 				
 				// Remove it from the board.
-				GameSession.board.getChildren().remove(tile);
+				GameSession.board.getChildren().remove(temp2);
 				
-				// Return the grid element back to its place in the board. 
-				GameSession.board.add(canvas, coordinates[0], coordinates[1]);
-					
+				// Add the board grid element back.
+				GameSession.board.add(tempCanvas, temp[0], temp[1]);
 			}
 			
 			// Clear short term memory.
-			current_play.clear();
-			tiles_played.clear();
 			board_grid_element.clear();
-		}
-		
-		public static void resetState(){
 			current_play.clear();
-			tiles_played.clear();
-			board_grid_element.clear();
 		}
 }

@@ -1,9 +1,10 @@
 package com.LetsPlay;
 	
 
+import com.LetsPlay.gameplay.Dawg;
 import com.LetsPlay.gameplay.GameSession;
-import com.LetsPlay.gameplay.GameplayChecker;
 import com.LetsPlay.gameplay.Hand;
+import com.LetsPlay.gameplay.TileBag;
 import com.LetsPlay.ui.ScoreBoard;
 
 import javafx.application.Application;
@@ -26,6 +27,10 @@ public class Main extends Application {
 
 			//Layout for the Scrabble board and setting the Scrabble board properties
 			GameSession.board.relocate(80, 90);
+			
+			//Create the dictionary used at runtime.
+			Dawg dawg = new Dawg();
+			dawg.getClass();
 			
 			//Layout for the player racks
 		
@@ -50,18 +55,6 @@ public class Main extends Application {
 			Button play_button = new Button("Play");
 			play_button.setVisible(true);
 			play_button.setPrefSize(90, 20);
-			play_button.setOnAction(event -> {
-				
-				if (GameplayChecker.onSameIndex()){
-					for (int counter = 0; counter < Hand.tiles_played.size(); counter++){
-						if (GameSession.tilebag.getTileTotal() > 0)
-							GameSession.rack1.getChildren().add(GameSession.tilebag.getTile());
-						
-					}
-					Hand.resetState();
-				} else Hand.undo_play();
-				
-			});
 			
 			Button pass_button = new Button("Pass");
 			pass_button.setVisible(true);
@@ -83,11 +76,12 @@ public class Main extends Application {
 			button_list.getChildren().add(submit_button);
 			button_list.getChildren().add(undo_button);
 			
+				 TileBag bag = new TileBag();
 			for (int columnindex = 0; columnindex < 7; columnindex++){
 			
-				GameSession.rack1.getChildren().add(GameSession.tilebag.getTile());
+				GameSession.rack1.getChildren().add(bag.getTile());
 				
-				GameSession.rack2.getChildren().add(GameSession.tilebag.getTile());
+				GameSession.rack2.getChildren().add(bag.getTile());
 			}
 			
 			//Putting the pieces together
