@@ -3,14 +3,11 @@
  */
 package com.LetsPlay.ui;
 
-
-import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 public class BoardElements {
@@ -31,23 +28,23 @@ public class BoardElements {
 				draw.setFill(Color.CYAN);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
 				Tooltip.install(board_tile, BoardElements.double_letter_label);
+				
 				board_tile.setOnMouseDragEntered(event -> {
 					GraphicsContext temp = board_tile.getGraphicsContext2D();
 					temp.setFill(Color.GRAY);
 					temp.fillRect(0.0, 0.0, 39.55, 36.6);
 				});
+				
 				board_tile.setOnMouseDragExited(event -> {
 					GraphicsContext temp = board_tile.getGraphicsContext2D();
 					temp.setFill(Color.CYAN);
 					temp.fillRect(0.0, 0.0, 39.55, 36.6);
 				});
+				
 				board_tile.setOnMouseDragReleased(event -> {
-					int column = GridPane.getColumnIndex(board_tile);
-					int row = GridPane.getRowIndex(board_tile);
-					Hand.record_play(board_tile);
-					GameSession.board.getChildren().remove(board_tile);
-					GameSession.board.add(Hand.getTile(), column, row);
+					Hand.play(board_tile);
 				});
+				
 				return board_tile;
 			}
 			
@@ -61,23 +58,23 @@ public class BoardElements {
 				draw.setFill(Color.BLUE);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
 				Tooltip.install(board_tile, BoardElements.triple_letter_label);
+				
 				board_tile.setOnMouseDragEntered(event -> {
 					GraphicsContext temp = board_tile.getGraphicsContext2D();
 					temp.setFill(Color.GRAY);
 					temp.fillRect(0.0, 0.0, 39.55, 36.6);
 				});
+				
 				board_tile.setOnMouseDragExited(event -> {
 					GraphicsContext temp = board_tile.getGraphicsContext2D();
 					temp.setFill(Color.BLUE);
 					temp.fillRect(0.0, 0.0, 39.55, 36.6);
 				});
+				
 				board_tile.setOnMouseDragReleased(event -> {
-					int column = GridPane.getColumnIndex(board_tile);
-					int row = GridPane.getRowIndex(board_tile);
-					Hand.record_play(board_tile);
-					GameSession.board.getChildren().remove(board_tile);
-					GameSession.board.add(Hand.getTile(), column, row);
+					Hand.play(board_tile);
 				});
+				
 				return board_tile;
 			}
 			
@@ -91,23 +88,23 @@ public class BoardElements {
 				draw.setFill(Color.PINK);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
 				Tooltip.install(board_tile, BoardElements.double_word_label);
+				
 				board_tile.setOnMouseDragEntered(event -> {
 					GraphicsContext temp = board_tile.getGraphicsContext2D();
 					temp.setFill(Color.GRAY);
 					temp.fillRect(0.0, 0.0, 39.55, 36.6);
 				});
+				
 				board_tile.setOnMouseDragExited(event -> {
 					GraphicsContext temp = board_tile.getGraphicsContext2D();
 					temp.setFill(Color.PINK);
 					temp.fillRect(0.0, 0.0, 39.55, 36.6);
 				});
+				
 				board_tile.setOnMouseDragReleased(event -> {
-					int column = GridPane.getColumnIndex(board_tile);
-					int row = GridPane.getRowIndex(board_tile);
-					Hand.record_play(board_tile);
-					GameSession.board.getChildren().remove(board_tile);
-					GameSession.board.add(Hand.getTile(), column, row);
+					Hand.play(board_tile);
 				});
+				
 				return board_tile;
 			}
 			
@@ -121,22 +118,21 @@ public class BoardElements {
 				draw.setFill(Color.RED);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
 				Tooltip.install(board_tile, BoardElements.triple_word_label);
+				
 				board_tile.setOnMouseDragEntered(event -> {
 					GraphicsContext temp = board_tile.getGraphicsContext2D();
 					temp.setFill(Color.GRAY);
 					temp.fillRect(0.0, 0.0, 39.55, 36.6);
 				});
+				
 				board_tile.setOnMouseDragExited(event -> {
 					GraphicsContext temp = board_tile.getGraphicsContext2D();
 					temp.setFill(Color.RED);
 					temp.fillRect(0.0, 0.0, 39.55, 36.6);
 				});
+				
 				board_tile.setOnMouseDragReleased(event -> {
-					int column = GridPane.getColumnIndex(board_tile);
-					int row = GridPane.getRowIndex(board_tile);
-					Hand.record_play(board_tile);
-					GameSession.board.getChildren().remove(board_tile);
-					GameSession.board.add(Hand.getTile(), column, row);
+					Hand.play(board_tile);
 				});
 				
 				return board_tile;
@@ -151,23 +147,23 @@ public class BoardElements {
 				// Color for the Scoreless Grid element. 
 				draw.setFill(Color.SNOW);
 				draw.fillRect(0.0, 0.0, 39.55, 36.6);
+				
 				board_tile.setOnMouseDragEntered(event -> {
 					GraphicsContext temp = board_tile.getGraphicsContext2D();
 					temp.setFill(Color.GRAY);
 					temp.fillRect(0.0, 0.0, 39.55, 36.6);
 				});
+				
 				board_tile.setOnMouseDragExited(event -> {
 					GraphicsContext temp = board_tile.getGraphicsContext2D();
 					temp.setFill(Color.SNOW);
 					temp.fillRect(0.0, 0.0, 39.55, 36.6);
 				});
+				
 				board_tile.setOnMouseDragReleased(event -> {
-					int column = GridPane.getColumnIndex(board_tile);
-					int row = GridPane.getRowIndex(board_tile);
-					Hand.record_play(board_tile);
-					GameSession.board.getChildren().remove(board_tile);
-					GameSession.board.add(Hand.getTile(), column, row);
+					Hand.play(board_tile);
 				});
+				
 				return board_tile;
 			}
 			

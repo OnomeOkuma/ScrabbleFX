@@ -9,10 +9,12 @@
 package com.LetsPlay.ui;
 
 
+import java.util.Iterator;
+
+import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
 public class Board extends GridPane {
-				private Tile board_state[][] = new Tile[15][15];
 				
 				//Constructor statement.
 				public Board(){
@@ -172,24 +174,36 @@ public class Board extends GridPane {
 					}
 
 				}
-
+			// Checks a position on the board to see if it is occupied.
+			public boolean isPositionOccupied(int row, int column){
 				
+				// Create an iterator over the list of children on this board.  
+				Iterator<Node> iterator = this.getChildrenUnmodifiable().iterator();
 				
-				// Places a Tile on the Board.
-				public void placeTile(Tile tile, int row, int column){
-						this.add(tile, column, row);
-						this.board_state[row][column] = tile;
+				while (iterator.hasNext()){
+					Node node = iterator.next();
+					
+					// Checks if the child is a tile and is located on the coordinates given in the parameter.
+					if (node.getClass() == Tile.class && GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column)
+						return true;
 				}
 				
-				// Returns the current state of the board
-				public Tile[][] getBoardState(){
-					return this.board_state;
+				return false;
+			}
+			
+			// Returns the tile present at the given position or null if non is present there.
+			public Tile TileInPosition(int row, int column){
+				// Create an iterator over the list of children on this board.  
+				Iterator<Node> iterator = this.getChildrenUnmodifiable().iterator();
+				
+				while (iterator.hasNext()){
+					Node node = iterator.next();
+					
+					// Checks if the child is a tile and is located on the coordinates given in the parameter.
+					if (node.getClass() == Tile.class && GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column)
+						return (Tile)node;
 				}
 				
-				// Removes the specified Tile from the Board.
-				public Tile removeTile(int row, int column){
-					Tile temp = this.board_state[row][column];
-					this.getChildren().remove(temp);
-					return temp;
-				}
+				return null;
+			}
 }
