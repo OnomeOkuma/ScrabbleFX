@@ -1,5 +1,8 @@
 package com.LetsPlay.gameplay;
 
+import com.LetsPlay.util.Dawg;
+
+
 import com.LetsPlay.ui.Board;
 import javafx.scene.layout.HBox;
 
@@ -9,6 +12,7 @@ public class GameSession {
 		public static HBox rack2;
 		public static TileBag tilebag;
 		public static Dawg wordlist;
+		
 		public static void gameInit(){
 			board = new Board();
 			rack1 = new HBox(1.55);
@@ -21,6 +25,8 @@ public class GameSession {
 			rack2.setStyle("-fx-background-color: #f0fff0;");
 			
 			tilebag = new TileBag();
+			wordlist = new Dawg();
+	
 		}
 		
 }
