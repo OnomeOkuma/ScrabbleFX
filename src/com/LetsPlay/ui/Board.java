@@ -27,7 +27,7 @@ public class Board extends GridPane {
 					for(int rowindex = 0; rowindex < 15; rowindex++){
 						for(int columnindex = 0; columnindex < 15; columnindex++){
 							switch (rowindex){
-							//Note: Some rows repeats.
+							//Note: Some repetition occurs.
 							
 							//Creates row 0 of the board.
 							case 0:	switch (columnindex){

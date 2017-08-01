@@ -10,9 +10,10 @@ package com.LetsPlay.gameplay;
 
 import java.util.ArrayDeque;
 import java.util.Hashtable;
-import java.util.Stack;
 
 import com.LetsPlay.ui.Tile;
+import com.LetsPlay.util.PlayedTiles;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.GridPane;
 
@@ -22,7 +23,7 @@ public class Hand {
 		private static Tile tile;
 		
 		// Holds all tiles currently being played.
-		public static Stack<Tile> tiles_played = new Stack<Tile>();
+		public static PlayedTiles tiles_played = new PlayedTiles();
 		
 		// Holds the board grid elements in the order in which the tiles are placed on it. 
 		private static ArrayDeque<Canvas> board_grid_element = new ArrayDeque<Canvas>();
@@ -41,7 +42,7 @@ public class Hand {
 			
 			// Record the information about the play.
 			current_play.put(grid_released, tile);
-			tiles_played.push(tile);
+			tiles_played.add(tile, row, column);
 			board_grid_element.add(grid_released);
 		}
 		

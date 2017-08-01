@@ -27,7 +27,7 @@ public class DawgNode {
 				// Get the next child.
 				DawgNode temp = iterator.next();
 				
-				// returns true if it is not null and its character is the letter.
+				// Returns true if it is not null and its character property is the letter.
 				if( temp != null && temp.character == letter)
 					return true;
 			}

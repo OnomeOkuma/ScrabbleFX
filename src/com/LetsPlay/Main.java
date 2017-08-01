@@ -51,16 +51,28 @@ public class Main extends Application {
 			play_button.setVisible(true);
 			play_button.setPrefSize(90, 20);
 			play_button.setOnAction(event -> {
-			if (PlayChecker.isPlayConsercutive()){
-				for (int counter = 0; counter < Hand.tiles_played.size(); counter++){
-					GameSession.rack1.getChildren().add(GameSession.tilebag.getTile());
-				}
-				Hand.resetState();
-				
-				} else {
+				// All Debug
+				if (!PlayChecker.onSameLine()){
 					Hand.undo_play();
 					Hand.resetState();
+					
+					//Debug
+					System.out.println("Same Line");
+				}else if(!PlayChecker.isPlayConsercutive()){
+					System.out.println("Check this out");
+					for (int counter = 0; counter < Hand.tiles_played.row.size(); counter++){
+						GameSession.rack1.getChildren().add(GameSession.tilebag.getTile());
+					}
+					
+					Hand.resetState();
+				}else if (!PlayChecker.isPlaySuffixed() || !PlayChecker.isPlayPrefixed()){
+					Hand.undo_play();
+					Hand.resetState();
+					
+					//Debug
+					System.out.println("Prefix or Suffix");
 				}
+				
 			});
 			
 			Button pass_button = new Button("Pass");
