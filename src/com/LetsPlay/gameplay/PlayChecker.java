@@ -100,6 +100,44 @@ public class PlayChecker {
 		return false;
 	}
 	
+// Checks if the non-consercutive play made is valid
+	public static boolean isNonConsercutivePlayValid(){
+	
+		// If all plays were made on the same row, execute this block.
+		if(Hand.tiles_played.sameRow()){
+			
+			// Since all row values are the same, pick one.
+			int row = Hand.tiles_played.row.get(0);
+			
+			// Getting and incrementing the column value until we get to the last value played. 
+			for (int column = Hand.tiles_played.column.get(0); column <= Hand.tiles_played.column.get((Hand.tiles_played.column.size() - 1)); column++){
+				if(!GameSession.board.isPositionOccupied(row, column))
+					return false;
+			}
+			return true;
+		
+			// If all plays were made on the same column, execute this block.
+		}else if (Hand.tiles_played.sameColumn()){
+			
+			// Since all column values are the same, pick one.
+			int column = Hand.tiles_played.column.get(0);
+			
+			// Getting and incrementing the row value until we get to the last value played. 
+			for (int row = Hand.tiles_played.row.get(0); row <= Hand.tiles_played.row.get((Hand.tiles_played.row.size() - 1)); row++){
+				if(!GameSession.board.isPositionOccupied(row, column))
+					return false;
+			}
+			return true;
+			
+		}else return false;
+		
+	}
+	
+	
+// Check if the first play made was made according to the rules of the game.
+	public static boolean isFirstPlayValid(){
+		return GameSession.board.isPositionOccupied(7, 7);
+	}
 }
 
 	
