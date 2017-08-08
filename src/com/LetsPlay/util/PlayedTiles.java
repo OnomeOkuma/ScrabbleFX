@@ -20,7 +20,7 @@ public class PlayedTiles {
 	public ArrayList<Integer> column = new ArrayList<Integer>();
 	
 	// The tiles currently being played.
-	public Tile tiles[][] = new Tile[225][225];
+	public Tile tiles[][] = new Tile[22][22];
 	
 	// Constructor Statement.
 	public PlayedTiles(){

@@ -19,6 +19,7 @@ import javafx.scene.layout.GridPane;
 
 public class Hand {
 		
+	public static int number_of_plays = 0;
 		// Holds the Tile currently being dragged.
 		private static Tile tile;
 		
@@ -38,12 +39,13 @@ public class Hand {
 			int column = GridPane.getColumnIndex(grid_released);
 			int row = GridPane.getRowIndex(grid_released);
 			GameSession.board.getChildren().remove(grid_released);
-			GameSession.board.add(Hand.tile, column, row);
+			GameSession.board.addTile(Hand.tile, column, row);
 			
 			// Record the information about the play.
 			current_play.put(grid_released, tile);
 			tiles_played.add(tile, row, column);
 			board_grid_element.add(grid_released);
+			number_of_plays++;
 		}
 		
 		// Setter method. 
@@ -76,10 +78,12 @@ public class Hand {
 				GameSession.rack1.getChildren().add(new Tile(temp2.letter));
 				
 				// Remove it from the board.
-				GameSession.board.getChildren().remove(temp2);
+				GameSession.board.removeTile(temp2);
 				
 				// Add the board grid element back.
 				GameSession.board.add(tempCanvas, GridPane.getColumnIndex(temp2), GridPane.getRowIndex(temp2));
+				
+				number_of_plays--;
 			}
 		
 		}
@@ -89,5 +93,6 @@ public class Hand {
 			board_grid_element.clear();
 			current_play.clear();
 			tiles_played.clear();
+			number_of_plays = 0;
 		}
 }

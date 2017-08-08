@@ -8,28 +8,25 @@
 
 package com.LetsPlay.ui;
 
-
-import java.util.Iterator;
-
-import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
 public class Board extends GridPane {
-				
-				//Constructor statement.
+
+				Tile board_state[][] = new Tile [15][15];
+				// Constructor statement.
 				public Board(){
-					//Sets the dimensions of the board
+					// Sets the dimensions of the board
 					this.setPrefSize(593.50, 549);
 					this.setGridLinesVisible(true);
 					this.setOpacity(10.00);
 					
-					//Creating the board
+					// Creating the board
 					for(int rowindex = 0; rowindex < 15; rowindex++){
 						for(int columnindex = 0; columnindex < 15; columnindex++){
 							switch (rowindex){
-							//Note: Some repetition occurs.
+							// Note: Some repetition occurs.
 							
-							//Creates row 0 of the board.
+							// Creates row 0 of the board.
 							case 0:	switch (columnindex){
 											case 0: this.add(BoardElements.createTripleWordScore(), columnindex, rowindex);break;
 											case 3: this.add(BoardElements.createDoubleLetterScore(), columnindex, rowindex);break;
@@ -174,36 +171,39 @@ public class Board extends GridPane {
 					}
 
 				}
+			
+			// Adds a Tile to the board and updates its state.
+			public void addTile(Tile tile, int column, int row){
+				this.add(tile, column, row);
+				this.board_state[row][column] = tile;
+			}
+			
+			// Removes a tile from the board and updates its state.
+			public void removeTile(Tile tile){
+				this.getChildren().remove(tile);
+				for(int column = 0; column < 15; column++){
+					for(int row = 0; row < 15; row++){
+						if(this.board_state[row][column] == tile){
+							this.board_state[row][column] = null;
+							break;
+						}
+					}
+				}
+			}
+			
 			// Checks a position on the board to see if it is occupied.
 			public boolean isPositionOccupied(int row, int column){
 				
-				// Create an iterator over the list of children on this board.  
-				Iterator<Node> iterator = this.getChildrenUnmodifiable().iterator();
+				Tile temp = this.board_state[row][column];
 				
-				while (iterator.hasNext()){
-					Node node = iterator.next();
-					
-					// Checks if the child is a tile and is located on the coordinates given in the parameter.
-					if (node.getClass() == Tile.class && GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column)
-						return true;
-				}
+				if(temp == null )
+					return false;
+				else return true;	
 				
-				return false;
 			}
 			
 			// Returns the tile present at the given position or null if non is present there.
 			public Tile TileInPosition(int row, int column){
-				// Create an iterator over the list of children on this board.  
-				Iterator<Node> iterator = this.getChildrenUnmodifiable().iterator();
-				
-				while (iterator.hasNext()){
-					Node node = iterator.next();
-					
-					// Checks if the child is a tile and is located on the coordinates given in the parameter.
-					if (node.getClass() == Tile.class && GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column)
-						return (Tile)node;
-				}
-				
-				return null;
+				return this.board_state[row][column];
 			}
 }

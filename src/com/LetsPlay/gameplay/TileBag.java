@@ -10,9 +10,13 @@ package com.LetsPlay.gameplay;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
 
 import com.LetsPlay.ui.Tile;
+
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 
 public class TileBag implements Serializable {
 			/**
@@ -127,9 +131,13 @@ public class TileBag implements Serializable {
 			
 			// This method simulate the behaviour of returning a Tile back,
 			// For example when a player misses a turn.
-			public void returnTile(ArrayList<Tile> tile){
-				this.tile_bag.addAll(tile);
-				this.size = this.tile_bag.size();
+			public void returnTile(ObservableList<Node> tiles){
+				Iterator<Node> iterator = tiles.iterator();
+				while(iterator.hasNext()){
+					this.tile_bag.add((Tile) iterator.next());
+					this.size++;
+				}
+				
 			}
 		}
 

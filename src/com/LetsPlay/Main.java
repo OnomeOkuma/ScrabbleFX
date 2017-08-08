@@ -3,7 +3,6 @@ package com.LetsPlay;
 
 import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
-import com.LetsPlay.gameplay.PlayChecker;
 import com.LetsPlay.ui.ScoreBoard;
 
 import javafx.application.Application;
@@ -22,16 +21,14 @@ public class Main extends Application {
 			Pane scene_layout = new Pane();
 			
 			// Initialize the GameSession object
-			GameSession.gameInit();
+			GameSession.init();
 
 			//Layout for the Scrabble board and setting the Scrabble board properties
 			GameSession.board.relocate(80, 90);
 			
 			//Layout for the player racks
 		
-			GameSession.rack1.relocate(225, 30);
-			
-			GameSession.rack2.relocate(225, 669);
+			GameSession.rack1.relocate(225, 669); // Vertical = 30 for AI rack.
 			
 			
 			//Creating UI for score and player
@@ -51,34 +48,27 @@ public class Main extends Application {
 			play_button.setVisible(true);
 			play_button.setPrefSize(90, 20);
 			play_button.setOnAction(event -> {
-				// All Debug
-				if (!PlayChecker.isFirstPlayValid()){
-					Hand.undo_play();
-					Hand.resetState();
-					
-					//Debug
-					System.out.println("Same Line");
-				}else if(!PlayChecker.isPlayConsercutive()){
-					if(!PlayChecker.isNonConsercutivePlayValid()){
-						Hand.undo_play();
-						Hand.resetState();
-					}else{
-						for(int counter = 0; counter < Hand.tiles_played.row.size(); counter++)
-							GameSession.rack1.getChildren().add(GameSession.tilebag.getTile());
-					}
-				}else if (!PlayChecker.isPlaySuffixed() && !PlayChecker.isPlayPrefixed()){
-					Hand.undo_play();
-					Hand.resetState();
-					
-					//Debug
-					System.out.println("Prefix or Suffix");
+				try{
+				GameSession.checkPlay();
+				}catch (java.util.NoSuchElementException e){
+					// Add a popup to tell players to make a play.
+					e.getMessage();
 				}
-				
 			});
 			
 			Button pass_button = new Button("Pass");
 			pass_button.setVisible(true);
 			pass_button.setPrefSize(90, 20);
+			pass_button.setOnAction(event -> {
+				GameSession.tilebag.returnTile(GameSession.rack1.getChildren());
+				GameSession.rack1.getChildren().clear();
+				for (int columnindex = 0; columnindex < 7; columnindex++){
+					
+					GameSession.rack1.getChildren().add(GameSession.tilebag.getTile());
+					
+				}
+				
+			});
 			
 			Button undo_button = new Button("Undo Play");
 			undo_button.setVisible(true);
@@ -86,27 +76,24 @@ public class Main extends Application {
 			undo_button.setOnAction(event -> {
 				Hand.undo_play();
 				Hand.resetState();
+				
+			// Add notice to tell players that undo only works when play is made.
 			});
 			
 			Button submit_button = new Button("Submit");
 			submit_button.setVisible(true);
 			submit_button.setPrefSize(90, 20);
+			submit_button.setOnAction(event -> {
+			});
 			
 			button_list.getChildren().add(play_button);
 			button_list.getChildren().add(pass_button);
 			button_list.getChildren().add(submit_button);
 			button_list.getChildren().add(undo_button);
 			
-			for (int columnindex = 0; columnindex < 7; columnindex++){
-			
-				GameSession.rack1.getChildren().add(GameSession.tilebag.getTile());
-				
-				GameSession.rack2.getChildren().add(GameSession.tilebag.getTile());
-			}
-			
 			//Putting the pieces together
 			scene_layout.getChildren().add(GameSession.board);
-			scene_layout.getChildren().addAll(GameSession.rack1, GameSession.rack2);
+			scene_layout.getChildren().addAll(GameSession.rack1);
 			scene_layout.getChildren().add(button_list);
 			scene_layout.getChildren().add(scoreboard);
 			Scene scene = new Scene(scene_layout, 1366, 768);
