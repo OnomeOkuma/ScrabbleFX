@@ -8,52 +8,41 @@
 package com.LetsPlay.ui;
 
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.control.OverrunStyle;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-
 
 public class ScoreBoard extends VBox{
-			private Text player_name1 = new Text();
-			private Text player_name2 = new Text();
-			private Canvas player_1_score = new Canvas(80, 40); 
-			private Canvas player_2_score = new Canvas(80, 40);
-
-			//Constructor Statement.
+	
+			private Pane background = new Pane();
+			private Label playerscore = new Label("25");
+			private Label playername = new Label("Unknown");
+			
 			public ScoreBoard(){
-					super(5);
-					this.player_name1.setFont(new Font ("Ubuntu light", 15.5));
-					this.player_name2.setFont(new Font ("Ubuntu light", 15.5));
-					this.getChildren().add(this.player_name1);
-					this.getChildren().add(this.player_1_score);
-					this.getChildren().add(this.player_name2);
-					this.getChildren().add(this.player_2_score);
+				super(5);
+				this.setPrefSize(100, 60);
+				this.background.setPrefSize(100, 40);
+				this.background.setStyle("-fx-background-color: #ffff00");
+				this.background.getChildren().add(this.playerscore);
+				this.playerscore.setTextOverrun(OverrunStyle.WORD_ELLIPSIS);
+				this.playerscore.setFont(new Font(20.00));
+				this.playerscore.setAlignment(Pos.CENTER);
+				this.playername.setTextOverrun(OverrunStyle.WORD_ELLIPSIS);
+				this.playername.setFont(new Font(17.00));
+				this.playername.setAlignment(Pos.CENTER);
+				
+				this.getChildren().add(this.playername);
+				this.getChildren().add(this.background);
 			}
 			
-			// Sets the score of the game. It uses the Boolean argument to determine
-			// whose score to change. 
-			public void set_score(String score, Boolean player ){
-				if (player == true){
-					GraphicsContext temp = this.player_1_score.getGraphicsContext2D();
-					temp.setFont(new Font("Ubuntu light", 20));
-					temp.fillText(score, 12.56, 15);
-				} else {
-					GraphicsContext temp = this.player_2_score.getGraphicsContext2D();
-					temp.setFont(new Font("Ubuntu light", 20));
-					temp.fillText(score, 12.56, 15);
-				}
+			public void setPlayerName(String name){
+				this.playername.setText(name);
 			}
 			
-			// Sets the Player Name. It uses the Boolean argument to determine
-			// whose name to set. 
-			public void set_player_name(String playername, Boolean player){
-				if(player == true){
-					this.player_name1.setText(playername);
-				} else {
-					this.player_name2.setText(playername);
-				}
+			public void setPlayerScore(String score){
+				this.playerscore.setText(score);
 			}
-			
 }

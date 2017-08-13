@@ -20,14 +20,14 @@ public class SingleTilePlayChecker {
 			}
 		
 		
-		private static boolean isRowPlay(){
+		static boolean isRowPlay(){
 			int row = Hand.tiles_played.row.get(0);
 			int column = Hand.tiles_played.column.get(0);
 			return (GameSession.board.isPositionOccupied(row, (column + 1)) || GameSession.board.isPositionOccupied(row, (column - 1)));
 			}
 		
 		
-		private static boolean isColumnPlay(){
+		static boolean isColumnPlay(){
 			int row = Hand.tiles_played.row.get(0);
 			int column = Hand.tiles_played.column.get(0);
 			return (GameSession.board.isPositionOccupied((row + 1), column) || GameSession.board.isPositionOccupied((row - 1), column));
@@ -51,8 +51,6 @@ public class SingleTilePlayChecker {
 				column++;
 			}
 		
-			//debug
-			System.out.println(word.toString());
 			return GameSession.wordlist.isWordContained(word.toString());
 			}
 	
@@ -76,9 +74,7 @@ public class SingleTilePlayChecker {
 				word.append(GameSession.board.TileInPosition(row, column).letter);
 				row++;
 			}
-		
-			//debug
-			System.out.println(word.toString());
+	
 			return GameSession.wordlist.isWordContained(word.toString());
 		}
 	

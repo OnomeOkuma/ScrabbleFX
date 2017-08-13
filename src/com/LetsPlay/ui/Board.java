@@ -194,6 +194,9 @@ public class Board extends GridPane {
 			// Checks a position on the board to see if it is occupied.
 			public boolean isPositionOccupied(int row, int column){
 				
+				if (row >= 15 || column >= 15)
+					return false;
+				
 				Tile temp = this.board_state[row][column];
 				
 				if(temp == null )

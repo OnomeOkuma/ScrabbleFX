@@ -3,13 +3,14 @@ package com.LetsPlay;
 
 import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
-import com.LetsPlay.ui.ScoreBoard;
+import com.LetsPlay.ui.PlayersView;
 
 import javafx.application.Application;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
@@ -32,28 +33,14 @@ public class Main extends Application {
 			
 			
 			//Creating UI for score and player
-			ScoreBoard scoreboard = new ScoreBoard();
-			scoreboard.set_player_name("Celebrimbor", true);
-			scoreboard.set_player_name("Maxwell", false);
-			scoreboard.set_score("180", true);
-			scoreboard.set_score("200", false);
-			scoreboard.relocate(700.5, 100);
-			
-			
-			//Creating the buttons for gameplay control
-			VBox button_list = new VBox(10);
-			button_list.relocate(700.5, 300);
+			GameSession.scoreboard.relocate(700.5, 100);
+
 			
 			Button play_button = new Button("Play");
 			play_button.setVisible(true);
 			play_button.setPrefSize(90, 20);
 			play_button.setOnAction(event -> {
-				try{
 				GameSession.checkPlay();
-				}catch (java.util.NoSuchElementException e){
-					// Add a popup to tell players to make a play.
-					e.getMessage();
-				}
 			});
 			
 			Button pass_button = new Button("Pass");
@@ -86,16 +73,18 @@ public class Main extends Application {
 			submit_button.setOnAction(event -> {
 			});
 			
-			button_list.getChildren().add(play_button);
-			button_list.getChildren().add(pass_button);
-			button_list.getChildren().add(submit_button);
-			button_list.getChildren().add(undo_button);
-			
+			//Creating the buttons for gameplay control
+			ToolBar button_list = new ToolBar(play_button, pass_button, submit_button, undo_button);
+			button_list.relocate(700.5, 300);
+			button_list.setOrientation(Orientation.VERTICAL);
+			button_list.setOpacity(50.00);
+			PlayersView.playerview.relocate(1000, 50);
 			//Putting the pieces together
 			scene_layout.getChildren().add(GameSession.board);
 			scene_layout.getChildren().addAll(GameSession.rack1);
 			scene_layout.getChildren().add(button_list);
-			scene_layout.getChildren().add(scoreboard);
+			scene_layout.getChildren().add(GameSession.scoreboard);
+			scene_layout.getChildren().add(PlayersView.playerview);
 			Scene scene = new Scene(scene_layout, 1366, 768);
 			primaryStage.setTitle("Let's Play");
 			primaryStage.setScene(scene);

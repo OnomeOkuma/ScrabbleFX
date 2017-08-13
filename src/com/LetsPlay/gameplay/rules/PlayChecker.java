@@ -185,9 +185,6 @@ public class PlayChecker {
 				// Append word. 
 				word = temp.append(word);
 				
-				//debug
-				System.out.println(word.toString());
-				
 				/*
 				 Return false if the word formed is not in the dictionary. The word.length()
 				 condition is to ensure that the check continues if no cross word is found on that 
@@ -226,9 +223,6 @@ public class PlayChecker {
 					
 					// Append word. 
 					word = temp.append(word);
-					
-					//debug
-					System.out.println(word.toString());
 					
 					/*
 					 Return false if the word formed is not in the dictionary. The word.length()
@@ -281,13 +275,6 @@ public class PlayChecker {
 							boolean bottom_row = GameSession.board.isPositionOccupied((row + 1), column);
 							boolean top_row = GameSession.board.isPositionOccupied((row - 1), column);
 							
-							//Debug
-							System.out.println("For row crosscheck   ");
-							System.out.println(row);
-							System.out.println(top_row);
-							System.out.println(row);
-							System.out.println(bottom_row);
-							
 							
 							if(top_row == true || bottom_row == true)
 								return true;
@@ -301,13 +288,6 @@ public class PlayChecker {
 							
 							boolean right_column = GameSession.board.isPositionOccupied(row, column + 1);
 							boolean left_column = GameSession.board.isPositionOccupied(row, column - 1);
-							
-							//Debug
-							System.out.println("For Column crosscheck   ");
-							System.out.println(column);
-							System.out.println(right_column);
-							System.out.println(column);
-							System.out.println(left_column);
 							
 							if(right_column == true || left_column == true)
 								return true;

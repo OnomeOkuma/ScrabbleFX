@@ -5,24 +5,15 @@
 
 package com.LetsPlay.gameplay;
 
-
-
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Random;
-
 import com.LetsPlay.ui.Tile;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 
-public class TileBag implements Serializable {
-			/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2217567987444344888L;
+public class TileBag{
 
 			// Property used to simulate the random behaviour of tile selection.
 			private Random random = new Random();
@@ -33,11 +24,12 @@ public class TileBag implements Serializable {
 			// Property holding the distribution of each tile.  
 			private HashMap<String, Integer> tile_distribution = new HashMap<String, Integer>();
 			
-			/* Property holding all Tile objects generated.
+			/* 
+			 * Property holding all Tile objects generated.
 			 * Note: A size of 101 was selected to ensure all 100 Tile objects
 			 * are available while preventing an IndexOutOfBoundsException.
 			 */   
-			private ArrayList<Tile> tile_bag = new ArrayList<Tile>(100);
+			private ObservableList<Node> tile_bag = FXCollections.observableArrayList();
 			
 			// Total number of Tile object available at anytime.
 			private int size;
@@ -88,7 +80,7 @@ public class TileBag implements Serializable {
 						if (this.tile_distribution.containsKey(temp2)){
 							
 							// Creates the number of Tile objects, for the letter, 
-							// and add it to the tile_bag property to enable random selection.
+							// and add it to the tile_bag property.
 							for (int counter = 0; counter < this.tile_distribution.get(temp2); counter++){
 								this.tile_bag.add(new Tile(temp2));
 								}
@@ -109,7 +101,7 @@ public class TileBag implements Serializable {
 					int temp = this.random.nextInt(this.size);
 					
 					// Pick the Tile from the ArrayList using the number as index.
-						Tile temp2 = this.tile_bag.get(temp);
+						Tile temp2 = (Tile) this.tile_bag.get(temp);
 					
 						
 					
@@ -132,12 +124,8 @@ public class TileBag implements Serializable {
 			// This method simulate the behaviour of returning a Tile back,
 			// For example when a player misses a turn.
 			public void returnTile(ObservableList<Node> tiles){
-				Iterator<Node> iterator = tiles.iterator();
-				while(iterator.hasNext()){
-					this.tile_bag.add((Tile) iterator.next());
-					this.size++;
-				}
-				
+				this.tile_bag.addAll(tiles);
+				this.size = this.tile_bag.size();
 			}
 		}
 

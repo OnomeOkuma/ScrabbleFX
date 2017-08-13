@@ -31,7 +31,7 @@ public class Tile extends Pane implements Serializable{
 			public final String letter;
 			
 			// Score on Tile.
-			final int score;
+			public final int score;
 			
 			public Tile(String letter){
 				// Constructor statement.
