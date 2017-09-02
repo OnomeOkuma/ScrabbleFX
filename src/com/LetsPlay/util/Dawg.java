@@ -6,6 +6,8 @@ package com.LetsPlay.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Dawg {
@@ -51,7 +53,7 @@ public class Dawg {
 						
 						// Call the current node completeWord() function when the last character is reached. 
 						if (counter == (word.length()-1)){
-							this.current_node.completeWord();
+							this.current_node.terminalNode();
 						}
 					}
 					
@@ -91,12 +93,35 @@ public class Dawg {
 			}
 			
 			// On getting to the end of the parameter, Check if the last character has a null value as one of its decendants.
-			if (counter == word.length() && this.current_node.isCompleteWord()){
+			if (counter == word.length() && this.current_node.isTerminalNode()){
 				return true;
 			}
 			
 			// Added to prevent Eclipse disturbance. otherwise this is suppose to be in an else statement. 
 			return false;
 		}
+		
+		
+		
+		public ArrayList<Character> nodeEdges(String partialword){
+			this.current_node = this.root;
+			ArrayList<Character> result = new ArrayList<Character>();
+			
+			for (int counter = 0; counter < partialword.length(); counter++){
+				if (this.current_node.isCharContained(partialword.charAt(counter))){
+					this.current_node = this.current_node.getNode(partialword.charAt(counter));
+				}else return null;
+			}
+			
+			Iterator<DawgNode> iterator = this.current_node.getChildren().iterator();
+			while(iterator.hasNext()){
+				DawgNode temp2 = iterator.next();
+				if(temp2 != null)
+					result.add(temp2.character);
+			}
+			
+			return result;
+		}
+		
 		
 }

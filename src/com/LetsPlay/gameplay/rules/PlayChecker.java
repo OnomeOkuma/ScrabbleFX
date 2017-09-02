@@ -237,7 +237,7 @@ public class PlayChecker {
 	}
 	
 		// Checks if the play made was suffixed to a previous play on the board.
-				private static boolean isPlaySuffix(){
+				static boolean isPlaySuffix(){
 					int column = Hand.tiles_played.column.get(0);
 					int row = Hand.tiles_played.row.get(0);
 				
@@ -250,7 +250,7 @@ public class PlayChecker {
 				}
 			
 		// Checks if the play made was prefixed to a previous play made on the board.
-				private static boolean isPlayPrefix(){
+				static boolean isPlayPrefix(){
 					int column = Hand.tiles_played.column.get((Hand.tiles_played.column.size() - 1));
 					int row = Hand.tiles_played.row.get((Hand.tiles_played.row.size() - 1));
 					
@@ -264,7 +264,7 @@ public class PlayChecker {
 				
 				
 		// Checks if there are cross words formed.	
-				private static boolean isPlayCrossPlay(){
+				public static boolean isPlayCrossPlay(){
 					if(Hand.tiles_played.sameRow()){
 						Iterator<Integer> column_values = Hand.tiles_played.column.iterator();
 						

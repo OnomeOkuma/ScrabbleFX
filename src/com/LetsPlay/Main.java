@@ -29,11 +29,11 @@ public class Main extends Application {
 			
 			//Layout for the player racks
 		
-			GameSession.rack1.relocate(225, 669); // Vertical = 30 for AI rack.
+			GameSession.player.player_rack.relocate(225, 669); // Vertical = 30 for AI rack.
 			
 			
 			//Creating UI for score and player
-			GameSession.scoreboard.relocate(700.5, 100);
+			GameSession.player.scoreboard.relocate(700.5, 100);
 
 			
 			Button play_button = new Button("Play");
@@ -47,11 +47,11 @@ public class Main extends Application {
 			pass_button.setVisible(true);
 			pass_button.setPrefSize(90, 20);
 			pass_button.setOnAction(event -> {
-				GameSession.tilebag.returnTile(GameSession.rack1.getChildren());
-				GameSession.rack1.getChildren().clear();
+				GameSession.tilebag.returnTile(GameSession.player.player_rack.getChildren());
+				GameSession.player.player_rack.getChildren().clear();
 				for (int columnindex = 0; columnindex < 7; columnindex++){
 					
-					GameSession.rack1.getChildren().add(GameSession.tilebag.getTile());
+					GameSession.player.player_rack.getChildren().add(GameSession.tilebag.getTile());
 					
 				}
 				
@@ -81,9 +81,9 @@ public class Main extends Application {
 			PlayersView.playerview.relocate(1000, 50);
 			//Putting the pieces together
 			scene_layout.getChildren().add(GameSession.board);
-			scene_layout.getChildren().addAll(GameSession.rack1);
+			scene_layout.getChildren().addAll(GameSession.player.player_rack);
 			scene_layout.getChildren().add(button_list);
-			scene_layout.getChildren().add(GameSession.scoreboard);
+			scene_layout.getChildren().add(GameSession.player.scoreboard);
 			scene_layout.getChildren().add(PlayersView.playerview);
 			Scene scene = new Scene(scene_layout, 1366, 768);
 			primaryStage.setTitle("Let's Play");

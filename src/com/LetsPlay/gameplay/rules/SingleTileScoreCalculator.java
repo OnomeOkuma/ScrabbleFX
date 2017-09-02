@@ -1,8 +1,5 @@
 package com.LetsPlay.gameplay.rules;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
 
@@ -480,16 +477,20 @@ public class SingleTileScoreCalculator {
 	
 	private static int calculateScoreRow(){
 		int score = 0;
-		ArrayList<Integer> word_score_multiplier = new ArrayList<Integer>();
+		int word_score_multiplier = 0;
 		
 		int row = Hand.tiles_played.row.get(0);
 		int column = Hand.tiles_played.column.get(0);
+		
+		score += (GameSession.board.TileInPosition(row, column).score * 
+				letter_score[row][column]);
+		word_score_multiplier = word_score[row][column];
+		word_score[row][column] = 1;
+		
+		column--;
+		
 		while(GameSession.board.isPositionOccupied(row, column)){
-			score += (GameSession.board.TileInPosition(row, column).score * 
-					letter_score[row][column]);
-			letter_score[row][column] = 1;
-			word_score_multiplier.add(word_score[row][column]);
-			word_score[row][column] = 1;
+			score += GameSession.board.TileInPosition(row, column).score;
 			column--;
 		}
 		
@@ -497,17 +498,10 @@ public class SingleTileScoreCalculator {
 		column++;
 	
 		while(GameSession.board.isPositionOccupied(row, column)){
-			score += (GameSession.board.TileInPosition(row, column).score * 
-					letter_score[row][column]);
-			letter_score[row][column] = 1;
-			word_score_multiplier.add(word_score[row][column]);
-			word_score[row][column] = 1;
+			score += GameSession.board.TileInPosition(row, column).score;
 			column++;
 		}
-		Iterator<Integer> iterator = word_score_multiplier.iterator();
-		while(iterator.hasNext()){
-			score *= iterator.next();
-		}
+		score = score * word_score_multiplier;
 		
 		return score;
 		}
@@ -515,16 +509,20 @@ public class SingleTileScoreCalculator {
 	
 	private static int calculateScoreColumn(){
 		int score = 0;
-		ArrayList<Integer> word_score_multiplier = new ArrayList<Integer>();
+		int word_score_multiplier = 0;
 		
 		int row = Hand.tiles_played.row.get(0);
 		int column = Hand.tiles_played.column.get(0);
+		
+		score += (GameSession.board.TileInPosition(row, column).score * 
+				letter_score[row][column]);
+		word_score_multiplier = word_score[row][column];
+		word_score[row][column] = 1;
+		
+		row--;
+		
 		while(GameSession.board.isPositionOccupied(row, column)){
-			score += (GameSession.board.TileInPosition(row, column).score * 
-					letter_score[row][column]);
-			letter_score[row][column] = 1;
-			word_score_multiplier.add(word_score[row][column]);
-			word_score[row][column] = 1;
+			score += GameSession.board.TileInPosition(row, column).score;
 			row--;
 		}
 	
@@ -532,19 +530,11 @@ public class SingleTileScoreCalculator {
 		row++;
 	
 		while(GameSession.board.isPositionOccupied(row, column)){
-			score +=  (GameSession.board.TileInPosition(row, column).score * 
-						letter_score[row][column]);
-			
-			letter_score[row][column] = 1;
-			word_score_multiplier.add(word_score[row][column]);
-			word_score[row][column] = 1;
+			score += GameSession.board.TileInPosition(row, column).score;
 			row++;
 		}
 		
-		Iterator<Integer> iterator = word_score_multiplier.iterator();
-		while(iterator.hasNext()){
-			score *= iterator.next();
-		}
+		score = score * word_score_multiplier;
 		
 		return score;
 	}

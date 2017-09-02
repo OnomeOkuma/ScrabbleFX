@@ -38,11 +38,11 @@ public class ScoreBoard extends VBox{
 				this.getChildren().add(this.background);
 			}
 			
-			public void setPlayerName(String name){
+			public void setName(String name){
 				this.playername.setText(name);
 			}
 			
-			public void setPlayerScore(String score){
+			public void setScore(String score){
 				this.playerscore.setText(score);
 			}
 }

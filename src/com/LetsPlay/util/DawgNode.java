@@ -72,8 +72,13 @@ public class DawgNode {
 		}
 		
 		
-		// Marks the end of a word by add a null value to a Node's child.
-		public void completeWord(){
+		// Returns the nodes children.
+		ArrayList<DawgNode> getChildren(){
+			return this.children;
+		}
+		
+		// Creates a Terminal Node.
+		public void terminalNode(){
 			
 			// Add a null value.
 			this.children.add(null);
@@ -82,8 +87,8 @@ public class DawgNode {
 			this.children.trimToSize();
 		}
 		
-		// Returns true if this node signifies a complete word.
-		public boolean isCompleteWord(){
+		// Returns true if this node is a Terminal node.
+		public boolean isTerminalNode(){
 			return this.children.contains(null);
 		}
 		

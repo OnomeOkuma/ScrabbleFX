@@ -75,7 +75,7 @@ public class Hand {
 				Tile temp2 = Hand.current_play.get(tempCanvas);
 				
 				// Place the Tile on its rack. Refer to the Note above.
-				GameSession.rack1.getChildren().add(new Tile(temp2.letter));
+				GameSession.player.player_rack.getChildren().add(new Tile(temp2.letter));
 				
 				// Remove it from the board.
 				GameSession.board.removeTile(temp2);
