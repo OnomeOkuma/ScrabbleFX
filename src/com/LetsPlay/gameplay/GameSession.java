@@ -1,6 +1,7 @@
 package com.LetsPlay.gameplay;
 
 import com.LetsPlay.util.Dawg;
+import com.LetsPlay.gameplay.ai.ComPlayer;
 import com.LetsPlay.gameplay.rules.PlayChecker;
 import com.LetsPlay.gameplay.rules.SingleTilePlayChecker;
 import com.LetsPlay.gameplay.rules.SingleTileScoreCalculator;
@@ -11,25 +12,24 @@ import javafx.scene.layout.HBox;
 
 public class GameSession {
 		public static Board board;
-		public static HBox rack1;
 		public static HBox rack2;
 		public static TileBag tilebag;
 		public static Dawg wordlist;
 		public static boolean first_play;
 		public static Player player;
+		public static ComPlayer computer;
 		
 		public static void init(){
 			board = new Board();
 			rack2 = new HBox(1.55);
-	
 			rack2.setPrefSize(276.85, 36.6);
-			
-			rack2.setStyle("-fx-background-color: #f0fff0;");
+			rack2.setStyle("-fx-background-color: #fffacd;");
 			
 			tilebag = new TileBag();
 			wordlist = new Dawg();
 			first_play = true;
-			player = new Player(rack1);
+			player = new Player();
+			computer = new ComPlayer();
 			
 			SingleTileScoreCalculator.letterScoreInit();
 			SingleTileScoreCalculator.wordScoreInit();
@@ -39,8 +39,8 @@ public class GameSession {
 			
 			for (int columnindex = 0; columnindex < 7; columnindex++){
 				
-				player.player_rack.getChildren().add(GameSession.tilebag.getTile());
-				
+				player.player_rack.getChildren().add(tilebag.getTile());
+				computer.fillRack(tilebag.getTile());
 			}
 			
 		}

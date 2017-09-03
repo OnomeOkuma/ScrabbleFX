@@ -174,6 +174,10 @@ public class Board extends GridPane {
 			
 			// Adds a Tile to the board and updates its state.
 			public void addTile(Tile tile, int column, int row){
+				
+				// Error condition.
+				if(column >= 15 || row >= 51)
+					System.err.println("Column or Row is more than 15");
 				this.add(tile, column, row);
 				this.board_state[row][column] = tile;
 			}

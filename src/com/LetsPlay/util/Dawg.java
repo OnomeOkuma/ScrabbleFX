@@ -102,17 +102,20 @@ public class Dawg {
 		}
 		
 		
-		
+		// Returns an ArrayList of Characters that are edges of the particular node or null if
+		// there are no edges from this node. 
 		public ArrayList<Character> nodeEdges(String partialword){
 			this.current_node = this.root;
 			ArrayList<Character> result = new ArrayList<Character>();
 			
+			// Goes through the path of the partialword variable in the Dawg.
 			for (int counter = 0; counter < partialword.length(); counter++){
 				if (this.current_node.isCharContained(partialword.charAt(counter))){
 					this.current_node = this.current_node.getNode(partialword.charAt(counter));
 				}else return null;
 			}
 			
+		
 			Iterator<DawgNode> iterator = this.current_node.getChildren().iterator();
 			while(iterator.hasNext()){
 				DawgNode temp2 = iterator.next();

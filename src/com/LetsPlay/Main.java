@@ -30,11 +30,11 @@ public class Main extends Application {
 			//Layout for the player racks
 		
 			GameSession.player.player_rack.relocate(225, 669); // Vertical = 30 for AI rack.
-			
+			GameSession.rack2.relocate(225, 30);
 			
 			//Creating UI for score and player
 			GameSession.player.scoreboard.relocate(700.5, 100);
-
+			GameSession.computer.scoreboard.relocate(700.5, 170);
 			
 			Button play_button = new Button("Play");
 			play_button.setVisible(true);
@@ -79,12 +79,16 @@ public class Main extends Application {
 			button_list.setOrientation(Orientation.VERTICAL);
 			button_list.setOpacity(50.00);
 			PlayersView.playerview.relocate(1000, 50);
+			
 			//Putting the pieces together
 			scene_layout.getChildren().add(GameSession.board);
 			scene_layout.getChildren().addAll(GameSession.player.player_rack);
 			scene_layout.getChildren().add(button_list);
 			scene_layout.getChildren().add(GameSession.player.scoreboard);
 			scene_layout.getChildren().add(PlayersView.playerview);
+			scene_layout.getChildren().add(GameSession.rack2);
+			scene_layout.getChildren().add(GameSession.computer.scoreboard);
+			
 			Scene scene = new Scene(scene_layout, 1366, 768);
 			primaryStage.setTitle("Let's Play");
 			primaryStage.setScene(scene);
