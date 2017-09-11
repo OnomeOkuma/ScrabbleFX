@@ -5,10 +5,8 @@ import com.LetsPlay.ui.ScoreBoard;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 
-public class Player {
-		public ScoreBoard scoreboard;
+public class Player extends AbstractPlayer {
 		public HBox player_rack;
-		private int player_score;
 		
 		public Player(){
 			this.player_score = 0;
@@ -35,8 +33,4 @@ public class Player {
 			this.scoreboard.setName(name);
 		}
 		
-		public void setPlayerScore(int score){
-			this.player_score += score;
-			this.scoreboard.setScore(Integer.toString(this.player_score));
-		}
 }

@@ -1,14 +1,13 @@
 package com.LetsPlay.gameplay.ai;
 
 import com.LetsPlay.gameplay.GameSession;
-import com.LetsPlay.ui.Tile;
 
 class CrossSet {
 	
-	static boolean rowCrossSet(int row, int column, Tile tile){
+	static boolean rowCrossSet(int row, int column, String tile){
 		StringBuffer prefix = new StringBuffer();
 		StringBuffer suffix = new StringBuffer();
-		suffix.append(tile.letter);
+		suffix.append(tile);
 		int temp = column;
 		temp--;
 		
@@ -26,14 +25,16 @@ class CrossSet {
 		}
 		
 		prefix.append(suffix);
+		if(prefix.length() == 1)
+			return true;
 		return GameSession.wordlist.isWordContained(prefix.toString());
 
 	}
 	
-	static boolean columnCrossSet(int row, int column, Tile tile){
+	static boolean columnCrossSet(int row, int column, String tile){
 		StringBuffer prefix = new StringBuffer();
 		StringBuffer suffix = new StringBuffer();
-		suffix.append(tile.letter);
+		suffix.append(tile);
 		int temp = row;
 		temp--;
 		
@@ -51,6 +52,10 @@ class CrossSet {
 		}
 		
 		prefix.append(suffix);
+		
+		if(prefix.length() == 1)
+			return true;
+		
 		return GameSession.wordlist.isWordContained(prefix.toString());
 	}
 }
