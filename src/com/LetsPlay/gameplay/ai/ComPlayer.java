@@ -19,6 +19,11 @@ import javafx.scene.layout.GridPane;
 public class ComPlayer  extends AbstractPlayer{
 		public ArrayList<Tile> tiles;
 		private ArrayList<String> tile_letters;
+		private String highest_scoring_word = new String();
+		private int highest_score = 0;
+		private boolean axis = true;
+		private int row = 0;
+		private int column = 0;
 		
 		public ComPlayer(){
 			this.player_score = 0;
@@ -52,7 +57,52 @@ public class ComPlayer  extends AbstractPlayer{
 		}
 		
 		private void recordMove(int row, int column,String partialword){
-			System.out.println("Complete word " + partialword);
+
+			int score_keeper = 0;
+			row = row - partialword.length();
+			ArrayList<Tile> tilestemp = this.tiles;
+			
+			for (int i = 0; i < partialword.length(); i++){
+				
+				
+				if(GameSession.board.isPositionOccupied(row, column)){
+					
+					score_keeper += GameSession.board.TileInPosition(row, column).score;
+					System.out.println("If  " + GameSession.board.TileInPosition(row, column).score);
+					row++;
+					
+				}else {
+					Iterator<Tile> iterator = tilestemp.iterator();
+					String temp = Character.toString(partialword.charAt(i));
+					
+					while(iterator.hasNext()){
+						
+						Tile temp2 = iterator.next();
+						
+						if(temp.equals(temp2.letter)){
+							
+							score_keeper += temp2.score;
+							System.out.println("else   " + temp2.score);
+							row++;
+
+						}
+							
+					}
+					
+				}
+			}
+			
+			if (score_keeper > this.highest_score){
+				this.axis = false;
+				this.row = row;
+				this.column = column;
+				this.highest_scoring_word = partialword;
+				this.highest_score = score_keeper;
+				
+				System.out.println("This is the highest score  " + this.highest_score);
+				System.out.println(this.highest_scoring_word);
+				System.out.print("\n \n");
+				}
 		}
 		
 		
@@ -62,7 +112,6 @@ public class ComPlayer  extends AbstractPlayer{
 				if(GameSession.wordlist.nodeEdges(partialword).contains(GameSession.board.TileInPosition(row, column).letter)){
 					
 					partialword = partialword.concat(GameSession.board.TileInPosition(row, column).letter);
-					System.out.println("partialword  " + partialword);
 					row++;
 					this.columnBuildWord(row, column, partialword);
 					row--;
