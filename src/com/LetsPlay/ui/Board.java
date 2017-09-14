@@ -200,6 +200,8 @@ public class Board extends GridPane {
 				
 				if (row >= 15 || column >= 15)
 					return false;
+				if (row < 0 || column < 0)
+					return false;
 				
 				Tile temp = this.board_state[row][column];
 				

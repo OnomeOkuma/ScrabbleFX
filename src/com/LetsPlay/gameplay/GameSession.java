@@ -45,13 +45,14 @@ public class GameSession {
 			
 		}
 		
-		public static void checkPlay(){
+		public static boolean checkPlay(){
 			if(first_play == true){
 				if(!PlayChecker.isFirstPlayValid() || !PlayChecker.isPlayCorrect() || !PlayChecker.onSameLine()){	
 					
 					Hand.undo_play();
 					Hand.resetState();
-
+					
+					return false;
 				}else{
 					
 					player.setPlayerScore(TileScoreCalculator.calculateScore());
@@ -59,6 +60,7 @@ public class GameSession {
 						player.player_rack.getChildren().add(tilebag.getTile());
 					first_play = false;
 					Hand.resetState();
+					return true;
 				}			
 			
 			}else if (PlayChecker.onSameLine() && PlayChecker.isPlayCorrect()){
@@ -67,16 +69,18 @@ public class GameSession {
 				for(int counter = 0; counter < Hand.number_of_plays; counter++)
 					player.player_rack.getChildren().add(tilebag.getTile());
 				Hand.resetState();
-				
+				return true;
 			}else if(SingleTilePlayChecker.isSingleTilePlay() && SingleTilePlayChecker.checkWord()){
 				
 				player.setPlayerScore(SingleTileScoreCalculator.calculateScore());
 				for(int counter = 0; counter < Hand.number_of_plays; counter++)
 					player.player_rack.getChildren().add(tilebag.getTile());
 				Hand.resetState();
+				return true;
 			}else {
 				Hand.undo_play();
 				Hand.resetState();
+				return false;
 			}
 				
 	}

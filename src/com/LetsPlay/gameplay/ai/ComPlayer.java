@@ -42,7 +42,7 @@ public class ComPlayer  extends AbstractPlayer{
 		
 		
 		
-		public void makePlay(int row, int column, Tile tile){
+		public void placeTile(int row, int column, Tile tile){
 			Iterator<Node> iterator = GameSession.board.getChildrenUnmodifiable().iterator();
 			
 			// To avoid that Object of Group class. 
@@ -66,19 +66,16 @@ public class ComPlayer  extends AbstractPlayer{
 		private void recordMoveColumn(int row, int column,String partialword){
 
 			int score_keeper = 0;
-			row = row - partialword.length();
-			ArrayList<Tile> tilestemp = this.tiles;
 			
-			for (int i = 0; i < partialword.length(); i++){
-				
+			for (int i = (partialword.length() - 1); i >= 0; i--){
 				
 				if(GameSession.board.isPositionOccupied(row, column)){
 					
 					score_keeper += GameSession.board.TileInPosition(row, column).score;
-					row++;
+					row--;
 					
 				}else {
-					Iterator<Tile> iterator = tilestemp.iterator();
+					Iterator<Tile> iterator = this.tiles.iterator();
 					String temp = Character.toString(partialword.charAt(i));
 					
 					while(iterator.hasNext()){
@@ -88,8 +85,8 @@ public class ComPlayer  extends AbstractPlayer{
 						if(temp.equals(temp2.letter)){
 							
 							score_keeper += temp2.score;
-							row++;
-
+							row--;
+							break;
 						}
 							
 					}
@@ -103,6 +100,7 @@ public class ComPlayer  extends AbstractPlayer{
 				this.column = column;
 				this.highest_scoring_word = partialword;
 				this.highest_score = score_keeper;
+				
 				}
 		}
 		
@@ -114,19 +112,16 @@ public class ComPlayer  extends AbstractPlayer{
 		 */
 		private void recordMoveRow(int row, int column,String partialword){
 			int score_keeper = 0;
-			column = column - partialword.length();
-			ArrayList<Tile> tilestemp = this.tiles;
-			
-			for (int i = 0; i < partialword.length(); i++){
-				
+
+			for (int i = (partialword.length() - 1); i >= 0; i--){
 				
 				if(GameSession.board.isPositionOccupied(row, column)){
 					
 					score_keeper += GameSession.board.TileInPosition(row, column).score;
-					column++;
+					column--;
 					
 				}else {
-					Iterator<Tile> iterator = tilestemp.iterator();
+					Iterator<Tile> iterator = this.tiles.iterator();
 					String temp = Character.toString(partialword.charAt(i));
 					
 					while(iterator.hasNext()){
@@ -136,8 +131,8 @@ public class ComPlayer  extends AbstractPlayer{
 						if(temp.equals(temp2.letter)){
 							
 							score_keeper += temp2.score;
-							column++;
-
+							column--;
+							break;
 						}
 							
 					}
@@ -161,7 +156,13 @@ public class ComPlayer  extends AbstractPlayer{
 		 * the word formed up to that index. it uses this information to generate a word, 
 		 * along column axis, with a high enough score for play.
 		 */
-		public void columnBuildWord(int row, int column, String partialword){
+		private void columnBuildWord(int row, int column, String partialword){
+			
+			// Edge case
+			if (row >= 15 || column >= 15){
+				System.out.println("End of Board");
+				return;
+			}
 			
 			if (GameSession.board.isPositionOccupied(row, column)){
 				if(GameSession.wordlist.nodeEdges(partialword).contains(GameSession.board.TileInPosition(row, column).letter)){
@@ -176,8 +177,8 @@ public class ComPlayer  extends AbstractPlayer{
 				if(GameSession.wordlist.isWordContained(partialword)){
 					this.recordMoveColumn(row, column, partialword);
 					}
-		
 				
+
 				ArrayList<String> temp = GameSession.wordlist.nodeEdges(partialword);
 		
 				if (temp == null){
@@ -209,7 +210,14 @@ public class ComPlayer  extends AbstractPlayer{
 		 * along row axis, with a high enough score for play.
 		 */
 		
-		public void rowBuildWord(int row, int column, String partialword){
+		private void rowBuildWord(int row, int column, String partialword){
+			
+			// Edge case
+			if (row >= 15 || column >= 15){
+				System.out.println("End of Board");
+				return;
+			}
+			
 			if (GameSession.board.isPositionOccupied(row, column)){
 				if(GameSession.wordlist.nodeEdges(partialword).contains(GameSession.board.TileInPosition(row, column).letter)){
 					
@@ -220,9 +228,13 @@ public class ComPlayer  extends AbstractPlayer{
 				}
 				
 			}else{
+				
+				
 				if(GameSession.wordlist.isWordContained(partialword)){
 					this.recordMoveRow(row, column, partialword);
 					}
+				
+				
 				
 				ArrayList<String> temp = GameSession.wordlist.nodeEdges(partialword);
 		
@@ -246,6 +258,121 @@ public class ComPlayer  extends AbstractPlayer{
 					}
 				}
 			}
+		}
+		
+		private boolean isColumnAnchorSquare(int row, int column){
+			
+			int topsquare = row - 1;
+			int downsquare = row + 1;
+		
+			return (GameSession.board.isPositionOccupied(topsquare, column) || GameSession.board.isPositionOccupied(downsquare, column));
+		}
+		
+		
+		private boolean isRowAnchorSquare(int row, int column){
+			
+			int topsquare = column - 1;
+			int downsquare = column + 1;
+			
+			return (GameSession.board.isPositionOccupied(row, topsquare) || GameSession.board.isPositionOccupied(row, downsquare));
+		}
+		
+		
+		private String columnPrefix(int row, int column){
+			
+			StringBuffer word = new StringBuffer();
+			row--;
+			
+			while(GameSession.board.isPositionOccupied(row, column)){
+				word.append(GameSession.board.TileInPosition(row, column).letter);
+				row--;
+			}
+			
+			word = word.reverse();
+			
+			return word.toString();
+			
+		}
+		
+		private String rowPrefix(int row, int column){
+			StringBuffer word = new StringBuffer();
+			column--;
+			
+			while(GameSession.board.isPositionOccupied(row, column)){
+				word.append(GameSession.board.TileInPosition(row, column).letter);
+				column--;
+			}
+			
+			word = word.reverse();
+			
+			return word.toString();
+			
+		}
+		
+		public void generateMove(){
+			for (int row = 0; row < 15; row++){
+				for (int column = 0; column < 15; column++){
+					
+					if(this.isColumnAnchorSquare(row, column))
+						this.columnBuildWord(row, column, this.columnPrefix(row, column));
+					
+					if(this.isRowAnchorSquare(row, column))
+						this.rowBuildWord(row, column, this.rowPrefix(row, column));
+				}
+			}
+			
+			System.out.println(this.axis);
+			System.out.println(this.highest_score);
+			System.out.println(this.highest_scoring_word);
+			System.out.println(this.row + "  " + this.column + "  " + this.axis);
+			System.out.println("\n");
+		}
+		 
+		
+		public void makePlay(){
+				Tile tile;
+				
+				if (this.axis){
+					
+					for (int i = 0; i < this.highest_scoring_word.length(); i++){
+						if (GameSession.board.isPositionOccupied(this.row, this.column))
+							this.column++;
+						else{
+							Iterator<Tile> iterator = this.tiles.iterator();
+							while(iterator.hasNext()){
+								tile = iterator.next();
+								if(Character.toString(this.highest_scoring_word.charAt(i)).equals(tile.letter)){
+									this.placeTile(this.row, this.column, tile);
+									this.column++;
+									this.tiles.remove(tile);
+									break;
+								}
+							}
+						}
+						
+						
+					}
+				}else{
+					for (int i = 0; i < this.highest_scoring_word.length(); i++){
+						
+						if (GameSession.board.isPositionOccupied(this.row, this.column))
+							this.row++;
+						else{
+							Iterator<Tile> iterator = this.tiles.iterator();
+							while(iterator.hasNext()){
+								tile = iterator.next();
+								if(Character.toString(this.highest_scoring_word.charAt(i)).equals(tile.letter)){
+									this.placeTile(this.row, this.column, tile);
+									this.row++;
+									this.tiles.remove(tile);
+									break;
+									}
+								}
+		
+							}
+						
+					}
+				}
 		}
 		
 }

@@ -41,7 +41,8 @@ public class Main extends Application {
 			play_button.setPrefSize(90, 20);
 			play_button.setOnAction(event -> {
 				GameSession.checkPlay();
-				GameSession.computer.rowBuildWord(7, 6, new String());
+				GameSession.computer.generateMove();
+				GameSession.computer.makePlay();
 			});
 			
 			Button pass_button = new Button("Pass");
