@@ -66,12 +66,11 @@ public class ComPlayer  extends AbstractPlayer{
 		private void recordMoveColumn(int row, int column,String partialword){
 
 			int score_keeper = 0;
-			
-			for (int i = (partialword.length() - 1); i >= 0; i--){
+			for (int i = partialword.length() - 1; i >= 0; i--){
 				
 				if(GameSession.board.isPositionOccupied(row, column)){
 					
-					score_keeper += GameSession.board.TileInPosition(row, column).score;
+					//score_keeper += GameSession.board.TileInPosition(row, column).score;
 					row--;
 					
 				}else {
@@ -112,12 +111,12 @@ public class ComPlayer  extends AbstractPlayer{
 		 */
 		private void recordMoveRow(int row, int column,String partialword){
 			int score_keeper = 0;
-
-			for (int i = (partialword.length() - 1); i >= 0; i--){
+			
+			for (int i = partialword.length() - 1; i >= 0; i--){
 				
 				if(GameSession.board.isPositionOccupied(row, column)){
 					
-					score_keeper += GameSession.board.TileInPosition(row, column).score;
+					//score_keeper += GameSession.board.TileInPosition(row, column).score;
 					column--;
 					
 				}else {
@@ -334,7 +333,7 @@ public class ComPlayer  extends AbstractPlayer{
 				
 				if (this.axis){
 					
-					for (int i = 0; i < this.highest_scoring_word.length(); i++){
+					for (int i = 0; i <= this.highest_scoring_word.length() - 1; i++){
 						if (GameSession.board.isPositionOccupied(this.row, this.column))
 							this.column++;
 						else{
@@ -345,6 +344,7 @@ public class ComPlayer  extends AbstractPlayer{
 									this.placeTile(this.row, this.column, tile);
 									this.column++;
 									this.tiles.remove(tile);
+									this.tile_letters.remove(tile.letter);
 									break;
 								}
 							}
@@ -353,7 +353,7 @@ public class ComPlayer  extends AbstractPlayer{
 						
 					}
 				}else{
-					for (int i = 0; i < this.highest_scoring_word.length(); i++){
+					for (int i = 0; i <= this.highest_scoring_word.length() - 1; i++){
 						
 						if (GameSession.board.isPositionOccupied(this.row, this.column))
 							this.row++;
@@ -365,6 +365,7 @@ public class ComPlayer  extends AbstractPlayer{
 									this.placeTile(this.row, this.column, tile);
 									this.row++;
 									this.tiles.remove(tile);
+									this.tile_letters.remove(tile.letter);
 									break;
 									}
 								}
@@ -373,6 +374,14 @@ public class ComPlayer  extends AbstractPlayer{
 						
 					}
 				}
+				
+				System.out.println(this.tile_letters);
+				System.out.println(this.tiles.size());
+				this.highest_score = 0;
+				this.highest_scoring_word = new String();
+				this.axis = true;
+				this.row = 0;
+				this.column = 0;
 		}
 		
 }

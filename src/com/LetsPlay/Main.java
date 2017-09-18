@@ -3,6 +3,9 @@ package com.LetsPlay;
 
 import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
+import com.LetsPlay.gameplay.rules.PlayChecker;
+import com.LetsPlay.gameplay.rules.SingleTileScoreCalculator;
+import com.LetsPlay.gameplay.rules.TileScoreCalculator;
 import com.LetsPlay.ui.PlayersView;
 
 import javafx.application.Application;
@@ -40,9 +43,23 @@ public class Main extends Application {
 			play_button.setVisible(true);
 			play_button.setPrefSize(90, 20);
 			play_button.setOnAction(event -> {
-				GameSession.checkPlay();
-				GameSession.computer.generateMove();
-				GameSession.computer.makePlay();
+				if(GameSession.checkPlay()){;
+					GameSession.computer.generateMove();
+					GameSession.computer.makePlay();
+					if (PlayChecker.onSameLine() && PlayChecker.isPlayCorrect()){
+						
+						GameSession.computer.setPlayerScore(TileScoreCalculator.calculateScore());
+						for(int counter = 0; counter < Hand.number_of_plays; counter++)
+							GameSession.computer.fillRack(GameSession.tilebag.getTile());
+						Hand.resetState();
+					}else{
+
+						GameSession.computer.setPlayerScore(SingleTileScoreCalculator.calculateScore());
+						for(int counter = 0; counter < Hand.number_of_plays; counter++)
+							GameSession.computer.fillRack(GameSession.tilebag.getTile());
+						Hand.resetState();
+					}
+				}
 			});
 			
 			Button pass_button = new Button("Pass");
