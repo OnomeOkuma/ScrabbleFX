@@ -3,7 +3,6 @@ package com.LetsPlay;
 
 import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
-import com.LetsPlay.gameplay.rules.PlayChecker;
 import com.LetsPlay.gameplay.rules.SingleTileScoreCalculator;
 import com.LetsPlay.gameplay.rules.TileScoreCalculator;
 import com.LetsPlay.ui.PlayersView;
@@ -11,6 +10,8 @@ import com.LetsPlay.ui.PlayersView;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
@@ -46,18 +47,26 @@ public class Main extends Application {
 				if(GameSession.checkPlay()){;
 					GameSession.computer.generateMove();
 					GameSession.computer.makePlay();
-					if (PlayChecker.onSameLine() && PlayChecker.isPlayCorrect()){
-						
+					
+					if (Hand.number_of_plays > 1){
 						GameSession.computer.setPlayerScore(TileScoreCalculator.calculateScore());
-						for(int counter = 0; counter < Hand.number_of_plays; counter++)
-							GameSession.computer.fillRack(GameSession.tilebag.getTile());
+						for(int counter = 0; counter < Hand.number_of_plays; counter++){
+							if(GameSession.tilebag.getTileTotal() > 0){
+								GameSession.computer.fillRack(GameSession.tilebag.getTile());
+							}
+						}
+						Hand.resetState();
+					}else if(Hand.number_of_plays == 1){
+						GameSession.computer.setPlayerScore(SingleTileScoreCalculator.calculateScore());
+						for(int counter = 0; counter < Hand.number_of_plays; counter++){
+							if(GameSession.tilebag.getTileTotal() > 0){
+								GameSession.computer.fillRack(GameSession.tilebag.getTile());
+							}
+						}
 						Hand.resetState();
 					}else{
-
-						GameSession.computer.setPlayerScore(SingleTileScoreCalculator.calculateScore());
-						for(int counter = 0; counter < Hand.number_of_plays; counter++)
-							GameSession.computer.fillRack(GameSession.tilebag.getTile());
-						Hand.resetState();
+						Alert alert = new Alert(AlertType.INFORMATION, "Computer passed turn");
+						alert.showAndWait();
 					}
 				}
 			});
@@ -72,6 +81,24 @@ public class Main extends Application {
 					
 					GameSession.player.player_rack.getChildren().add(GameSession.tilebag.getTile());
 					
+				}
+				
+				GameSession.computer.generateMove();
+				GameSession.computer.makePlay();
+				
+				if (Hand.number_of_plays > 1){
+					GameSession.computer.setPlayerScore(TileScoreCalculator.calculateScore());
+					for(int counter = 0; counter < Hand.number_of_plays; counter++)
+						GameSession.computer.fillRack(GameSession.tilebag.getTile());
+					Hand.resetState();
+				}else if(Hand.number_of_plays == 1){
+					GameSession.computer.setPlayerScore(SingleTileScoreCalculator.calculateScore());
+					for(int counter = 0; counter < Hand.number_of_plays; counter++)
+						GameSession.computer.fillRack(GameSession.tilebag.getTile());
+					Hand.resetState();
+				}else{
+					Alert alert = new Alert(AlertType.INFORMATION, "Computer passed turn");
+					alert.showAndWait();
 				}
 				
 			});

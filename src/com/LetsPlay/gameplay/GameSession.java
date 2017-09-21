@@ -56,8 +56,10 @@ public class GameSession {
 				}else{
 					
 					player.setPlayerScore(TileScoreCalculator.calculateScore());
-					for(int counter = 0; counter < Hand.number_of_plays; counter++)
-						player.player_rack.getChildren().add(tilebag.getTile());
+					for(int counter = 0; counter < Hand.number_of_plays; counter++){
+						if(tilebag.getTileTotal() > 0)
+							player.player_rack.getChildren().add(tilebag.getTile());
+					}
 					first_play = false;
 					Hand.resetState();
 					return true;
@@ -66,15 +68,19 @@ public class GameSession {
 			}else if (PlayChecker.onSameLine() && PlayChecker.isPlayCorrect()){
 				
 				player.setPlayerScore(TileScoreCalculator.calculateScore());
-				for(int counter = 0; counter < Hand.number_of_plays; counter++)
-					player.player_rack.getChildren().add(tilebag.getTile());
+				for(int counter = 0; counter < Hand.number_of_plays; counter++){
+					if(tilebag.getTileTotal() > 0)
+						player.player_rack.getChildren().add(tilebag.getTile());
+				}
 				Hand.resetState();
 				return true;
 			}else if(SingleTilePlayChecker.isSingleTilePlay() && SingleTilePlayChecker.checkWord()){
 				
 				player.setPlayerScore(SingleTileScoreCalculator.calculateScore());
-				for(int counter = 0; counter < Hand.number_of_plays; counter++)
-					player.player_rack.getChildren().add(tilebag.getTile());
+				for(int counter = 0; counter < Hand.number_of_plays; counter++){
+					if(tilebag.getTileTotal() > 0)
+						player.player_rack.getChildren().add(tilebag.getTile());
+				}
 				Hand.resetState();
 				return true;
 			}else {

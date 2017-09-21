@@ -159,19 +159,21 @@ public class ComPlayer  extends AbstractPlayer{
 			
 			// Edge case
 			if (row >= 15 || column >= 15){
-				System.out.println("End of Board");
 				return;
 			}
 			
 			if (GameSession.board.isPositionOccupied(row, column)){
-				if(GameSession.wordlist.nodeEdges(partialword).contains(GameSession.board.TileInPosition(row, column).letter)){
+				try{
+					if(GameSession.wordlist.nodeEdges(partialword).contains(GameSession.board.TileInPosition(row, column).letter)){
 					
-					partialword = partialword.concat(GameSession.board.TileInPosition(row, column).letter);
-					row++;
-					this.columnBuildWord(row, column, partialword);
-					row--;
+						partialword = partialword.concat(GameSession.board.TileInPosition(row, column).letter);
+						row++;
+						this.columnBuildWord(row, column, partialword);
+						row--;
+					}
+				}catch(NullPointerException e){
+					System.out.println("Partial word " + partialword);
 				}
-				
 			}else{
 				if(GameSession.wordlist.isWordContained(partialword)){
 					this.recordMoveColumn(row, column, partialword);
@@ -189,7 +191,7 @@ public class ComPlayer  extends AbstractPlayer{
 				while(iterator.hasNext()){
 					String temp2 = iterator.next();
 					
-					if (this.tile_letters.contains(temp2) && CrossSet.rowCrossSet(row, column, temp2)){
+					if (this.tile_letters.contains(temp2) && BoardView.rowCrossSet(row, column, temp2)){
 						
 						this.tile_letters.remove(temp2);
 						row++;
@@ -213,19 +215,21 @@ public class ComPlayer  extends AbstractPlayer{
 			
 			// Edge case
 			if (row >= 15 || column >= 15){
-				System.out.println("End of Board");
 				return;
 			}
 			
 			if (GameSession.board.isPositionOccupied(row, column)){
-				if(GameSession.wordlist.nodeEdges(partialword).contains(GameSession.board.TileInPosition(row, column).letter)){
+				try{
+					if(GameSession.wordlist.nodeEdges(partialword).contains(GameSession.board.TileInPosition(row, column).letter)){
 					
-					partialword = partialword.concat(GameSession.board.TileInPosition(row, column).letter);
-					column++;
-					this.rowBuildWord(row, column, partialword);
-					column--;
+						partialword = partialword.concat(GameSession.board.TileInPosition(row, column).letter);
+						column++;
+						this.rowBuildWord(row, column, partialword);
+						column--;
+					}
+				}catch (NullPointerException e){
+					System.out.println("Partial word " + partialword);
 				}
-				
 			}else{
 				
 				
@@ -246,7 +250,7 @@ public class ComPlayer  extends AbstractPlayer{
 				while(iterator.hasNext()){
 					String temp2 = iterator.next();
 					
-					if (this.tile_letters.contains(temp2) && CrossSet.columnCrossSet(row, column, temp2)){
+					if (this.tile_letters.contains(temp2) && BoardView.columnCrossSet(row, column, temp2)){
 						
 						this.tile_letters.remove(temp2);
 						column++;
@@ -259,68 +263,20 @@ public class ComPlayer  extends AbstractPlayer{
 			}
 		}
 		
-		private boolean isColumnAnchorSquare(int row, int column){
-			
-			int topsquare = row - 1;
-			int downsquare = row + 1;
-		
-			return (GameSession.board.isPositionOccupied(topsquare, column) || GameSession.board.isPositionOccupied(downsquare, column));
-		}
-		
-		
-		private boolean isRowAnchorSquare(int row, int column){
-			
-			int topsquare = column - 1;
-			int downsquare = column + 1;
-			
-			return (GameSession.board.isPositionOccupied(row, topsquare) || GameSession.board.isPositionOccupied(row, downsquare));
-		}
-		
-		
-		private String columnPrefix(int row, int column){
-			
-			StringBuffer word = new StringBuffer();
-			row--;
-			
-			while(GameSession.board.isPositionOccupied(row, column)){
-				word.append(GameSession.board.TileInPosition(row, column).letter);
-				row--;
-			}
-			
-			word = word.reverse();
-			
-			return word.toString();
-			
-		}
-		
-		private String rowPrefix(int row, int column){
-			StringBuffer word = new StringBuffer();
-			column--;
-			
-			while(GameSession.board.isPositionOccupied(row, column)){
-				word.append(GameSession.board.TileInPosition(row, column).letter);
-				column--;
-			}
-			
-			word = word.reverse();
-			
-			return word.toString();
-			
-		}
 		
 		public void generateMove(){
 			for (int row = 0; row < 15; row++){
 				for (int column = 0; column < 15; column++){
 					
-					if(this.isColumnAnchorSquare(row, column))
-						this.columnBuildWord(row, column, this.columnPrefix(row, column));
+					if(BoardView.isColumnAnchorSquare(row, column))
+						this.columnBuildWord(row, column, BoardView.columnPrefix(row, column));
 					
-					if(this.isRowAnchorSquare(row, column))
-						this.rowBuildWord(row, column, this.rowPrefix(row, column));
+					if(BoardView.isRowAnchorSquare(row, column))
+						this.rowBuildWord(row, column, BoardView.rowPrefix(row, column));
 				}
 			}
 			
-			System.out.println(this.axis);
+			//debug
 			System.out.println(this.highest_score);
 			System.out.println(this.highest_scoring_word);
 			System.out.println(this.row + "  " + this.column + "  " + this.axis);
@@ -374,9 +330,7 @@ public class ComPlayer  extends AbstractPlayer{
 						
 					}
 				}
-				
-				System.out.println(this.tile_letters);
-				System.out.println(this.tiles.size());
+
 				this.highest_score = 0;
 				this.highest_scoring_word = new String();
 				this.axis = true;

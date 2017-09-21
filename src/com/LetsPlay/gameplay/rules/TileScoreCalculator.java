@@ -477,6 +477,10 @@ public class TileScoreCalculator {
 		int score = 0;
 		ArrayList<Integer> word_score_multiplier = new ArrayList<Integer>();
 		
+		// if the number of tiles played is 7, add 50 to the score.
+		if(Hand.number_of_plays == 7)
+			score += 50;
+		
 		if(Hand.tiles_played.sameRow()){
 			int row = Hand.tiles_played.row.get(0);
 			int column = Hand.tiles_played.column.get(0);

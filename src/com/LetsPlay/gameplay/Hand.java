@@ -19,7 +19,7 @@ import javafx.scene.layout.GridPane;
 
 public class Hand {
 		
-	public static int number_of_plays = 0;
+		public static int number_of_plays = 0;
 		// Holds the Tile currently being dragged.
 		private static Tile tile;
 		
