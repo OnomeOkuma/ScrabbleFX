@@ -70,7 +70,6 @@ public class ComPlayer  extends AbstractPlayer{
 				
 				if(GameSession.board.isPositionOccupied(row, column)){
 					
-					//score_keeper += GameSession.board.TileInPosition(row, column).score;
 					row--;
 					
 				}else {
@@ -116,7 +115,6 @@ public class ComPlayer  extends AbstractPlayer{
 				
 				if(GameSession.board.isPositionOccupied(row, column)){
 					
-					//score_keeper += GameSession.board.TileInPosition(row, column).score;
 					column--;
 					
 				}else {
@@ -172,12 +170,12 @@ public class ComPlayer  extends AbstractPlayer{
 						row--;
 					}
 				}catch(NullPointerException e){
-					System.out.println("Partial word " + partialword);
+					System.out.println("edges " + GameSession.wordlist.nodeEdges(partialword));
 				}
 			}else{
 				if(GameSession.wordlist.isWordContained(partialword)){
 					this.recordMoveColumn(row, column, partialword);
-					}
+				}
 				
 
 				ArrayList<String> temp = GameSession.wordlist.nodeEdges(partialword);
@@ -228,7 +226,7 @@ public class ComPlayer  extends AbstractPlayer{
 						column--;
 					}
 				}catch (NullPointerException e){
-					System.out.println("Partial word " + partialword);
+					System.out.println("edges " + GameSession.wordlist.nodeEdges(partialword));
 				}
 			}else{
 				

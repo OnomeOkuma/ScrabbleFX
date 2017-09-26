@@ -31,6 +31,7 @@ class BoardView {
 
 	}
 	
+	
 	static boolean columnCrossSet(int row, int column, String tile){
 		StringBuffer prefix = new StringBuffer();
 		StringBuffer suffix = new StringBuffer();
@@ -62,22 +63,34 @@ class BoardView {
 	
 	static boolean isColumnAnchorSquare(int row, int column){
 		
-		int topsquare = row - 1;
-		int downsquare = row + 2;
+		if(GameSession.board.isPositionOccupied(row, column)){
+			
+			return false;
+			
+		}else{
+			
+			int topsquare = row - 1;
+			int downsquare = row + 2;
 	
 		return (GameSession.board.isPositionOccupied(topsquare, column) || GameSession.board.isPositionOccupied(downsquare, column));
+		}
 	}
-	
 	
 	
 	static boolean isRowAnchorSquare(int row, int column){
 		
-		int topsquare = column - 1;
-		int downsquare = column + 2;
+		if(GameSession.board.isPositionOccupied(row, column)){
+			
+			return false;
+			
+		}else{
+			
+			int topsquare = column - 1;
+			int downsquare = column + 2;
 		
-		return (GameSession.board.isPositionOccupied(row, topsquare) || GameSession.board.isPositionOccupied(row, downsquare));
+			return (GameSession.board.isPositionOccupied(row, topsquare) || GameSession.board.isPositionOccupied(row, downsquare));
+		}
 	}
-	
 	
 	static String columnPrefix(int row, int column){
 		
