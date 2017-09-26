@@ -9,6 +9,7 @@ import java.util.Iterator;
 import com.LetsPlay.gameplay.AbstractPlayer;
 import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
+import com.LetsPlay.gameplay.rules.TileScoreCalculator;
 import com.LetsPlay.ui.ScoreBoard;
 import com.LetsPlay.ui.Tile;
 
@@ -110,7 +111,8 @@ public class ComPlayer  extends AbstractPlayer{
 		 */
 		private void recordMoveRow(int row, int column,String partialword){
 			int score_keeper = 0;
-			
+			int wordscore = 1;
+
 			for (int i = partialword.length() - 1; i >= 0; i--){
 				
 				if(GameSession.board.isPositionOccupied(row, column)){
@@ -127,7 +129,8 @@ public class ComPlayer  extends AbstractPlayer{
 						
 						if(temp.equals(temp2.letter)){
 							
-							score_keeper += temp2.score;
+							score_keeper += (temp2.score * TileScoreCalculator.getLetterScore(row, column));
+							wordscore *= TileScoreCalculator.getWordScore(row, column);
 							column--;
 							break;
 						}
@@ -136,6 +139,8 @@ public class ComPlayer  extends AbstractPlayer{
 					
 				}
 			}
+			
+			score_keeper *= wordscore;
 			
 			if (score_keeper > this.highest_score){
 				this.axis = true;
@@ -162,6 +167,7 @@ public class ComPlayer  extends AbstractPlayer{
 			
 			if (GameSession.board.isPositionOccupied(row, column)){
 				try{
+					
 					if(GameSession.wordlist.nodeEdges(partialword).contains(GameSession.board.TileInPosition(row, column).letter)){
 					
 						partialword = partialword.concat(GameSession.board.TileInPosition(row, column).letter);
@@ -169,10 +175,12 @@ public class ComPlayer  extends AbstractPlayer{
 						this.columnBuildWord(row, column, partialword);
 						row--;
 					}
+					
 				}catch(NullPointerException e){
 					System.out.println("edges " + GameSession.wordlist.nodeEdges(partialword));
 				}
 			}else{
+				
 				if(GameSession.wordlist.isWordContained(partialword)){
 					this.recordMoveColumn(row, column, partialword);
 				}
@@ -183,6 +191,7 @@ public class ComPlayer  extends AbstractPlayer{
 				if (temp == null){
 					return;
 				}
+				
 				Iterator<String> iterator = temp.iterator();
 				
 			

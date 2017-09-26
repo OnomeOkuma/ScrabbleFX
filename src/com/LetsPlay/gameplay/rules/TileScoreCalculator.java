@@ -467,6 +467,14 @@ public class TileScoreCalculator {
 		word_score[14][14] = 3;
 	}
 	
+	public static int getLetterScore(int row, int column){
+		return TileScoreCalculator.letter_score[row][column];
+	}
+	
+	public static int getWordScore(int row, int column){
+		return TileScoreCalculator.word_score[row][column];
+	}
+	
 	public static int calculateScore(){
 		if(PlayChecker.isPlayCrossPlay())
 			return (TileScoreCalculator.calculateWordScore() + TileScoreCalculator.calculateCrossWordScore());
