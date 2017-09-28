@@ -65,8 +65,10 @@ public class ComPlayer  extends AbstractPlayer{
 		 * its score is higher than the previous one. 
 		 */
 		private void recordMoveColumn(int row, int column,String partialword){
-
 			int score_keeper = 0;
+			int wordscore = 1;
+
+			
 			for (int i = partialword.length() - 1; i >= 0; i--){
 				
 				if(GameSession.board.isPositionOccupied(row, column)){
@@ -83,7 +85,8 @@ public class ComPlayer  extends AbstractPlayer{
 						
 						if(temp.equals(temp2.letter)){
 							
-							score_keeper += temp2.score;
+							score_keeper += (temp2.score * TileScoreCalculator.getLetterScore(row, column));
+							wordscore *= TileScoreCalculator.getWordScore(row, column);
 							row--;
 							break;
 						}
@@ -92,6 +95,8 @@ public class ComPlayer  extends AbstractPlayer{
 					
 				}
 			}
+			
+			score_keeper *= wordscore;
 			
 			if (score_keeper > this.highest_score){
 				this.axis = false;
@@ -112,7 +117,7 @@ public class ComPlayer  extends AbstractPlayer{
 		private void recordMoveRow(int row, int column,String partialword){
 			int score_keeper = 0;
 			int wordscore = 1;
-
+			
 			for (int i = partialword.length() - 1; i >= 0; i--){
 				
 				if(GameSession.board.isPositionOccupied(row, column)){
@@ -166,7 +171,6 @@ public class ComPlayer  extends AbstractPlayer{
 			}
 			
 			if (GameSession.board.isPositionOccupied(row, column)){
-				try{
 					
 					if(GameSession.wordlist.nodeEdges(partialword).contains(GameSession.board.TileInPosition(row, column).letter)){
 					
@@ -175,10 +179,7 @@ public class ComPlayer  extends AbstractPlayer{
 						this.columnBuildWord(row, column, partialword);
 						row--;
 					}
-					
-				}catch(NullPointerException e){
-					System.out.println("edges " + GameSession.wordlist.nodeEdges(partialword));
-				}
+
 			}else{
 				
 				if(GameSession.wordlist.isWordContained(partialword)){
@@ -226,7 +227,6 @@ public class ComPlayer  extends AbstractPlayer{
 			}
 			
 			if (GameSession.board.isPositionOccupied(row, column)){
-				try{
 					if(GameSession.wordlist.nodeEdges(partialword).contains(GameSession.board.TileInPosition(row, column).letter)){
 					
 						partialword = partialword.concat(GameSession.board.TileInPosition(row, column).letter);
@@ -234,14 +234,13 @@ public class ComPlayer  extends AbstractPlayer{
 						this.rowBuildWord(row, column, partialword);
 						column--;
 					}
-				}catch (NullPointerException e){
-					System.out.println("edges " + GameSession.wordlist.nodeEdges(partialword));
-				}
 			}else{
 				
 				
 				if(GameSession.wordlist.isWordContained(partialword)){
+					
 					this.recordMoveRow(row, column, partialword);
+					
 					}
 				
 				
@@ -282,12 +281,7 @@ public class ComPlayer  extends AbstractPlayer{
 						this.rowBuildWord(row, column, BoardView.rowPrefix(row, column));
 				}
 			}
-			
-			//debug
-			System.out.println(this.highest_score);
-			System.out.println(this.highest_scoring_word);
-			System.out.println(this.row + "  " + this.column + "  " + this.axis);
-			System.out.println("\n");
+
 		}
 		 
 		
@@ -296,15 +290,21 @@ public class ComPlayer  extends AbstractPlayer{
 				
 				if (this.axis){
 					
-					for (int i = 0; i <= this.highest_scoring_word.length() - 1; i++){
-						if (GameSession.board.isPositionOccupied(this.row, this.column))
+					for (int i = 0; i < this.highest_scoring_word.length(); i++){
+						if (GameSession.board.isPositionOccupied(this.row, this.column)){
 							this.column++;
+							System.out.println("row " + this.row);
+							System.out.println("column " + this.column + "\n");
+							
+						}
 						else{
 							Iterator<Tile> iterator = this.tiles.iterator();
 							while(iterator.hasNext()){
 								tile = iterator.next();
 								if(Character.toString(this.highest_scoring_word.charAt(i)).equals(tile.letter)){
 									this.placeTile(this.row, this.column, tile);
+									System.out.println("row " + this.row);
+									System.out.println("column " + this.column + "\n");
 									this.column++;
 									this.tiles.remove(tile);
 									this.tile_letters.remove(tile.letter);
@@ -316,16 +316,21 @@ public class ComPlayer  extends AbstractPlayer{
 						
 					}
 				}else{
-					for (int i = 0; i <= this.highest_scoring_word.length() - 1; i++){
+					for (int i = 0; i < this.highest_scoring_word.length(); i++){
 						
-						if (GameSession.board.isPositionOccupied(this.row, this.column))
+						if (GameSession.board.isPositionOccupied(this.row, this.column)){
 							this.row++;
+							System.out.println("row " + this.row);
+							System.out.println("column " + this.column + "\n");
+						}
 						else{
 							Iterator<Tile> iterator = this.tiles.iterator();
 							while(iterator.hasNext()){
 								tile = iterator.next();
 								if(Character.toString(this.highest_scoring_word.charAt(i)).equals(tile.letter)){
 									this.placeTile(this.row, this.column, tile);
+									System.out.println("row " + this.row);
+									System.out.println("column " + this.column + "\n");
 									this.row++;
 									this.tiles.remove(tile);
 									this.tile_letters.remove(tile.letter);
@@ -337,7 +342,10 @@ public class ComPlayer  extends AbstractPlayer{
 						
 					}
 				}
-
+				System.out.println("word " + this.highest_scoring_word);
+				System.out.println("Word score " + this.highest_score);
+				System.out.println("\n");
+				
 				this.highest_score = 0;
 				this.highest_scoring_word = new String();
 				this.axis = true;

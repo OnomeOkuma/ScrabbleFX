@@ -59,8 +59,8 @@ public class PlayChecker {
 			 */
 			
 			if(Hand.tiles_played.sameRow()){
-				int row = Hand.tiles_played.row.get(0);
-				int column = Hand.tiles_played.column.get(0);
+				int row = Hand.tiles_played.row.firstElement();
+				int column = Hand.tiles_played.column.firstElement();
 				
 				// Get the word formed by the tiles played.
 				while (column <= Hand.tiles_played.column.get(Hand.tiles_played.column.size() - 1)){
@@ -74,7 +74,7 @@ public class PlayChecker {
 				
 				// Add prefixed word if any.
 				if (PlayChecker.isPlaySuffix()){
-					column = Hand.tiles_played.column.get(0);
+					column = Hand.tiles_played.column.firstElement();
 					StringBuffer temp = new StringBuffer();
 					column--;
 					while(GameSession.board.isPositionOccupied(row, column)){
@@ -103,8 +103,8 @@ public class PlayChecker {
 				
 				// This is the second part.
 			} else {
-				int row = Hand.tiles_played.row.get(0);
-				int column = Hand.tiles_played.column.get(0);
+				int row = Hand.tiles_played.row.firstElement();
+				int column = Hand.tiles_played.column.firstElement();
 				
 				// Get the word formed by the tiles played.
 				while (row <= Hand.tiles_played.row.get(Hand.tiles_played.row.size() - 1)){
@@ -118,7 +118,7 @@ public class PlayChecker {
 				
 				// Add prefixed word if any.
 				if (PlayChecker.isPlaySuffix()){
-					row = Hand.tiles_played.row.get(0);
+					row = Hand.tiles_played.row.firstElement();
 					StringBuffer temp = new StringBuffer();
 					row--;
 					while(GameSession.board.isPositionOccupied(row, column)){
@@ -162,7 +162,7 @@ public class PlayChecker {
 			while (column_values.hasNext()){
 				StringBuffer word = new StringBuffer();
 				int column = column_values.next();
-				int row = Hand.tiles_played.row.get(0);
+				int row = Hand.tiles_played.row.firstElement();
 				
 				// Append the letters found in the successive rows where tiles are found.
 				while(GameSession.board.isPositionOccupied(row, column)){
@@ -170,7 +170,7 @@ public class PlayChecker {
 					row++;
 				}
 				StringBuffer temp = new StringBuffer();
-				row = Hand.tiles_played.row.get(0);
+				row = Hand.tiles_played.row.firstElement();
 				row--;
 				
 				// Append the letters found in the preceding rows where tiles are found.
@@ -191,7 +191,7 @@ public class PlayChecker {
 				 tile.
 				*/
 				
-				if (word.length() != 1 && GameSession.wordlist.isWordContained(word.toString()) == false)
+				if (word.length() != 1 && !GameSession.wordlist.isWordContained(word.toString()))
 					return false;
 			}
 			return true;
@@ -201,7 +201,7 @@ public class PlayChecker {
 				while (row_values.hasNext()){
 					StringBuffer word = new StringBuffer();
 					int row = row_values.next();
-					int column = Hand.tiles_played.column.get(0);
+					int column = Hand.tiles_played.column.firstElement();
 					
 					// Append the letters found in the successive columns where tiles are found.
 					while(GameSession.board.isPositionOccupied(row, column)){
@@ -209,7 +209,7 @@ public class PlayChecker {
 						column++;
 					}
 					StringBuffer temp = new StringBuffer();
-					column = Hand.tiles_played.column.get(0);
+					column = Hand.tiles_played.column.firstElement();
 					column--;
 					
 					// Append the letters found in the preceding columns where tiles are found.
@@ -229,7 +229,7 @@ public class PlayChecker {
 					 condition is to ensure that the check continues if no cross word is found on that 
 					 tile.
 					*/
-					if (word.length() != 1 && GameSession.wordlist.isWordContained(word.toString()) == false)
+					if (word.length() != 1 && !GameSession.wordlist.isWordContained(word.toString()))
 						return false;
 			}
 			return true;	
@@ -238,8 +238,8 @@ public class PlayChecker {
 	
 		// Checks if the play made was suffixed to a previous play on the board.
 				static boolean isPlaySuffix(){
-					int column = Hand.tiles_played.column.get(0);
-					int row = Hand.tiles_played.row.get(0);
+					int column = Hand.tiles_played.column.firstElement();
+					int row = Hand.tiles_played.row.firstElement();
 				
 				
 					if (Hand.tiles_played.sameRow() && GameSession.board.isPositionOccupied(row, (column-1)))
@@ -251,8 +251,8 @@ public class PlayChecker {
 			
 		// Checks if the play made was prefixed to a previous play made on the board.
 				static boolean isPlayPrefix(){
-					int column = Hand.tiles_played.column.get((Hand.tiles_played.column.size() - 1));
-					int row = Hand.tiles_played.row.get((Hand.tiles_played.row.size() - 1));
+					int column = Hand.tiles_played.column.lastElement();
+					int row = Hand.tiles_played.row.lastElement();
 					
 					if (Hand.tiles_played.sameRow() && GameSession.board.isPositionOccupied(row, (column + 1)))
 						return true;
@@ -270,10 +270,10 @@ public class PlayChecker {
 						
 						while (column_values.hasNext()){
 							int column = column_values.next();
-							int row = Hand.tiles_played.row.get(0);
+							int row = Hand.tiles_played.row.firstElement();
 							
-							boolean bottom_row = GameSession.board.isPositionOccupied((row + 1), column);
-							boolean top_row = GameSession.board.isPositionOccupied((row - 1), column);
+							boolean bottom_row = GameSession.board.isPositionOccupied(row + 1, column);
+							boolean top_row = GameSession.board.isPositionOccupied(row - 1, column);
 							
 							
 							if(top_row == true || bottom_row == true)
@@ -284,7 +284,7 @@ public class PlayChecker {
 						Iterator<Integer> row_values = Hand.tiles_played.row.iterator();
 						while (row_values.hasNext()){
 							int row = row_values.next();
-							int column = Hand.tiles_played.column.get(0);
+							int column = Hand.tiles_played.column.firstElement();
 							
 							boolean right_column = GameSession.board.isPositionOccupied(row, column + 1);
 							boolean left_column = GameSession.board.isPositionOccupied(row, column - 1);

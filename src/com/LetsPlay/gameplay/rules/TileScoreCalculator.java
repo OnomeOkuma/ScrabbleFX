@@ -8,8 +8,8 @@ import com.LetsPlay.gameplay.Hand;
 
 public class TileScoreCalculator {
 
-	private static int letter_score[][] = new int[15][15];
-	private static int word_score[][] = new int[15][15];
+	static int letter_score[][] = new int[15][15];
+	static int word_score[][] = new int[15][15];
 	
 	public static void letterScoreInit(){
 		letter_score[0][0] = 1;
@@ -490,8 +490,8 @@ public class TileScoreCalculator {
 			score += 50;
 		
 		if(Hand.tiles_played.sameRow()){
-			int row = Hand.tiles_played.row.get(0);
-			int column = Hand.tiles_played.column.get(0);
+			int row = Hand.tiles_played.row.firstElement();
+			int column = Hand.tiles_played.column.firstElement();
 			
 			
 			while (column <= Hand.tiles_played.column.get(Hand.tiles_played.column.size() - 1)){
@@ -506,7 +506,7 @@ public class TileScoreCalculator {
 			
 
 			if (PlayChecker.isPlaySuffix()){
-				column = Hand.tiles_played.column.get(0);
+				column = Hand.tiles_played.column.firstElement();
 				column--;
 				while(GameSession.board.isPositionOccupied(row, column)){
 					score += GameSession.board.TileInPosition(row, column).score; 
@@ -535,8 +535,8 @@ public class TileScoreCalculator {
 			
 			// This is the second part.
 		} else {
-			int row = Hand.tiles_played.row.get(0);
-			int column = Hand.tiles_played.column.get(0);
+			int row = Hand.tiles_played.row.firstElement();
+			int column = Hand.tiles_played.column.firstElement();
 			
 			// Get the word formed by the tiles played.
 			while (row <= Hand.tiles_played.row.get(Hand.tiles_played.row.size() - 1)){
@@ -550,7 +550,7 @@ public class TileScoreCalculator {
 			}
 			
 			if (PlayChecker.isPlaySuffix()){
-				row = Hand.tiles_played.row.get(0);
+				row = Hand.tiles_played.row.firstElement();
 				row--;
 				while(GameSession.board.isPositionOccupied(row, column)){
 					score += GameSession.board.TileInPosition(row, column).score;
@@ -587,7 +587,7 @@ public class TileScoreCalculator {
 			
 			while (column_values.hasNext()){
 				int column = column_values.next();
-				int row = Hand.tiles_played.row.get(0);
+				int row = Hand.tiles_played.row.firstElement();
 				cross_score += (GameSession.board.TileInPosition(row, column).score * 
 						letter_score[row][column]);
 				letter_score[row][column] = 1;
@@ -602,7 +602,7 @@ public class TileScoreCalculator {
 					row++;
 				}
 
-				row = Hand.tiles_played.row.get(0);
+				row = Hand.tiles_played.row.firstElement();
 				row--;
 				
 				while(GameSession.board.isPositionOccupied(row, column)){
@@ -633,7 +633,7 @@ public class TileScoreCalculator {
 						column++;
 						}
 					
-					column = Hand.tiles_played.column.get(0);
+					column = Hand.tiles_played.column.firstElement();
 					column--;
 					
 

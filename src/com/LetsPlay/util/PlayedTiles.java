@@ -7,17 +7,18 @@
  */
 package com.LetsPlay.util;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Vector;
+
 import com.LetsPlay.ui.Tile;
 
 public class PlayedTiles {
 	// Holds information regarding the row of each played tile.
-	public ArrayList<Integer> row = new ArrayList<Integer>();
+	public Vector<Integer> row = new Vector<Integer>();
 	
 	// Hold information regarding the column of each played tile. 
-	public ArrayList<Integer> column = new ArrayList<Integer>();
+	public Vector<Integer> column = new Vector<Integer>();
 	
 	// The tiles currently being played.
 	public Tile tiles[][] = new Tile[22][22];
@@ -41,8 +42,8 @@ public class PlayedTiles {
 	
 	// Clears the current information being held.
 	public void clear(){
-		this.row = new ArrayList<Integer>();
-		this.column = new ArrayList<Integer>();
+		this.row = new Vector<Integer>();
+		this.column = new Vector<Integer>();
 		this.tiles = new Tile[225][225];
 	}
 	

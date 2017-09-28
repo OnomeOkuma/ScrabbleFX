@@ -30,9 +30,7 @@ public class GameSession {
 			first_play = true;
 			player = new Player();
 			computer = new ComPlayer();
-			
-			SingleTileScoreCalculator.letterScoreInit();
-			SingleTileScoreCalculator.wordScoreInit();
+
 			TileScoreCalculator.letterScoreInit();
 			TileScoreCalculator.wordScoreInit();
 			
