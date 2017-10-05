@@ -476,9 +476,15 @@ public class TileScoreCalculator {
 	}
 	
 	public static int calculateScore(){
+		int score = 0;
+		
 		if(PlayChecker.isPlayCrossPlay())
-			return (TileScoreCalculator.calculateWordScore() + TileScoreCalculator.calculateCrossWordScore());
-		else return TileScoreCalculator.calculateWordScore();
+			score = (TileScoreCalculator.calculateWordScore() + TileScoreCalculator.calculateCrossWordScore());
+		else score = TileScoreCalculator.calculateWordScore();
+		
+		TileScoreCalculator.updateBoardValues();
+		
+		return score;
 	}
 	
 	private static int calculateWordScore(){
@@ -497,9 +503,7 @@ public class TileScoreCalculator {
 			while (column <= Hand.tiles_played.column.get(Hand.tiles_played.column.size() - 1)){
 				score += (GameSession.board.TileInPosition(row, column).score * 
 						letter_score[row][column]);
-				letter_score[row][column] = 1;
 				word_score_multiplier.add(word_score[row][column]);
-				word_score[row][column] = 1;
 				column++;
 	
 			}
@@ -542,9 +546,7 @@ public class TileScoreCalculator {
 			while (row <= Hand.tiles_played.row.get(Hand.tiles_played.row.size() - 1)){
 				score += (GameSession.board.TileInPosition(row, column).score * 
 						letter_score[row][column]);
-				letter_score[row][column] = 1;
 				word_score_multiplier.add(word_score[row][column]);
-				word_score[row][column] = 1;
 				row++;
 				
 			}
@@ -590,9 +592,7 @@ public class TileScoreCalculator {
 				int row = Hand.tiles_played.row.firstElement();
 				cross_score += (GameSession.board.TileInPosition(row, column).score * 
 						letter_score[row][column]);
-				letter_score[row][column] = 1;
 				cross_word_score_multiplier = word_score[row][column];
-				word_score[row][column] = 1;
 				
 				row++; 
 				
@@ -622,9 +622,7 @@ public class TileScoreCalculator {
 					int column = Hand.tiles_played.column.get(0);
 					cross_score += (GameSession.board.TileInPosition(row, column).score * 
 							letter_score[row][column]);
-					letter_score[row][column] = 1;
 					cross_word_score_multiplier = word_score[row][column];
-					word_score[row][column] = 1;
 					column++;
 					
 					
@@ -647,5 +645,18 @@ public class TileScoreCalculator {
 				return cross_score;	
 			}
 		}
+	
+	static void updateBoardValues(){
+		Iterator<Integer> iterator_row = Hand.tiles_played.row.iterator();
+		Iterator<Integer> iterator_column = Hand.tiles_played.column.iterator();
+		while(iterator_row.hasNext()){
+			int row = iterator_row.next();
+			int column = iterator_column.next();
+			letter_score[row][column] = 1;
+			word_score[row][column] = 1;
+			}
+		
+		}
+	
 	}
 

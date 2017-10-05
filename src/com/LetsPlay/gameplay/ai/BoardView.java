@@ -70,7 +70,7 @@ class BoardView {
 		}else{
 			
 			int topsquare = row - 1;
-			int downsquare = row + 2;
+			int downsquare = row + 1;
 	
 		return (GameSession.board.isPositionOccupied(topsquare, column) || GameSession.board.isPositionOccupied(downsquare, column));
 		}
@@ -86,7 +86,7 @@ class BoardView {
 		}else{
 			
 			int topsquare = column - 1;
-			int downsquare = column + 2;
+			int downsquare = column + 1;
 		
 			return (GameSession.board.isPositionOccupied(row, topsquare) || GameSession.board.isPositionOccupied(row, downsquare));
 		}
@@ -103,6 +103,7 @@ class BoardView {
 		}
 		
 		word = word.reverse();
+		GameSession.computer.word_made_from_rack = false;
 		
 		return word.toString();
 		
@@ -118,6 +119,7 @@ class BoardView {
 		}
 		
 		word = word.reverse();
+		GameSession.computer.word_made_from_rack = false;
 		
 		return word.toString();
 		

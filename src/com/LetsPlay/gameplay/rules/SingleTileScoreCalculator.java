@@ -6,27 +6,32 @@ import com.LetsPlay.gameplay.Hand;
 public class SingleTileScoreCalculator {
 	
 	public static int calculateScore(){
+		int score = 0;
 		if(SingleTilePlayChecker.isRowPlay() && !SingleTilePlayChecker.isColumnPlay()){
-			return SingleTileScoreCalculator.calculateScoreRow();
+			score += SingleTileScoreCalculator.calculateScoreRow();
 		} else if (!SingleTilePlayChecker.isRowPlay() && SingleTilePlayChecker.isColumnPlay()){
-			return SingleTileScoreCalculator.calculateScoreColumn();
+			score += SingleTileScoreCalculator.calculateScoreColumn();
 		} else if (SingleTilePlayChecker.isRowPlay() && SingleTilePlayChecker.isColumnPlay()){
-			return SingleTileScoreCalculator.calculateScoreRow() + SingleTileScoreCalculator.calculateScoreColumn();
-		} else return 0;
+			score += (SingleTileScoreCalculator.calculateScoreRow() + SingleTileScoreCalculator.calculateScoreColumn());
+		} else score = 0;
+		
+		TileScoreCalculator.updateBoardValues();
+		
+		return score;
+		
 	}
 	
 	
 	private static int calculateScoreRow(){
 		int score = 0;
-		int word_score_multiplier = 0;
+		int word_score_multiplier = 1;
 		
-		int row = Hand.tiles_played.row.get(0);
-		int column = Hand.tiles_played.column.get(0);
+		int row = Hand.tiles_played.row.firstElement();
+		int column = Hand.tiles_played.column.firstElement();
 		
 		score += (GameSession.board.TileInPosition(row, column).score * 
 				TileScoreCalculator.letter_score[row][column]);
-		word_score_multiplier = TileScoreCalculator.word_score[row][column];
-		TileScoreCalculator.word_score[row][column] = 1;
+		word_score_multiplier *= TileScoreCalculator.word_score[row][column];
 		
 		column--;
 		
@@ -35,7 +40,7 @@ public class SingleTileScoreCalculator {
 			column--;
 		}
 		
-		column = Hand.tiles_played.column.get(0);
+		column = Hand.tiles_played.column.firstElement();
 		column++;
 	
 		while(GameSession.board.isPositionOccupied(row, column)){
@@ -50,15 +55,14 @@ public class SingleTileScoreCalculator {
 	
 	private static int calculateScoreColumn(){
 		int score = 0;
-		int word_score_multiplier = 0;
+		int word_score_multiplier = 1;
 		
-		int row = Hand.tiles_played.row.get(0);
-		int column = Hand.tiles_played.column.get(0);
+		int row = Hand.tiles_played.row.firstElement();
+		int column = Hand.tiles_played.column.firstElement();
 		
 		score += (GameSession.board.TileInPosition(row, column).score * 
 				TileScoreCalculator.letter_score[row][column]);
-		word_score_multiplier = TileScoreCalculator.word_score[row][column];
-		TileScoreCalculator.word_score[row][column] = 1;
+		word_score_multiplier *= TileScoreCalculator.word_score[row][column];
 		
 		row--;
 		
@@ -67,7 +71,7 @@ public class SingleTileScoreCalculator {
 			row--;
 		}
 	
-		row = Hand.tiles_played.row.get(0);
+		row = Hand.tiles_played.row.firstElement();
 		row++;
 	
 		while(GameSession.board.isPositionOccupied(row, column)){
@@ -79,4 +83,5 @@ public class SingleTileScoreCalculator {
 		
 		return score;
 	}
+	
 }
