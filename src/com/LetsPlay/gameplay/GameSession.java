@@ -11,6 +11,7 @@ import com.LetsPlay.ui.Board;
 import javafx.scene.layout.HBox;
 
 public class GameSession {
+	
 		public static Board board;
 		public static HBox rack2;
 		public static TileBag tilebag;

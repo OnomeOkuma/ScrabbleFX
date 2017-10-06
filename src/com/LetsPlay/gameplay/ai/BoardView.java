@@ -70,8 +70,7 @@ class BoardView {
 		}else{
 			
 			int topsquare = row - 1;
-			int downsquare = row + 1;
-	
+			int downsquare = row + 2;
 		return (GameSession.board.isPositionOccupied(topsquare, column) || GameSession.board.isPositionOccupied(downsquare, column));
 		}
 	}
@@ -86,8 +85,7 @@ class BoardView {
 		}else{
 			
 			int topsquare = column - 1;
-			int downsquare = column + 1;
-		
+			int downsquare = column + 2;
 			return (GameSession.board.isPositionOccupied(row, topsquare) || GameSession.board.isPositionOccupied(row, downsquare));
 		}
 	}

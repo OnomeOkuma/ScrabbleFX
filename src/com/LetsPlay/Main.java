@@ -9,10 +9,12 @@ import com.LetsPlay.ui.PlayersView;
 
 import javafx.application.Application;
 import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -75,13 +77,6 @@ public class Main extends Application {
 			pass_button.setVisible(true);
 			pass_button.setPrefSize(90, 20);
 			pass_button.setOnAction(event -> {
-				GameSession.tilebag.returnTile(GameSession.player.player_rack.getChildren());
-				GameSession.player.player_rack.getChildren().clear();
-				for (int columnindex = 0; columnindex < 7; columnindex++){
-					
-					GameSession.player.player_rack.getChildren().add(GameSession.tilebag.getTile());
-					
-				}
 				
 				GameSession.computer.generateMove();
 				GameSession.computer.makePlay();
@@ -103,6 +98,64 @@ public class Main extends Application {
 				
 			});
 			
+			Button exchange_button = new Button("Exchange");
+			exchange_button.setVisible(true);
+			exchange_button.setPrefSize(90, 20);
+			exchange_button.setOnAction(event -> {
+				int tiles = 0;
+				TextInputDialog number_of_tiles = new TextInputDialog();
+					number_of_tiles.setContentText("Number: ");
+					number_of_tiles.setHeaderText("Number of Tiles to return");
+					number_of_tiles.showAndWait();
+				
+				while(number_of_tiles.getResult() == null || number_of_tiles.getResult().length() == 0){
+					number_of_tiles.showAndWait();
+					}
+				
+				try {
+					tiles = Integer.parseInt(number_of_tiles.getResult());
+				}catch(NumberFormatException e){
+					Alert alert = new Alert(AlertType.INFORMATION, "Enter a Number");
+					alert.showAndWait();
+				}
+				
+				if (tiles <= 7 && tiles < GameSession.tilebag.getTileTotal()){
+					
+					for (int i = 0; i < tiles; i++){
+					
+							Node temp = GameSession.player.player_rack.getChildren().remove(i);
+							GameSession.tilebag.returnTile(temp);
+							GameSession.player.player_rack.getChildren().add(GameSession.tilebag.getTile());
+						
+						}
+					
+					GameSession.computer.generateMove();
+					GameSession.computer.makePlay();
+					
+					if (Hand.number_of_plays > 1){
+						GameSession.computer.setPlayerScore(TileScoreCalculator.calculateScore());
+						for(int counter = 0; counter < Hand.number_of_plays; counter++)
+							GameSession.computer.fillRack(GameSession.tilebag.getTile());
+						Hand.resetState();
+					}else if(Hand.number_of_plays == 1){
+						GameSession.computer.setPlayerScore(SingleTileScoreCalculator.calculateScore());
+						for(int counter = 0; counter < Hand.number_of_plays; counter++)
+							GameSession.computer.fillRack(GameSession.tilebag.getTile());
+						Hand.resetState();
+					}else{
+						Alert alert = new Alert(AlertType.INFORMATION, "Computer passed turn");
+						alert.showAndWait();
+					}
+					
+				}else{
+					
+					Alert alert = new Alert(AlertType.INFORMATION, "Number too high for tile total or rack total");
+					alert.showAndWait();
+					
+				}
+				
+			});
+			
 			Button undo_button = new Button("Undo Play");
 			undo_button.setVisible(true);
 			undo_button.setPrefSize(90, 20);
@@ -113,14 +166,36 @@ public class Main extends Application {
 			// Add notice to tell players that undo only works when play is made.
 			});
 			
+			// Added the submit functionality
 			Button submit_button = new Button("Submit");
 			submit_button.setVisible(true);
 			submit_button.setPrefSize(90, 20);
 			submit_button.setOnAction(event -> {
+				Alert alert = new Alert(AlertType.INFORMATION, "You have admitted defeat");
+				alert.showAndWait();
+				scene_layout.getChildren().remove(GameSession.board);
+				scene_layout.getChildren().remove(GameSession.player.player_rack);
+				scene_layout.getChildren().remove(GameSession.computer.scoreboard);
+				scene_layout.getChildren().remove(GameSession.player.scoreboard);
+				
+				GameSession.init();
+				GameSession.board.relocate(80, 90);
+				scene_layout.getChildren().add(GameSession.board);
+				
+				GameSession.player.player_rack.relocate(225, 669);
+				scene_layout.getChildren().add(GameSession.player.player_rack);
+				
+				GameSession.computer.scoreboard.relocate(700.5, 170);
+				scene_layout.getChildren().add(GameSession.computer.scoreboard);
+				
+				GameSession.player.scoreboard.relocate(700.5, 100);
+				scene_layout.getChildren().add(GameSession.player.scoreboard);
 			});
 			
+			
+			
 			//Creating the buttons for gameplay control
-			ToolBar button_list = new ToolBar(play_button, pass_button, submit_button, undo_button);
+			ToolBar button_list = new ToolBar(play_button, pass_button, exchange_button, submit_button, undo_button);
 			button_list.relocate(700.5, 300);
 			button_list.setOrientation(Orientation.VERTICAL);
 			button_list.setOpacity(50.00);

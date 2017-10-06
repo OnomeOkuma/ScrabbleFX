@@ -123,9 +123,9 @@ public class TileBag{
 			
 			// This method simulate the behaviour of returning a Tile back,
 			// For example when a player misses a turn.
-			public void returnTile(ObservableList<Node> tiles){
-				this.tile_bag.addAll(tiles);
-				this.size = this.tile_bag.size();
+			public void returnTile(Node tiles){
+				this.tile_bag.add(tiles);
+				this.size++;
 			}
 		}
 
