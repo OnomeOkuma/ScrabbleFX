@@ -4,8 +4,6 @@
  */
 package com.LetsPlay.util;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -21,11 +19,10 @@ public class Dawg {
 		public Dawg(){
 			// Initialize and set the root node.
 			this.root = new DawgNode();
-			this.root.character = ' ';
-			try {
-				
+			this.root.character = ' ';	
 				// Open the text file and set its delimiter. 
-				Scanner reader = new Scanner(new File("/home/onome/Wordlist/WordList.txt"));
+				
+				Scanner reader = new Scanner(this.getClass().getResourceAsStream("WordList.txt"));
 				reader.useDelimiter("\n");
 				
 				// While words are still present in the textfile
@@ -60,12 +57,6 @@ public class Dawg {
 				}
 				
 				reader.close();
-			} catch (FileNotFoundException e) {
-				
-				System.out.println("File Not Found" + "\n");
-				e.printStackTrace();
-			}
-			
 		}
 		
 		
