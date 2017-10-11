@@ -3,7 +3,6 @@
  */
 package com.LetsPlay.ui;
 
-import java.io.Serializable;
 import java.util.Hashtable;
 
 import com.LetsPlay.gameplay.Hand;
@@ -11,27 +10,28 @@ import com.LetsPlay.gameplay.Hand;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontSmoothingType;
 
-public class Tile extends Pane implements Serializable{
-			/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4290494497449372710L;
+public class Tile extends Pane{
 
 			// Property holding the Tile letter/Tile weight mapping for 
 			// easy initialization of the Tile object.
 			private final Hashtable<String, Integer> tileweight = new Hashtable<String, Integer>(26);
 			
 			// Letter on Tile.
-			public final String letter;
+			public String letter;
 			
 			// Score on Tile.
 			public final int score;
+			
+			public boolean isBlank = false;
+			
+			// Create the canvas.
+			private Canvas temp = new Canvas(39.55,36.6);
 			
 			public Tile(String letter){
 				// Constructor statement.
@@ -75,11 +75,9 @@ public class Tile extends Pane implements Serializable{
 				// Set the letter and score.
 				this.letter = letter;
 				this.score = this.tileweight.get(letter);
-				
-				// Create the canvas.
-				Canvas temp = new Canvas(39.55,36.6);
+			
 				// GraphicsContext to draw the necessary information.
-				GraphicsContext temp2 = temp.getGraphicsContext2D();
+				GraphicsContext temp2 = this.temp.getGraphicsContext2D();
 				temp2.setFont(Font.font("Ubuntu Light", 22));
 				temp2.setFontSmoothingType(FontSmoothingType.LCD);
 				temp2.setFill(Color.BLACK);
@@ -89,8 +87,11 @@ public class Tile extends Pane implements Serializable{
 				temp2.fillText(Integer.toString(this.score), 26.6, 28.5);
 				
 				// Add the canvas to the Pane object to create the Tile.
-				this.getChildren().add(temp);
+				this.getChildren().add(this.temp);
 				this.tileweight.clear();
+				if(this.letter.equals(" ")){
+					this.isBlank = true;
+				}
 				
 				// Action when mouse is pressed.
 				this.setOnMousePressed(event -> {
@@ -125,5 +126,14 @@ public class Tile extends Pane implements Serializable{
 				});
 		
 			}
-			
+			public void setBlankLetter(String letter){
+				if (this.letter.equals(" ")){
+					this.letter = letter;
+					GraphicsContext temp2 = this.temp.getGraphicsContext2D();
+					temp2.setFont(Font.font("Ubuntu Light", 22));
+					temp2.setFontSmoothingType(FontSmoothingType.LCD);
+					temp2.setFill(Color.BLACK);
+					temp2.fillText(this.letter, 10.0, 26.0);
+				}
+			}
 }

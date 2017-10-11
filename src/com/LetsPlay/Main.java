@@ -46,7 +46,7 @@ public class Main extends Application {
 			play_button.setVisible(true);
 			play_button.setPrefSize(90, 20);
 			play_button.setOnAction(event -> {
-				if(GameSession.checkPlay()){;
+				if(GameSession.checkPlay()){
 					GameSession.computer.generateMove();
 					GameSession.computer.makePlay();
 					
@@ -70,6 +70,12 @@ public class Main extends Application {
 						Alert alert = new Alert(AlertType.INFORMATION, "Computer passed turn");
 						alert.showAndWait();
 					}
+				}
+				
+				if(GameSession.isEndGame()){
+					GameSession.rack2.getChildren().addAll(GameSession.computer.tiles);
+					Alert alert = new Alert(AlertType.INFORMATION, "Game Over");
+					alert.showAndWait();
 				}
 			});
 			
@@ -192,10 +198,32 @@ public class Main extends Application {
 				scene_layout.getChildren().add(GameSession.player.scoreboard);
 			});
 			
+			Button restart_button = new Button("Restart");
+			restart_button.setVisible(true);
+			restart_button.setPrefSize(90, 20);
+			restart_button.setOnAction(e -> {
+				scene_layout.getChildren().remove(GameSession.board);
+				scene_layout.getChildren().remove(GameSession.player.player_rack);
+				scene_layout.getChildren().remove(GameSession.computer.scoreboard);
+				scene_layout.getChildren().remove(GameSession.player.scoreboard);
+				
+				GameSession.init();
+				GameSession.board.relocate(80, 90);
+				scene_layout.getChildren().add(GameSession.board);
+				
+				GameSession.player.player_rack.relocate(225, 669);
+				scene_layout.getChildren().add(GameSession.player.player_rack);
+				
+				GameSession.computer.scoreboard.relocate(700.5, 170);
+				scene_layout.getChildren().add(GameSession.computer.scoreboard);
+				
+				GameSession.player.scoreboard.relocate(700.5, 100);
+				scene_layout.getChildren().add(GameSession.player.scoreboard);
+			});
 			
 			
 			//Creating the buttons for gameplay control
-			ToolBar button_list = new ToolBar(play_button, pass_button, exchange_button, submit_button, undo_button);
+			ToolBar button_list = new ToolBar(play_button, pass_button, exchange_button, submit_button, undo_button, restart_button);
 			button_list.relocate(700.5, 300);
 			button_list.setOrientation(Orientation.VERTICAL);
 			button_list.setOpacity(50.00);

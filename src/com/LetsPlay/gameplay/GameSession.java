@@ -89,4 +89,7 @@ public class GameSession {
 			}
 				
 	}
+		public static boolean isEndGame(){
+			return (GameSession.player.player_rack.getChildren().size() == 0 || GameSession.computer.tiles.size() == 0);
+		}
 }

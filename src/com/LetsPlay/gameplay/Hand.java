@@ -15,6 +15,7 @@ import com.LetsPlay.ui.Tile;
 import com.LetsPlay.util.PlayedTiles;
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 
 public class Hand {
@@ -34,7 +35,18 @@ public class Hand {
 		
 		// Handles the graphical problem of placing a tile on the board.
 		public static void play(Canvas grid_released) {
-			
+			if (Hand.tile.letter.equals(" ")){
+				TextInputDialog blank_letter = new TextInputDialog();
+				blank_letter.setContentText("Letter: ");
+				blank_letter.setHeaderText("Letter Represented by Blank");
+				blank_letter.showAndWait();
+				
+				while(blank_letter.getResult() == null || blank_letter.getResult().length() == 0 || blank_letter.getResult().length() > 1){
+					blank_letter.showAndWait();
+					}
+				
+				Hand.tile.setBlankLetter(blank_letter.getResult().toUpperCase());
+			}
 			// Replace the given Canvas with the current Tile being held.
 			int column = GridPane.getColumnIndex(grid_released);
 			int row = GridPane.getRowIndex(grid_released);
@@ -75,8 +87,12 @@ public class Hand {
 				Tile temp2 = Hand.current_play.get(tempCanvas);
 				
 				// Place the Tile on its rack. Refer to the Note above.
-				GameSession.player.player_rack.getChildren().add(new Tile(temp2.letter));
-				
+				if (temp2.isBlank){
+					GameSession.player.player_rack.getChildren().add(new Tile(" "));
+					}else{
+						
+						GameSession.player.player_rack.getChildren().add(new Tile(temp2.letter));
+						}
 				// Remove it from the board.
 				GameSession.board.removeTile(temp2);
 				
