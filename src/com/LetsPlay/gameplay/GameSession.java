@@ -1,5 +1,6 @@
 package com.LetsPlay.gameplay;
 
+import com.LetsPlay.util.DataAccess;
 import com.LetsPlay.util.Dawg;
 import com.LetsPlay.gameplay.ai.ComPlayer;
 import com.LetsPlay.gameplay.rules.PlayChecker;
@@ -8,6 +9,8 @@ import com.LetsPlay.gameplay.rules.SingleTileScoreCalculator;
 import com.LetsPlay.gameplay.rules.TileScoreCalculator;
 import com.LetsPlay.ui.Board;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.HBox;
 
 public class GameSession {
@@ -19,6 +22,9 @@ public class GameSession {
 		public static boolean first_play;
 		public static Player player;
 		public static ComPlayer computer;
+		public static DataAccess dataaccess;
+		public static CheckBox loggedIn;
+		public static Boolean loggedInBool;
 		
 		public static void init(){
 			board = new Board();
@@ -31,7 +37,15 @@ public class GameSession {
 			first_play = true;
 			player = new Player();
 			computer = new ComPlayer();
-
+			dataaccess = new DataAccess();
+			loggedInBool = false;
+			loggedIn = new CheckBox("Logged In");
+			loggedIn.setPadding(new Insets(5,5,5,5));
+			loggedIn.setOnAction(e -> {
+				loggedIn.setSelected(GameSession.loggedInBool);
+			});
+			
+			
 			TileScoreCalculator.letterScoreInit();
 			TileScoreCalculator.wordScoreInit();
 			

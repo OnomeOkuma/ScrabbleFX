@@ -5,22 +5,24 @@ import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
 import com.LetsPlay.gameplay.rules.SingleTileScoreCalculator;
 import com.LetsPlay.gameplay.rules.TileScoreCalculator;
+import com.LetsPlay.ui.CreatePlayerDialog;
+import com.LetsPlay.ui.LogInDialog;
 import com.LetsPlay.ui.PlayersView;
 
 import javafx.application.Application;
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.ToolBar;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
 public class Main extends Application {
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -43,7 +45,6 @@ public class Main extends Application {
 			GameSession.computer.scoreboard.relocate(700.5, 170);
 			
 			Button play_button = new Button("Play");
-			play_button.setVisible(true);
 			play_button.setPrefSize(90, 20);
 			play_button.setOnAction(event -> {
 				if(GameSession.checkPlay()){
@@ -80,7 +81,6 @@ public class Main extends Application {
 			});
 			
 			Button pass_button = new Button("Pass");
-			pass_button.setVisible(true);
 			pass_button.setPrefSize(90, 20);
 			pass_button.setOnAction(event -> {
 				
@@ -105,7 +105,6 @@ public class Main extends Application {
 			});
 			
 			Button exchange_button = new Button("Exchange");
-			exchange_button.setVisible(true);
 			exchange_button.setPrefSize(90, 20);
 			exchange_button.setOnAction(event -> {
 				int tiles = 0;
@@ -163,7 +162,6 @@ public class Main extends Application {
 			});
 			
 			Button undo_button = new Button("Undo Play");
-			undo_button.setVisible(true);
 			undo_button.setPrefSize(90, 20);
 			undo_button.setOnAction(event -> {
 				Hand.undo_play();
@@ -174,7 +172,6 @@ public class Main extends Application {
 			
 			// Added the submit functionality
 			Button submit_button = new Button("Submit");
-			submit_button.setVisible(true);
 			submit_button.setPrefSize(90, 20);
 			submit_button.setOnAction(event -> {
 				Alert alert = new Alert(AlertType.INFORMATION, "You have admitted defeat");
@@ -198,34 +195,39 @@ public class Main extends Application {
 				scene_layout.getChildren().add(GameSession.player.scoreboard);
 			});
 			
-			Button restart_button = new Button("Restart");
-			restart_button.setVisible(true);
-			restart_button.setPrefSize(90, 20);
-			restart_button.setOnAction(e -> {
-				scene_layout.getChildren().remove(GameSession.board);
-				scene_layout.getChildren().remove(GameSession.player.player_rack);
-				scene_layout.getChildren().remove(GameSession.computer.scoreboard);
-				scene_layout.getChildren().remove(GameSession.player.scoreboard);
-				
-				GameSession.init();
-				GameSession.board.relocate(80, 90);
-				scene_layout.getChildren().add(GameSession.board);
-				
-				GameSession.player.player_rack.relocate(225, 669);
-				scene_layout.getChildren().add(GameSession.player.player_rack);
-				
-				GameSession.computer.scoreboard.relocate(700.5, 170);
-				scene_layout.getChildren().add(GameSession.computer.scoreboard);
-				
-				GameSession.player.scoreboard.relocate(700.5, 100);
-				scene_layout.getChildren().add(GameSession.player.scoreboard);
+			Button login_button = new Button("Log In");
+			login_button.setPrefSize(90, 20);
+			login_button.setOnAction(e -> {
+				if(!CreatePlayerDialog.isOpen){
+					LogInDialog loginDialog = new LogInDialog();
+					loginDialog.showAndWait();
+				}
+			});
+			
+			Button logout_button = new Button("Log Out");
+			logout_button.setPrefSize(90, 20);
+			logout_button.setOnAction(e -> {
+				GameSession.player.setPlayerName("New Player");
+				GameSession.loggedInBool = false;
+				GameSession.loggedIn.setSelected(false);
+			});
+			
+			
+			Button create_button = new Button("Create Player");
+			create_button.setPrefSize(90, 20);
+			create_button.setOnAction(e -> {
+				if(!LogInDialog.isOpen){
+					CreatePlayerDialog createPlayer = new CreatePlayerDialog();
+					createPlayer.showAndWait();
+				}
 			});
 			
 			
 			//Creating the buttons for gameplay control
-			ToolBar button_list = new ToolBar(play_button, pass_button, exchange_button, submit_button, undo_button, restart_button);
+			VBox button_list = new VBox(5);
+			button_list.getChildren().addAll(play_button, pass_button, exchange_button, undo_button,
+											submit_button, login_button, GameSession.loggedIn, logout_button, create_button);
 			button_list.relocate(700.5, 300);
-			button_list.setOrientation(Orientation.VERTICAL);
 			button_list.setOpacity(50.00);
 			PlayersView.playerview.relocate(1000, 50);
 			
@@ -242,8 +244,12 @@ public class Main extends Application {
 			primaryStage.setTitle("Let's Play");
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			
+			
 		} catch(Exception e) {
+			
 			e.printStackTrace();
+			
 		}
 	}
 	
