@@ -11,6 +11,7 @@ package com.LetsPlay.gameplay;
 import java.util.ArrayDeque;
 import java.util.Hashtable;
 
+import com.LetsPlay.GameLayout;
 import com.LetsPlay.ui.Tile;
 import com.LetsPlay.util.PlayedTiles;
 
@@ -50,8 +51,8 @@ public class Hand {
 			// Replace the given Canvas with the current Tile being held.
 			int column = GridPane.getColumnIndex(grid_released);
 			int row = GridPane.getRowIndex(grid_released);
-			GameSession.board.getChildren().remove(grid_released);
-			GameSession.board.addTile(Hand.tile, column, row);
+			GameLayout.board.getChildren().remove(grid_released);
+			GameLayout.board.addTile(Hand.tile, column, row);
 			
 			// Record the information about the play.
 			current_play.put(grid_released, tile);
@@ -88,16 +89,16 @@ public class Hand {
 				
 				// Place the Tile on its rack. Refer to the Note above.
 				if (temp2.isBlank){
-					GameSession.player.player_rack.getChildren().add(new Tile(" "));
+					GameLayout.playerRack.getChildren().add(new Tile(" "));
 					}else{
 						
-						GameSession.player.player_rack.getChildren().add(new Tile(temp2.letter));
+						GameLayout.playerRack.getChildren().add(new Tile(temp2.letter));
 						}
 				// Remove it from the board.
-				GameSession.board.removeTile(temp2);
+				GameLayout.board.removeTile(temp2);
 				
 				// Add the board grid element back.
-				GameSession.board.add(tempCanvas, GridPane.getColumnIndex(temp2), GridPane.getRowIndex(temp2));
+				GameLayout.board.add(tempCanvas, GridPane.getColumnIndex(temp2), GridPane.getRowIndex(temp2));
 				
 				number_of_plays--;
 			}

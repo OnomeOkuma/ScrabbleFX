@@ -20,6 +20,7 @@ public class ScoreBoard extends VBox{
 			private Pane background = new Pane();
 			private Label playerscore = new Label("25");
 			private Label playername = new Label("Unknown");
+			private int Score = 0;
 			
 			public ScoreBoard(){
 				super(5);
@@ -42,7 +43,13 @@ public class ScoreBoard extends VBox{
 				this.playername.setText(name);
 			}
 			
-			public void setScore(String score){
-				this.playerscore.setText(score);
+			public void setScore(int score){
+				this.Score += score; 
+				this.playerscore.setText(Integer.toString(this.Score));
+			}
+			
+			public void restart(){
+				this.Score = 0;
+				this.playerscore.setText(Integer.toString(this.Score));
 			}
 }

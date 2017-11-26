@@ -6,18 +6,17 @@ package com.LetsPlay.gameplay.ai;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.LetsPlay.gameplay.AbstractPlayer;
+import com.LetsPlay.GameLayout;
 import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
 import com.LetsPlay.gameplay.rules.TileScoreCalculator;
-import com.LetsPlay.ui.ScoreBoard;
 import com.LetsPlay.ui.Tile;
 
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.GridPane;
 
-public class ComPlayer  extends AbstractPlayer{
+public class ComPlayer{
 		public ArrayList<Tile> tiles;
 		private ArrayList<String> tile_letters;
 		private String highest_scoring_word = new String();
@@ -28,10 +27,6 @@ public class ComPlayer  extends AbstractPlayer{
 		boolean word_made_from_rack = false;
 		
 		public ComPlayer(){
-			this.player_score = 0;
-			this.scoreboard = new ScoreBoard();
-			this.scoreboard.setName("Computer");
-			this.scoreboard.setScore(Integer.toString(this.player_score));
 			this.tiles = new ArrayList<Tile>();
 			this.tile_letters = new ArrayList<String>();
 		}
@@ -45,7 +40,7 @@ public class ComPlayer  extends AbstractPlayer{
 		
 		
 		public void placeTile(int row, int column, Tile tile){
-			Iterator<Node> iterator = GameSession.board.getChildrenUnmodifiable().iterator();
+			Iterator<Node> iterator = GameLayout.board.getChildrenUnmodifiable().iterator();
 			
 			// To avoid that Object of Group class. 
 			iterator.next();
@@ -71,8 +66,8 @@ public class ComPlayer  extends AbstractPlayer{
 			
 			for (int i = partialword.length() - 1; i >= 0; i--){
 				
-				if(GameSession.board.isPositionOccupied(row, column)){
-					score_keeper += GameSession.board.TileInPosition(row, column).score;
+				if(GameLayout.board.isPositionOccupied(row, column)){
+					score_keeper += GameLayout.board.TileInPosition(row, column).score;
 					row--;
 					
 				}else {
@@ -119,8 +114,8 @@ public class ComPlayer  extends AbstractPlayer{
 			int wordscore = 1;
 			for (int i = partialword.length() - 1; i >= 0; i--){
 				
-				if(GameSession.board.isPositionOccupied(row, column)){
-					score_keeper += GameSession.board.TileInPosition(row, column).score;
+				if(GameLayout.board.isPositionOccupied(row, column)){
+					score_keeper += GameLayout.board.TileInPosition(row, column).score;
 					column--;
 					
 				}else {
@@ -170,10 +165,10 @@ public class ComPlayer  extends AbstractPlayer{
 				return;
 			}
 			
-			if (GameSession.board.isPositionOccupied(row, column)){
+			if (GameLayout.board.isPositionOccupied(row, column)){
 				
-					if(GameSession.wordlist.nodeEdges(partialword).contains(GameSession.board.TileInPosition(row, column).letter)){
-						partialword = partialword.concat(GameSession.board.TileInPosition(row, column).letter);
+					if(GameSession.wordlist.nodeEdges(partialword).contains(GameLayout.board.TileInPosition(row, column).letter)){
+						partialword = partialword.concat(GameLayout.board.TileInPosition(row, column).letter);
 						row++;
 						this.columnBuildWord(row, column, partialword);
 						row--;
@@ -230,10 +225,10 @@ public class ComPlayer  extends AbstractPlayer{
 				return;
 			}
 			
-			if (GameSession.board.isPositionOccupied(row, column)){
+			if (GameLayout.board.isPositionOccupied(row, column)){
 				
-					if(GameSession.wordlist.nodeEdges(partialword).contains(GameSession.board.TileInPosition(row, column).letter)){
-						partialword = partialword.concat(GameSession.board.TileInPosition(row, column).letter);
+					if(GameSession.wordlist.nodeEdges(partialword).contains(GameLayout.board.TileInPosition(row, column).letter)){
+						partialword = partialword.concat(GameLayout.board.TileInPosition(row, column).letter);
 						column++;
 						this.rowBuildWord(row, column, partialword);
 						column--;
@@ -293,7 +288,7 @@ public class ComPlayer  extends AbstractPlayer{
 				if (this.axis){
 					
 					for (int i = 0; i < this.highest_scoring_word.length(); i++){
-						if (GameSession.board.isPositionOccupied(this.row, this.column)){
+						if (GameLayout.board.isPositionOccupied(this.row, this.column)){
 							this.column++;	
 						}
 						else{
@@ -315,7 +310,7 @@ public class ComPlayer  extends AbstractPlayer{
 				}else{
 					for (int i = 0; i < this.highest_scoring_word.length(); i++){
 						
-						if (GameSession.board.isPositionOccupied(this.row, this.column)){
+						if (GameLayout.board.isPositionOccupied(this.row, this.column)){
 							this.row++;
 						}
 						else{

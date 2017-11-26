@@ -25,7 +25,7 @@ public class DataAccess {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				Alert alert = new Alert(AlertType.ERROR, "Unable to connect to Database");
-				alert.show();
+				alert.showAndWait();
 				Platform.exit();
 			}
 			

@@ -20,6 +20,7 @@ package com.LetsPlay.gameplay.rules;
 
 import java.util.Iterator;
 
+import com.LetsPlay.GameLayout;
 import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
 
@@ -37,7 +38,7 @@ public class PlayChecker {
 	
 // Check if the first play was made according to the rules of the game.
 	public static boolean isFirstPlayValid(){
-			return GameSession.board.isPositionOccupied(7, 7);
+			return GameLayout.board.isPositionOccupied(7, 7);
 		}
 	
 	
@@ -64,10 +65,10 @@ public class PlayChecker {
 				
 				// Get the word formed by the tiles played.
 				while (column <= Hand.tiles_played.column.get(Hand.tiles_played.column.size() - 1)){
-					if(!GameSession.board.isPositionOccupied(row, column))
+					if(!GameLayout.board.isPositionOccupied(row, column))
 						return false;
 					
-					word.append(GameSession.board.TileInPosition(row, column).letter);
+					word.append(GameLayout.board.TileInPosition(row, column).letter);
 					column++;
 					
 				}
@@ -77,8 +78,8 @@ public class PlayChecker {
 					column = Hand.tiles_played.column.firstElement();
 					StringBuffer temp = new StringBuffer();
 					column--;
-					while(GameSession.board.isPositionOccupied(row, column)){
-						temp.append(GameSession.board.TileInPosition(row, column).letter);
+					while(GameLayout.board.isPositionOccupied(row, column)){
+						temp.append(GameLayout.board.TileInPosition(row, column).letter);
 						column--;
 					}
 					temp = temp.reverse();
@@ -91,8 +92,8 @@ public class PlayChecker {
 				if (PlayChecker.isPlayPrefix()){
 					column = Hand.tiles_played.column.get(Hand.tiles_played.column.size() - 1);
 					column++;
-					while(GameSession.board.isPositionOccupied(row, column)){
-						word.append(GameSession.board.TileInPosition(row, column).letter);
+					while(GameLayout.board.isPositionOccupied(row, column)){
+						word.append(GameLayout.board.TileInPosition(row, column).letter);
 						column++;
 					}
 					
@@ -108,10 +109,10 @@ public class PlayChecker {
 				
 				// Get the word formed by the tiles played.
 				while (row <= Hand.tiles_played.row.get(Hand.tiles_played.row.size() - 1)){
-					if(!GameSession.board.isPositionOccupied(row, column))
+					if(!GameLayout.board.isPositionOccupied(row, column))
 						return false;
 					
-					word.append(GameSession.board.TileInPosition(row, column).letter);
+					word.append(GameLayout.board.TileInPosition(row, column).letter);
 					row++;
 					
 				}
@@ -121,8 +122,8 @@ public class PlayChecker {
 					row = Hand.tiles_played.row.firstElement();
 					StringBuffer temp = new StringBuffer();
 					row--;
-					while(GameSession.board.isPositionOccupied(row, column)){
-						temp.append(GameSession.board.TileInPosition(row, column).letter);
+					while(GameLayout.board.isPositionOccupied(row, column)){
+						temp.append(GameLayout.board.TileInPosition(row, column).letter);
 						row--;
 					}
 					temp = temp.reverse();
@@ -134,8 +135,8 @@ public class PlayChecker {
 				if (PlayChecker.isPlayPrefix()){
 					row = Hand.tiles_played.row.get(Hand.tiles_played.row.size() - 1);
 					row++;
-					while(GameSession.board.isPositionOccupied(row, column)){
-						word.append(GameSession.board.TileInPosition(row, column).letter);
+					while(GameLayout.board.isPositionOccupied(row, column)){
+						word.append(GameLayout.board.TileInPosition(row, column).letter);
 						row++;
 					}
 					
@@ -165,8 +166,8 @@ public class PlayChecker {
 				int row = Hand.tiles_played.row.firstElement();
 				
 				// Append the letters found in the successive rows where tiles are found.
-				while(GameSession.board.isPositionOccupied(row, column)){
-					word.append(GameSession.board.TileInPosition(row, column).letter);
+				while(GameLayout.board.isPositionOccupied(row, column)){
+					word.append(GameLayout.board.TileInPosition(row, column).letter);
 					row++;
 				}
 				StringBuffer temp = new StringBuffer();
@@ -174,8 +175,8 @@ public class PlayChecker {
 				row--;
 				
 				// Append the letters found in the preceding rows where tiles are found.
-				while(GameSession.board.isPositionOccupied(row, column)){
-					temp.append(GameSession.board.TileInPosition(row, column).letter);
+				while(GameLayout.board.isPositionOccupied(row, column)){
+					temp.append(GameLayout.board.TileInPosition(row, column).letter);
 					row--;
 				}
 				
@@ -204,8 +205,8 @@ public class PlayChecker {
 					int column = Hand.tiles_played.column.firstElement();
 					
 					// Append the letters found in the successive columns where tiles are found.
-					while(GameSession.board.isPositionOccupied(row, column)){
-						word.append(GameSession.board.TileInPosition(row, column).letter);
+					while(GameLayout.board.isPositionOccupied(row, column)){
+						word.append(GameLayout.board.TileInPosition(row, column).letter);
 						column++;
 					}
 					StringBuffer temp = new StringBuffer();
@@ -213,8 +214,8 @@ public class PlayChecker {
 					column--;
 					
 					// Append the letters found in the preceding columns where tiles are found.
-					while(GameSession.board.isPositionOccupied(row, column)){
-						temp.append(GameSession.board.TileInPosition(row, column).letter);
+					while(GameLayout.board.isPositionOccupied(row, column)){
+						temp.append(GameLayout.board.TileInPosition(row, column).letter);
 						column--;
 					}
 					
@@ -242,9 +243,9 @@ public class PlayChecker {
 					int row = Hand.tiles_played.row.firstElement();
 				
 				
-					if (Hand.tiles_played.sameRow() && GameSession.board.isPositionOccupied(row, (column-1)))
+					if (Hand.tiles_played.sameRow() && GameLayout.board.isPositionOccupied(row, (column-1)))
 						return true;
-					else if (Hand.tiles_played.sameColumn() && GameSession.board.isPositionOccupied((row - 1), column))
+					else if (Hand.tiles_played.sameColumn() && GameLayout.board.isPositionOccupied((row - 1), column))
 						return true;
 					return false;
 				}
@@ -254,9 +255,9 @@ public class PlayChecker {
 					int column = Hand.tiles_played.column.lastElement();
 					int row = Hand.tiles_played.row.lastElement();
 					
-					if (Hand.tiles_played.sameRow() && GameSession.board.isPositionOccupied(row, (column + 1)))
+					if (Hand.tiles_played.sameRow() && GameLayout.board.isPositionOccupied(row, (column + 1)))
 						return true;
-					else if (Hand.tiles_played.sameColumn() && GameSession.board.isPositionOccupied((row + 1), column))
+					else if (Hand.tiles_played.sameColumn() && GameLayout.board.isPositionOccupied((row + 1), column))
 						return true;
 				
 					return false;
@@ -272,8 +273,8 @@ public class PlayChecker {
 							int column = column_values.next();
 							int row = Hand.tiles_played.row.firstElement();
 							
-							boolean bottom_row = GameSession.board.isPositionOccupied(row + 1, column);
-							boolean top_row = GameSession.board.isPositionOccupied(row - 1, column);
+							boolean bottom_row = GameLayout.board.isPositionOccupied(row + 1, column);
+							boolean top_row = GameLayout.board.isPositionOccupied(row - 1, column);
 							
 							
 							if(top_row == true || bottom_row == true)
@@ -286,8 +287,8 @@ public class PlayChecker {
 							int row = row_values.next();
 							int column = Hand.tiles_played.column.firstElement();
 							
-							boolean right_column = GameSession.board.isPositionOccupied(row, column + 1);
-							boolean left_column = GameSession.board.isPositionOccupied(row, column - 1);
+							boolean right_column = GameLayout.board.isPositionOccupied(row, column + 1);
+							boolean left_column = GameLayout.board.isPositionOccupied(row, column - 1);
 							
 							if(right_column == true || left_column == true)
 								return true;

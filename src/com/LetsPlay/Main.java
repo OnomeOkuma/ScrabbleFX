@@ -33,50 +33,61 @@ public class Main extends Application {
 			GameSession.init();
 
 			//Layout for the Scrabble board and setting the Scrabble board properties
-			GameSession.board.relocate(80, 90);
+			GameLayout.board.relocate(80, 90);
 			
 			//Layout for the player racks
 		
-			GameSession.player.player_rack.relocate(225, 669); // Vertical = 30 for AI rack.
-			GameSession.rack2.relocate(225, 30);
+			GameLayout.playerRack.relocate(225, 669); // Vertical = 30 for AI rack.
+			GameLayout.computerRack.relocate(225, 30);
 			
 			//Creating UI for score and player
-			GameSession.player.scoreboard.relocate(700.5, 100);
-			GameSession.computer.scoreboard.relocate(700.5, 170);
+			GameLayout.playerScore.relocate(700.5, 100);
+			GameLayout.computerScore.relocate(700.5, 170);
 			
 			Button play_button = new Button("Play");
 			play_button.setPrefSize(90, 20);
 			play_button.setOnAction(event -> {
-				if(GameSession.checkPlay()){
-					GameSession.computer.generateMove();
-					GameSession.computer.makePlay();
+				if(GameSession.loggedInBool){
 					
-					if (Hand.number_of_plays > 1){
-						GameSession.computer.setPlayerScore(TileScoreCalculator.calculateScore());
-						for(int counter = 0; counter < Hand.number_of_plays; counter++){
-							if(GameSession.tilebag.getTileTotal() > 0){
-								GameSession.computer.fillRack(GameSession.tilebag.getTile());
+					if(GameSession.checkPlay()){
+						GameSession.computer.generateMove();
+						GameSession.computer.makePlay();
+					
+						if (Hand.number_of_plays > 1){
+							GameLayout.computerScore.setScore(TileScoreCalculator.calculateScore());
+							for(int counter = 0; counter < Hand.number_of_plays; counter++){
+								if(GameSession.tilebag.getTileTotal() > 0){
+									GameSession.computer.fillRack(GameSession.tilebag.getTile());
+								}
 							}
-						}
-						Hand.resetState();
-					}else if(Hand.number_of_plays == 1){
-						GameSession.computer.setPlayerScore(SingleTileScoreCalculator.calculateScore());
-						for(int counter = 0; counter < Hand.number_of_plays; counter++){
-							if(GameSession.tilebag.getTileTotal() > 0){
-								GameSession.computer.fillRack(GameSession.tilebag.getTile());
+							Hand.resetState();
+						}else if(Hand.number_of_plays == 1){
+							GameLayout.computerScore.setScore(SingleTileScoreCalculator.calculateScore());
+							for(int counter = 0; counter < Hand.number_of_plays; counter++){
+								if(GameSession.tilebag.getTileTotal() > 0){
+									GameSession.computer.fillRack(GameSession.tilebag.getTile());
+								}
 							}
+							Hand.resetState();
+						}else{
+							Alert alert = new Alert(AlertType.INFORMATION, "Computer passed turn");
+							alert.showAndWait();
 						}
-						Hand.resetState();
-					}else{
-						Alert alert = new Alert(AlertType.INFORMATION, "Computer passed turn");
+					}
+				
+					if(GameSession.isRackEmpty()){
+						Alert alert = new Alert(AlertType.INFORMATION, "Game Over");
 						alert.showAndWait();
 					}
-				}
-				
-				if(GameSession.isEndGame()){
-					GameSession.rack2.getChildren().addAll(GameSession.computer.tiles);
-					Alert alert = new Alert(AlertType.INFORMATION, "Game Over");
+					
+					
+				}else {
+					
+					Hand.undo_play();
+					Hand.resetState();
+					Alert alert = new Alert(AlertType.INFORMATION, "Log In or Create Account");
 					alert.showAndWait();
+					
 				}
 			});
 			
@@ -88,12 +99,12 @@ public class Main extends Application {
 				GameSession.computer.makePlay();
 				
 				if (Hand.number_of_plays > 1){
-					GameSession.computer.setPlayerScore(TileScoreCalculator.calculateScore());
+					GameLayout.computerScore.setScore(TileScoreCalculator.calculateScore());
 					for(int counter = 0; counter < Hand.number_of_plays; counter++)
 						GameSession.computer.fillRack(GameSession.tilebag.getTile());
 					Hand.resetState();
 				}else if(Hand.number_of_plays == 1){
-					GameSession.computer.setPlayerScore(SingleTileScoreCalculator.calculateScore());
+					GameLayout.computerScore.setScore(SingleTileScoreCalculator.calculateScore());
 					for(int counter = 0; counter < Hand.number_of_plays; counter++)
 						GameSession.computer.fillRack(GameSession.tilebag.getTile());
 					Hand.resetState();
@@ -128,9 +139,9 @@ public class Main extends Application {
 					
 					for (int i = 0; i < tiles; i++){
 					
-							Node temp = GameSession.player.player_rack.getChildren().remove(i);
+							Node temp = GameLayout.playerRack.getChildren().remove(i);
 							GameSession.tilebag.returnTile(temp);
-							GameSession.player.player_rack.getChildren().add(GameSession.tilebag.getTile());
+							GameLayout.playerRack.getChildren().add(GameSession.tilebag.getTile());
 						
 						}
 					
@@ -138,12 +149,12 @@ public class Main extends Application {
 					GameSession.computer.makePlay();
 					
 					if (Hand.number_of_plays > 1){
-						GameSession.computer.setPlayerScore(TileScoreCalculator.calculateScore());
+						GameLayout.computerScore.setScore(TileScoreCalculator.calculateScore());
 						for(int counter = 0; counter < Hand.number_of_plays; counter++)
 							GameSession.computer.fillRack(GameSession.tilebag.getTile());
 						Hand.resetState();
 					}else if(Hand.number_of_plays == 1){
-						GameSession.computer.setPlayerScore(SingleTileScoreCalculator.calculateScore());
+						GameLayout.computerScore.setScore(SingleTileScoreCalculator.calculateScore());
 						for(int counter = 0; counter < Hand.number_of_plays; counter++)
 							GameSession.computer.fillRack(GameSession.tilebag.getTile());
 						Hand.resetState();
@@ -176,23 +187,17 @@ public class Main extends Application {
 			submit_button.setOnAction(event -> {
 				Alert alert = new Alert(AlertType.INFORMATION, "You have admitted defeat");
 				alert.showAndWait();
-				scene_layout.getChildren().remove(GameSession.board);
-				scene_layout.getChildren().remove(GameSession.player.player_rack);
-				scene_layout.getChildren().remove(GameSession.computer.scoreboard);
-				scene_layout.getChildren().remove(GameSession.player.scoreboard);
+				scene_layout.getChildren().remove(GameLayout.board);
+				scene_layout.getChildren().remove(GameLayout.playerRack);
+	
+				GameSession.restartGame();
 				
-				GameSession.init();
-				GameSession.board.relocate(80, 90);
-				scene_layout.getChildren().add(GameSession.board);
+				GameLayout.board.relocate(80, 90);
+				scene_layout.getChildren().add(GameLayout.board);
 				
-				GameSession.player.player_rack.relocate(225, 669);
-				scene_layout.getChildren().add(GameSession.player.player_rack);
+				GameLayout.playerRack.relocate(225, 669);
+				scene_layout.getChildren().add(GameLayout.playerRack);
 				
-				GameSession.computer.scoreboard.relocate(700.5, 170);
-				scene_layout.getChildren().add(GameSession.computer.scoreboard);
-				
-				GameSession.player.scoreboard.relocate(700.5, 100);
-				scene_layout.getChildren().add(GameSession.player.scoreboard);
 			});
 			
 			Button login_button = new Button("Log In");
@@ -207,14 +212,15 @@ public class Main extends Application {
 			Button logout_button = new Button("Log Out");
 			logout_button.setPrefSize(90, 20);
 			logout_button.setOnAction(e -> {
-				GameSession.player.setPlayerName("New Player");
+				GameLayout.playerScore.setName("New Player");
 				GameSession.loggedInBool = false;
 				GameSession.loggedIn.setSelected(false);
+
 			});
 			
 			
-			Button create_button = new Button("Create Player");
-			create_button.setPrefSize(90, 20);
+			Button create_button = new Button("Create\nPlayer");
+			create_button.setPrefSize(90, 45);
 			create_button.setOnAction(e -> {
 				if(!LogInDialog.isOpen){
 					CreatePlayerDialog createPlayer = new CreatePlayerDialog();
@@ -232,13 +238,13 @@ public class Main extends Application {
 			PlayersView.playerview.relocate(1000, 50);
 			
 			//Putting the pieces together
-			scene_layout.getChildren().add(GameSession.board);
-			scene_layout.getChildren().addAll(GameSession.player.player_rack);
+			scene_layout.getChildren().add(GameLayout.board);
+			scene_layout.getChildren().add(GameLayout.playerRack);
 			scene_layout.getChildren().add(button_list);
-			scene_layout.getChildren().add(GameSession.player.scoreboard);
+			scene_layout.getChildren().add(GameLayout.playerScore);
 			scene_layout.getChildren().add(PlayersView.playerview);
-			scene_layout.getChildren().add(GameSession.rack2);
-			scene_layout.getChildren().add(GameSession.computer.scoreboard);
+			scene_layout.getChildren().add(GameLayout.computerRack);
+			scene_layout.getChildren().add(GameLayout.computerScore);
 			
 			Scene scene = new Scene(scene_layout, 1366, 768);
 			primaryStage.setTitle("Let's Play");

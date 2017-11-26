@@ -1,5 +1,6 @@
 package com.LetsPlay.gameplay.ai;
 
+import com.LetsPlay.GameLayout;
 import com.LetsPlay.gameplay.GameSession;
 
 class BoardView {
@@ -11,16 +12,16 @@ class BoardView {
 		int temp = column;
 		temp--;
 		
-		while(GameSession.board.isPositionOccupied(row, temp)){
-			prefix.append(GameSession.board.TileInPosition(row, temp).letter);
+		while(GameLayout.board.isPositionOccupied(row, temp)){
+			prefix.append(GameLayout.board.TileInPosition(row, temp).letter);
 			temp--;
 		}
 		
 		prefix = prefix.reverse();
 		column++;
 		
-		while(GameSession.board.isPositionOccupied(row, column)){
-			suffix.append(GameSession.board.TileInPosition(row, column).letter);
+		while(GameLayout.board.isPositionOccupied(row, column)){
+			suffix.append(GameLayout.board.TileInPosition(row, column).letter);
 			column++;
 		}
 		
@@ -39,16 +40,16 @@ class BoardView {
 		int temp = row;
 		temp--;
 		
-		while(GameSession.board.isPositionOccupied(temp, column)){
-			prefix.append(GameSession.board.TileInPosition(temp, column).letter);
+		while(GameLayout.board.isPositionOccupied(temp, column)){
+			prefix.append(GameLayout.board.TileInPosition(temp, column).letter);
 			temp--;
 		}
 		
 		prefix = prefix.reverse();
 		row++;
 		
-		while(GameSession.board.isPositionOccupied(row, column)){
-			suffix.append(GameSession.board.TileInPosition(row, column).letter);
+		while(GameLayout.board.isPositionOccupied(row, column)){
+			suffix.append(GameLayout.board.TileInPosition(row, column).letter);
 			row++;
 		}
 		
@@ -63,7 +64,7 @@ class BoardView {
 	
 	static boolean isColumnAnchorSquare(int row, int column){
 		
-		if(GameSession.board.isPositionOccupied(row, column)){
+		if(GameLayout.board.isPositionOccupied(row, column)){
 			
 			return false;
 			
@@ -71,14 +72,14 @@ class BoardView {
 			
 			int topsquare = row - 1;
 			int downsquare = row + 2;
-		return (GameSession.board.isPositionOccupied(topsquare, column) || GameSession.board.isPositionOccupied(downsquare, column));
+		return (GameLayout.board.isPositionOccupied(topsquare, column) || GameLayout.board.isPositionOccupied(downsquare, column));
 		}
 	}
 	
 	
 	static boolean isRowAnchorSquare(int row, int column){
 		
-		if(GameSession.board.isPositionOccupied(row, column)){
+		if(GameLayout.board.isPositionOccupied(row, column)){
 			
 			return false;
 			
@@ -86,7 +87,7 @@ class BoardView {
 			
 			int topsquare = column - 1;
 			int downsquare = column + 2;
-			return (GameSession.board.isPositionOccupied(row, topsquare) || GameSession.board.isPositionOccupied(row, downsquare));
+			return (GameLayout.board.isPositionOccupied(row, topsquare) || GameLayout.board.isPositionOccupied(row, downsquare));
 		}
 	}
 	
@@ -95,8 +96,8 @@ class BoardView {
 		StringBuffer word = new StringBuffer();
 		row--;
 		
-		while(GameSession.board.isPositionOccupied(row, column)){
-			word.append(GameSession.board.TileInPosition(row, column).letter);
+		while(GameLayout.board.isPositionOccupied(row, column)){
+			word.append(GameLayout.board.TileInPosition(row, column).letter);
 			row--;
 		}
 		
@@ -111,8 +112,8 @@ class BoardView {
 		StringBuffer word = new StringBuffer();
 		column--;
 		
-		while(GameSession.board.isPositionOccupied(row, column)){
-			word.append(GameSession.board.TileInPosition(row, column).letter);
+		while(GameLayout.board.isPositionOccupied(row, column)){
+			word.append(GameLayout.board.TileInPosition(row, column).letter);
 			column--;
 		}
 		

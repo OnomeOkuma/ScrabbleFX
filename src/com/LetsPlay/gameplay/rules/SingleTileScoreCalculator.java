@@ -1,6 +1,6 @@
 package com.LetsPlay.gameplay.rules;
 
-import com.LetsPlay.gameplay.GameSession;
+import com.LetsPlay.GameLayout;
 import com.LetsPlay.gameplay.Hand;
 
 public class SingleTileScoreCalculator {
@@ -29,22 +29,22 @@ public class SingleTileScoreCalculator {
 		int row = Hand.tiles_played.row.firstElement();
 		int column = Hand.tiles_played.column.firstElement();
 		
-		score += (GameSession.board.TileInPosition(row, column).score * 
+		score += (GameLayout.board.TileInPosition(row, column).score * 
 				TileScoreCalculator.letter_score[row][column]);
 		word_score_multiplier *= TileScoreCalculator.word_score[row][column];
 		
 		column--;
 		
-		while(GameSession.board.isPositionOccupied(row, column)){
-			score += GameSession.board.TileInPosition(row, column).score;
+		while(GameLayout.board.isPositionOccupied(row, column)){
+			score += GameLayout.board.TileInPosition(row, column).score;
 			column--;
 		}
 		
 		column = Hand.tiles_played.column.firstElement();
 		column++;
 	
-		while(GameSession.board.isPositionOccupied(row, column)){
-			score += GameSession.board.TileInPosition(row, column).score;
+		while(GameLayout.board.isPositionOccupied(row, column)){
+			score += GameLayout.board.TileInPosition(row, column).score;
 			column++;
 		}
 		score = score * word_score_multiplier;
@@ -60,22 +60,22 @@ public class SingleTileScoreCalculator {
 		int row = Hand.tiles_played.row.firstElement();
 		int column = Hand.tiles_played.column.firstElement();
 		
-		score += (GameSession.board.TileInPosition(row, column).score * 
+		score += (GameLayout.board.TileInPosition(row, column).score * 
 				TileScoreCalculator.letter_score[row][column]);
 		word_score_multiplier *= TileScoreCalculator.word_score[row][column];
 		
 		row--;
 		
-		while(GameSession.board.isPositionOccupied(row, column)){
-			score += GameSession.board.TileInPosition(row, column).score;
+		while(GameLayout.board.isPositionOccupied(row, column)){
+			score += GameLayout.board.TileInPosition(row, column).score;
 			row--;
 		}
 	
 		row = Hand.tiles_played.row.firstElement();
 		row++;
 	
-		while(GameSession.board.isPositionOccupied(row, column)){
-			score += GameSession.board.TileInPosition(row, column).score;
+		while(GameLayout.board.isPositionOccupied(row, column)){
+			score += GameLayout.board.TileInPosition(row, column).score;
 			row++;
 		}
 		

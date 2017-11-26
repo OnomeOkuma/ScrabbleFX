@@ -1,5 +1,6 @@
 package com.LetsPlay.gameplay.rules;
 
+import com.LetsPlay.GameLayout;
 import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
 
@@ -23,14 +24,14 @@ public class SingleTilePlayChecker {
 		static boolean isRowPlay(){
 			int row = Hand.tiles_played.row.get(0);
 			int column = Hand.tiles_played.column.get(0);
-			return (GameSession.board.isPositionOccupied(row, (column + 1)) || GameSession.board.isPositionOccupied(row, (column - 1)));
+			return (GameLayout.board.isPositionOccupied(row, (column + 1)) || GameLayout.board.isPositionOccupied(row, (column - 1)));
 			}
 		
 		
 		static boolean isColumnPlay(){
 			int row = Hand.tiles_played.row.get(0);
 			int column = Hand.tiles_played.column.get(0);
-			return (GameSession.board.isPositionOccupied((row + 1), column) || GameSession.board.isPositionOccupied((row - 1), column));
+			return (GameLayout.board.isPositionOccupied((row + 1), column) || GameLayout.board.isPositionOccupied((row - 1), column));
 			}
 		
 		
@@ -38,16 +39,16 @@ public class SingleTilePlayChecker {
 			StringBuffer word = new StringBuffer();
 			int row = Hand.tiles_played.row.get(0);
 			int column = Hand.tiles_played.column.get(0);
-			while(GameSession.board.isPositionOccupied(row, column)){
-				word.append(GameSession.board.TileInPosition(row, column).letter);
+			while(GameLayout.board.isPositionOccupied(row, column)){
+				word.append(GameLayout.board.TileInPosition(row, column).letter);
 				column--;
 			}
 			word = word.reverse();
 			column = Hand.tiles_played.column.get(0);
 			column++;
 		
-			while(GameSession.board.isPositionOccupied(row, column)){
-				word.append(GameSession.board.TileInPosition(row, column).letter);
+			while(GameLayout.board.isPositionOccupied(row, column)){
+				word.append(GameLayout.board.TileInPosition(row, column).letter);
 				column++;
 			}
 		
@@ -61,8 +62,8 @@ public class SingleTilePlayChecker {
 			StringBuffer word = new StringBuffer();
 			int row = Hand.tiles_played.row.get(0);
 			int column = Hand.tiles_played.column.get(0);
-			while(GameSession.board.isPositionOccupied(row, column)){
-				word.append(GameSession.board.TileInPosition(row, column).letter);
+			while(GameLayout.board.isPositionOccupied(row, column)){
+				word.append(GameLayout.board.TileInPosition(row, column).letter);
 				row--;
 			}
 		
@@ -70,8 +71,8 @@ public class SingleTilePlayChecker {
 			row = Hand.tiles_played.row.get(0);
 			row++;
 		
-			while(GameSession.board.isPositionOccupied(row, column)){
-				word.append(GameSession.board.TileInPosition(row, column).letter);
+			while(GameLayout.board.isPositionOccupied(row, column)){
+				word.append(GameLayout.board.TileInPosition(row, column).letter);
 				row++;
 			}
 	
