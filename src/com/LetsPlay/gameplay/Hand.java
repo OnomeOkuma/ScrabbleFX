@@ -11,7 +11,7 @@ package com.LetsPlay.gameplay;
 import java.util.ArrayDeque;
 import java.util.Hashtable;
 
-import com.LetsPlay.GameLayout;
+import com.LetsPlay.ui.GameLayout;
 import com.LetsPlay.ui.Tile;
 import com.LetsPlay.util.PlayedTiles;
 

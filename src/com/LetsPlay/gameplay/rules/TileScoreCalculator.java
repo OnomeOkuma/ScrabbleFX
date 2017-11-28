@@ -3,8 +3,8 @@ package com.LetsPlay.gameplay.rules;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.LetsPlay.GameLayout;
 import com.LetsPlay.gameplay.Hand;
+import com.LetsPlay.ui.GameLayout;
 
 public class TileScoreCalculator {
 

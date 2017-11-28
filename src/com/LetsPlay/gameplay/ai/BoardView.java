@@ -1,7 +1,7 @@
 package com.LetsPlay.gameplay.ai;
 
-import com.LetsPlay.GameLayout;
 import com.LetsPlay.gameplay.GameSession;
+import com.LetsPlay.ui.GameLayout;
 
 class BoardView {
 	

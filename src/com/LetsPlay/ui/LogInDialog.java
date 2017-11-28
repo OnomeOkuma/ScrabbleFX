@@ -3,7 +3,6 @@ package com.LetsPlay.ui;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import com.LetsPlay.GameLayout;
 import com.LetsPlay.gameplay.GameSession;
 
 import javafx.geometry.Insets;
@@ -52,8 +51,7 @@ public class LogInDialog extends Stage{
 						if (passwordvalue.equals(password.getText())){
 							
 							GameLayout.playerScore.setName(username.getText());
-							GameSession.loggedInBool = true;
-							GameSession.loggedIn.setSelected(true);
+							Buttons.logIn();
 							
 						}else{
 							

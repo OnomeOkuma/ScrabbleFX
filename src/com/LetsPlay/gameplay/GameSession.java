@@ -2,33 +2,33 @@ package com.LetsPlay.gameplay;
 
 import com.LetsPlay.util.DataAccess;
 import com.LetsPlay.util.Dawg;
-import com.LetsPlay.GameLayout;
 import com.LetsPlay.gameplay.ai.ComPlayer;
 import com.LetsPlay.gameplay.rules.PlayChecker;
 import com.LetsPlay.gameplay.rules.SingleTilePlayChecker;
 import com.LetsPlay.gameplay.rules.SingleTileScoreCalculator;
 import com.LetsPlay.gameplay.rules.TileScoreCalculator;
-import com.LetsPlay.ui.Board;
+import com.LetsPlay.ui.GameLayout;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
-import javafx.scene.layout.HBox;
 
 public class GameSession {
 		
-		public static GameLayout gameLayout; 
 		public static TileBag tilebag;
 		public static Dawg wordlist;
-		public static boolean first_play;
-		
+		public static boolean first_play;	
 		public static ComPlayer computer;
 		public static DataAccess dataaccess;
 		public static CheckBox loggedIn;
 		public static Boolean loggedInBool;
+		public static int scoreless;
 		
 		public static void init(){
 			
-			gameLayout = new GameLayout();
+			GameLayout.init();
+			
+			scoreless = 0;
+			
 			tilebag = new TileBag();
 			wordlist = new Dawg();
 			first_play = true;
@@ -99,23 +99,26 @@ public class GameSession {
 				return false;
 			}
 				
-	}
-		public static boolean isRackEmpty(){
-			return (GameLayout.playerRack.getChildren().size() == 0 || GameSession.computer.tiles.size() == 0);
 		}
 		
+		public static boolean isTileBagEmpty(){
+			System.out.println(scoreless);
+			if (tilebag.getTileTotal() > 0)
+				return false;
+			else return true;
+		}
+		
+		
 		public static void restartGame(){
-			GameLayout.board = new Board();
-			GameLayout.playerRack = new HBox(1.55);
-			GameLayout.playerRack.setStyle("-fx-background-color: #f0fff0;");
-			GameLayout.playerRack.setPrefSize(276.85, 36.6);
-			GameLayout.playerScore.restart();
-			GameLayout.computerScore.restart();
 			
+			GameLayout.resetLayout();
 			tilebag = new TileBag();
 			wordlist = new Dawg();
 			first_play = true;
 			computer = new ComPlayer();
+			
+			scoreless = 0;
+			
 			TileScoreCalculator.letterScoreInit();
 			TileScoreCalculator.wordScoreInit();
 			

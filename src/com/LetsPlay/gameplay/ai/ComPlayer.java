@@ -6,10 +6,10 @@ package com.LetsPlay.gameplay.ai;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.LetsPlay.GameLayout;
 import com.LetsPlay.gameplay.GameSession;
 import com.LetsPlay.gameplay.Hand;
 import com.LetsPlay.gameplay.rules.TileScoreCalculator;
+import com.LetsPlay.ui.GameLayout;
 import com.LetsPlay.ui.Tile;
 
 import javafx.scene.Node;
@@ -94,11 +94,12 @@ public class ComPlayer{
 			score_keeper *= wordscore;
 			
 			if (score_keeper > this.highest_score){
-				this.axis = false;
-				this.row = row;
-				this.column = column;
-				this.highest_scoring_word = partialword;
-				this.highest_score = score_keeper;
+				
+					this.axis = false;
+					this.row = row;
+					this.column = column;
+					this.highest_scoring_word = partialword;
+					this.highest_score = score_keeper;
 				
 				}
 		}
@@ -158,8 +159,7 @@ public class ComPlayer{
 		 * along column axis, with a high enough score for play.
 		 */
 		private void columnBuildWord(int row, int column, String partialword){
-			System.out.println("This is the partial word " + partialword);
-			System.out.println(this.word_made_from_rack + "\n");
+
 			// Edge case
 			if (row >= 15 || column >= 15){
 				return;
@@ -216,9 +216,6 @@ public class ComPlayer{
 		 */
 		
 		private void rowBuildWord(int row, int column, String partialword){
-			
-			System.out.println("This is the partial word " + partialword);
-			System.out.println(this.word_made_from_rack + "\n");
 			
 			// Edge case
 			if (row >= 15 || column >= 15){
@@ -330,9 +327,6 @@ public class ComPlayer{
 						
 					}
 				}
-				System.out.println("word " + this.highest_scoring_word);
-				System.out.println("Word score " + this.highest_score);
-				System.out.println("\n");
 				
 				this.highest_score = 0;
 				this.highest_scoring_word = new String();
