@@ -4,5 +4,26 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="lib" path="/home/onome/Desktop/h2 Database Engine/h2/bin/h2-1.4.196.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/websocket-servlet-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/websocket-server-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/websocket-common-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/websocket-client-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/websocket-api-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/spark-core-2.6.0.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/slf4j-api-1.7.13.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/junit-4.12-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/jetty-xml-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/jetty-webapp-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/jetty-util-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/jetty-servlet-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/jetty-server-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/jetty-security-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/jetty-io-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/jetty-http-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/jetty-client-9.4.4.v20170414.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/javax.servlet-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/hamcrest-core-1.3-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/onome/jar_files/hamcrest-core-1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
